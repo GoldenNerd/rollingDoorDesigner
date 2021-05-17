@@ -1,0 +1,217 @@
+html{
+font-size: 62.5%;
+}
+
+:root {
+--component-sketch: url(placeholder.jpg);
+}
+
+/* STYLES FOR HOME TEMPLATE ONLY */
+#start-page-image{
+/*
+outline:1px solid magenta ;
+*/
+border-radius : 5%;
+height :25rem;
+width:25rem;
+margin : 2rem ;
+ background-image: var(--component-sketch);
+background-size :cover ;
+}
+
+.start-rolling-btn {
+border:1px solid white ;
+border-radius: 20%;
+font-size: 3rem ;
+font-weight: bold ;
+color:white ;
+background-image : linear-gradient(to top, #737373 , #5b5a5a);
+background-repeat: no-repeat ;
+}
+
+.start-rolling-btn:active {
+background-image: linear-gradient(to bottom , rgb(115,115,115) , black ) ;
+}
+
+/* STYLES FOR BOTH TEMPLATES */
+
+body {
+margin:0;
+padding:0;
+width: 100vw;
+height: 100vh;
+color :white ;
+font-size :1.5rem;
+font-weight :bold;
+background-color: #000 ; /* #26246e */
+}
+
+/*
+Note: for debugging only. Do not display.
+#template-id, #name-of-component-obj {
+  display:block; 
+  text-align:center; 
+  margin-top : 1rem;
+  position: absolute;
+  top:-6rem;
+}
+*/
+
+#visible-content-frame{
+width: 100%;
+height: 100%;
+margin-top: 0;
+display: flex ;
+flex-direction: column ;
+flex-wrap :nowrap ;
+justify-content :center ;
+align-items :center ;
+}
+
+h2, h3 {outline :1px solid transparent ;
+/* outline :1px solid white ; */
+margin-top: 0;
+margin-bottom: 4rem;
+}
+
+span {
+white-space: pre-wrap;
+}
+
+input[type="button"] {
+width: fit-content ;
+}
+
+/* STYLES FOR MAIN TEMPLATE ONLY */
+#data-form-frame {
+/**/
+width: 100vw ;
+height :100vh;
+display: flex ;
+flex-direction: column ;
+flex-wrap :nowrap ;
+justify-content :center ;
+align-items :center ;
+}
+
+#sketch-of-active-component {outline :1px solid darkgray ;
+/* outline :1px solid red ; */
+width: 20rem ;
+height: 15rem ;
+
+background-color : black ;
+background-image: var(--component-sketch);
+background-size: cover;
+background-repeat: no-repeat ;
+margin-bottom: 0.75rem ;
+}
+
+#data-capture {
+position:relative ;
+}
+
+ul {
+text-decoration: none ;
+padding :0;
+margin-bottom: 12rem;
+}
+
+li {outline :1px solid transparent ;
+/* outline :1px solid lightgreen ; */
+width: fit-content ;
+display: flex ;
+flex-direction: row ;
+flex-wrap :nowrap ;
+justify-content :flex-start ;
+align-items :center ;
+position:absolute;
+      top:-400%;
+
+}
+
+input[type="number"] {
+width :4rem;
+margin: 0.5rem ;
+}
+
+#load-measurements {
+  /*
+  background-color and color controlled by JavaScript
+*/
+display: block ;
+width: 99.5%;
+outline :1px solid transparent ;
+margin: 0 auto ;
+position: absolute ;
+bottom : 7.5rem ;
+font-weight: bold ;
+}
+
+
+#load-measurements:mousedown{
+outline :1px solid white ;
+background-color: black ;
+color: white ;
+font-weight :bold ;
+}
+  
+#pages-flow-ctrl {
+  outline :1px solid transparent ;
+  width: 99.5%;
+display: flex ;
+flex-direction: row ;
+flex-wrap :nowrap ;
+justify-content :space-around ;
+align-items :center ;
+position: fixed;
+bottom: 8% ;
+}
+
+#previous-page {
+  /*
+  background-color and color controlled by JavaScript
+  color: darkgreen  ;
+  background-color:  lightgray ;
+  */
+font-weight :bold ;
+}
+
+  /*
+  background-color and color controlled by JavaScript
+  color: darkgreen  ;
+  background-color:  lightgray ;
+#previous-page:active {
+outline :1px solid white ;
+background-color: black ;
+color: white ;
+font-weight :bold ;
+} 
+  */
+  
+  /*
+  background-color and color controlled by JavaScript
+#previous-page:active {
+outline :1px solid white ;
+background-color: black ;
+color: white ;
+font-weight :bold ;
+} 
+*/
+
+#next-page {
+  /*
+  background-color and color controlled by JavaScript
+  color: darkred ;
+background-color:  lightgray ;
+  */
+
+font-weight :bold ;
+}
+/*
+#next-page:active {
+outline :1px solid white ;
+background-color: black ;
+color: white ;
+font-weight :bold ;
+}
+*/
