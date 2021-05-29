@@ -1,7 +1,7 @@
 'use strict';
 // ################################
 // THE ROLLING DOOR OBJECT:
-// </li>###############################
+// §###############################
 /*
 The RD measurements template properties object.
 */
@@ -163,7 +163,7 @@ const rd = {
 let activeObj; // global due to numerous times used
 
 // Values for debugging purposes:
-let requiredMaxInchPound = 4621;
+let requiredMaxInchPound;// = 4621;
 let linearInchWeight = 0.0549;
 let slatVerticalContribution = 2.75;
 const endplateSize = 14;
@@ -175,7 +175,7 @@ const interiorMounting=true;
 
 // ################################
 // THE ON_PAGE_LOAD SCRIPT
-// </li>###############################
+// §###############################
 /*
 All pages derived from main Template require that data capture button is pressed before allowing switch to next page. On start page we have no capture button, but next button is same on all pages. This flag is to provide mechanism for switching to the next page without having a capture button on the start page. 
 */
@@ -363,7 +363,7 @@ window.onload = function () {
 
 // ################################
 // BELOW IS THE NAVIGATION OF THE APP:
-// </li>###############################
+// §###############################
 
 // Styling of the buttons on mousedown:
 function mousedownPreviousBtnAnimation () {
@@ -458,7 +458,7 @@ document.querySelector('#next-page').addEventListener('mouseup', ()=> {
 
 // ################################
 // BELOW IS THE DATA CAPTURE OF THE APP:
-// </li>###############################
+// §###############################
 
 function mousedownCaptureBtnAnimation () {
   // Grab buttons
@@ -745,7 +745,7 @@ function bottomBarWeight () {
 const bbWeight=bbAnglesWeight() + oneSlatWeight() + astragalWeight() + slideboltsWeight();
 }
 
-// weight of assembled curtain
+// Weight of closed curtain assembly
 function closedHangingWeight () {
 const hangingWeight = closedHangingSlatCount()*oneSlatWeight() + endlocksCount()*oneEndlockWeight + bottomBarWeight();
 return hangingWeight;}
@@ -760,10 +760,10 @@ const slatCount=Math.round(openLinearHeight()/slatVerticalContribution);
 }
 
 function openHangingWeight () {
-const hangingWeight = openHangingSlatCount()*oneSlatWeight() + Math.ceil(openHangingSlatCount()) *oneEndlockWeight + bottomBarWeight();
-return hangingWeight;}c^v
+const hangingWeight = openHangingSlatCount()*oneSlatWeight() + openHangingSlatCount() *oneEndlockWeight + bottomBarWeight();
+return hangingWeight;}
 
-// Low moment arm rc (arm when door closrd)
+// Low moment arm rc (arm when door closed)
 function lowMomentArm () {
 const lMArm = (rd.barrel.dataPoints.tubeDiameter + rd.misc.slatC_value)/2;
 return lMArm;}
@@ -873,7 +873,7 @@ const inventoryMaxLbInch=[
 ];
 
 // Select data set to use
-function dataSetChoice () {
+function springDataSetChoice () {
  const inventoryData=inventoryMaxLbInch;
  const optimalData=optimalMaxLbInch;
 const inventorizedRadioBtn=document.querySelector('#spring-on-hand');
@@ -884,34 +884,33 @@ if(inventorizedRadioBtn.checked){
 return inventoryData;}
 }
 
-let calcMIP_OutOfRange;
+let calcMIP_InRange;
 function chooseSpringWireDiameter () {
-// requiredMaxInchPound placeholder data for debugging;
-let exitFor_Loop = false;
-let strongEnoughWire = 0;
-const dataSetToUse=dataSetChoice();
-for (let i = 0; i < dataSetToUse.length; i++) {
-if (dataSetToUse[i][0] >= requiredMaxInchPound) {
-strongEnoughWire = dataSetToUse[i][1];
-exitFor_Loop = true;
+let strongEnoughWireFound = false;
+let chosenWireDiam = 0;
+const springDataSetToUse=springDataSetChoice();
+for (let i = 0; i < springDataSetToUse.length; i++) {
+if (springDataSetToUse[i][0] >= requiredMaxInchPound) {
+chosenWireDiam = springDataSetToUse[i][1];
+strongEnoughWireFound = true;
 }
-if (exitFor_Loop) {
-exitFor_Loop = 'optimalMaxLbInchFound';
+if (strongEnoughWireFound) {
+strongEnoughWireFound = 'optimalMaxLbInchFound';
 break;
 }
 }
 // Verify outcome
-if (exitFor_Loop === false) {
+if (strongEnoughWireFound === false) {
 // Error. Excessive load for existing wire diametere
-calcMIP_OutOfRange=false;
+calcMIP_InRange=false;
 console.log (`requiredMaxInchPound (${requiredMaxInchPound}lb-ft) is too large for available wire diameters.`);
 
 } else {
-console.log('strongEnoughWire: ', {
-strongEnoughWire
+console.log('chosenWireDiam: ', {
+chosenWireDiam
 });
-// Save result as datum value:
-activeObj.datumValues[0] = strongEnoughWire; // `${strongEnoughWire}`
+// Save result as (result page) datum value:
+activeObj.datumValues[0] = chosenWireDiam; // `${chosenWireDiam}`
 }
 }
 
@@ -937,9 +936,9 @@ activeObj.datumValues[4] = '32.6754';
 }
 */
 
-// Post results to results Template
+// Post to DOM (results Template doc)
 function postWireDiaToResultsPage () {
-  if(calcMIP_OutOfRange){//in range:
+  if(calcMIP_InRange){//in range:
 document.querySelector('#wire-diameter').textContent = activeObj.dataPoints.wireDiameter;
 } else{ // out of range:
 document.querySelector('#wire-diameter').style.color='magenta';
@@ -1057,21 +1056,18 @@ console.log ('nthTableRow after iteration: ', {nthTableRow});
 }
 
 function calcSpringLength () {
- // placeholder constants:
- rd.spring.intDia
- rd.result.wireDiameter
- 
-calcRoDrForHgoal(); // needed values
+// Build required values into nthTableRow object
+calcRoDrForHgoal(); 
 
- const ippt=(rO*closedHangingWeight()-nthTableRow.rO * openWeight())/nthTableRow.dR);
+// Now use values to determine spring length
+ const ippt=(rO*closedHangingWeight()-nthTableRow.rO * openHangingWeight())/nthTableRow.dR;
+ 
  const springLength=3208909*(rd.result.datumValues[0]^5)/(ippt*(rd.spring.intDia+rd.result.datumValues[0]));
- 
-
 }
 /* end CALCULATING SPRING LENGTH */
 
 function updateCalcBtnStyle () {
-if(calcMIP_OutOfRange){
+if(calcMIP_InRange){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
@@ -1080,7 +1076,7 @@ document.querySelector('#calc-results').style.backgroundColor = ('darkred');
 document.querySelector('#calc-results').style.color = ('yellow');
 document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
 
-calcMIP_OutOfRange=true;
+calcMIP_InRange=true;
 return;}
 
 function resultProcessing () {
