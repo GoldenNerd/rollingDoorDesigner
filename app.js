@@ -2,7 +2,7 @@
 // ################################
 // THE ROLLING DOOR OBJECT:
 // §###############################
-/*
+/* 
 The RD measurements template properties object.
 */
 const rd = {
@@ -35,8 +35,14 @@ const rd = {
       'topClearance',
       'leftClearance',
       'rightClearance'],
-    datumValues: [144, 120, 30, 18, 20],
-    dataPoints: {},
+    datumValues: [120, 120, 30, 20, 20],
+    dataPoints: {
+    width:120,
+      height: 120,
+      topClearance: 30,
+      leftClearance: 18,
+      rightClearance: 20
+    },
     prevObjName: 'startPage',
     activeObjName: 'wallCutout',
     nextObjName: 'barrel'
@@ -54,7 +60,10 @@ const rd = {
       'ringStyle',
       'ringsDiameter'],
     datumValues: [],
-    dataPoints: {},
+    dataPoints: {
+     tubeDiameter: 7.75
+     
+    },
     prevObjName: 'wallCutout',
     activeObjName: 'barrel',
     nextObjName: 'slats'
@@ -83,12 +92,17 @@ const rd = {
       'Angle Height',
       'Angle Thickness',
       'Angles Qty.'],
-    datumKeys: ['angleWidth',
-      'angleHeight',
+    datumKeys: ['bbAngleHorizontalSide',
+      'bbAngleVerticalSide',
       'bbAngleThickness',
-      'anglesAmount'],
+      'bbAnglesAmount'],
     datumValues: [],
-    dataPoints: {},
+    dataPoints: {
+     bbAngleHorizontalSide:2,
+     bbAngleVerticalSide:2,
+     bbAngleThickness:0.1250,
+     bbAnglesAmount: 2
+    },
     prevObjName: 'slats',
     activeObjName: 'bottomBar',
     nextObjName: 'spring'
@@ -102,7 +116,10 @@ const rd = {
     labels: ['Internal Diameter'],
     datumKeys: ['intDia'],
     datumValues: [],
-    dataPoints: {},
+    dataPoints: {
+     intDia: 3.0635
+     
+    },
     prevObjName: 'bottomBar',
     activeObjName: 'spring',
     nextObjName: 'misc'
@@ -110,7 +127,7 @@ const rd = {
 
   misc: {
     objNo: 6,
-    pageHeader: 'Miscellaneous Components:',
+    pageHeader: 'Other Data (Page 1 of 2):',
     sketchFileName: 'url(misc.jpg)',
     noOfDataPoints: 5,
     labels: ['Slats',
@@ -118,20 +135,56 @@ const rd = {
       'Windlocks',
       'Slide Bolts',
       'Astragal'],
-    datumKeys: ['slatC_value',
-      'endlockThickness',
+    datumKeys: ['slatStyle',
+      'endlockStyle',
       'useWindlocks',
-      'useSlideBolt',
+      'useSlideBolts',
       'useAstragal'],
-    datumValues: ['curvedSlat', 'plasticEndlocks', 'noWindlock', 'noSlideBolt', 'noAstragal'],
-    dataPoints: {},
+    datumValues: ['curvedSlat', 'metalEndlocks', false, true, true],
+    dataPoints: {
+     slatStyle: 'curvedSlat',
+     endlockStyle: 'metalEndlocks', 
+     useWindlocks: false,
+     useSlideBolts: true,
+     useAstragal: true
+     
+     
+    },
     prevObjName: 'startPage',
     activeObjName: 'misc',
     nextObjName: 'result'
   },
 
-  result: {
+  misc2: {
     objNo: 7,
+    pageHeader: 'Other Data (Page 2 of 2):',
+    sketchFileName: 'url(misc2.jpg)',
+    noOfDataPoints: 5,
+    labels: ['Int. Mount',
+      'tbd',
+      'tbd',
+      'tbd',
+      'tbd'],
+    datumKeys: ['interiorMounting',
+      'tbd',
+      'tbd',
+      'tbd',
+      'tbd'],
+    datumValues: [true, 'tbd', 'tbd', 'tbd', 'tbd'],
+    dataPoints: {
+     interiorMounting: true
+     
+     
+     
+     
+    },
+    prevObjName: 'misc',
+    activeObjName: 'misc2',
+    nextObjName: 'result'
+  },
+
+  result: {
+    objNo: 8,
     pageHeader: 'Final Result:',
     sketchFileName: 'url(result.jpg)',
     noOfDataPoints: 5,
@@ -147,7 +200,7 @@ const rd = {
       'weight'],
     datumValues: [],
     dataPoints: {
-     wireDiameter: 0,
+     wireDiameter: 0.4062,
       internalDiameter: 0,
       width: 0,
       amountOfTurns: 0,
@@ -159,19 +212,76 @@ const rd = {
   }
 };
 
+/* Lookup Object for RD Invariant Data*/
+const constDat={
+slatOverlapWithWallIntMount: 5.25,
+slatOverlapWithWallExtMount: 7.25,
+lowCarbSteelSpecificWeight: 0.284, 
+oneSlideBoltWeight: 2.5,
+endplateWallEdgeToTrackMiddle: 2, 
+bbBeyondWallCutoutHeight: 0.5, 
+vinylAstragalLinearInchWeight: 0.02083,
+rubberAstragalLinearInchWeight:0.02083,
+curvedNylonEndlockThickness: 0.02500,
+curvedStampedEndlockThickness: 0.02500,
+curvedCastironEndlockThickness: 0.02500,
+flatNylonEndlockThickness: 0.02500,
+flatStampedEndlockThickness: 0.02500,
+flatCastironEndlockThickness: 0.02500,
+curvedStampedwindlockThickness: 0.02500,
+curvedCastironWindlockThickness: 0.02500,
+flatStampedWindlocklockThickness: 0.02500,
+flatCastironWindlockThickness: 0.02500,
+bbStopFlagStyleVerticalToll: 0.0000,
+bbStopFlatBarStyleVerticalToll: 1.5000,
+slatC_valueRimCurvedSlat: 0.5455, 
+slatC_value6inchTubeCurvedSlat: 0.5455,
+slatC_value8inchTubeCurvedSlat: 0.5455,
+slatC_valueYoyoCurvedSlat: 0.5455, 
+slatC_valueRimFlatSlat: 0.5455, 
+slatC_value6inchTubeFlatSlat: 0.5455, 
+slatC_value8inchTubeFlatSlat: 0.5455, 
+slatC_valueYoyoFlatSlat: 0.5455,
+endPlateSizes: {
+endPlate12: 12,
+endPlate14: 14,
+endPlate15: 15.5,
+endPlate16: 16,
+endPlate18: 18
+},
+curvedSlat24G: 0.0026,
+curvedSlat22G: 0.0028,
+curvedSlat20G: 0.0032,
+curvedSlat18G: 0.0050,
+flatSlat24G:  0.0026,
+flatSlat22G: 0.0028,
+flatSlat20G: 0.0032,
+flatSlat18G: 0.0050,
+};
+
+/* Lookup Object for RD derived Data*/
+const calcDat={
+slatLinearInchWeight: 0.04833, 
+endplateSize: 14, 
+slatVerticalContribution: 2.90, 
+oneEndlockWeight: 0.0160, 
+slatC_value: 0.5455, 
+endlockThickness: 0.25, 
+bbStopDistanceBelowEndPlate:1.5, 
+astragalLinearInchWeight: 0.02083, 
+ mySpring: {
+ wireDiameter: 0.4062,
+ internalDiameter: 0,
+ size: 0,
+ amountOfTurns: 0,
+ weight: 0
+}
+};
+
 //  Global variables
 let activeObj; // global due to numerous times used
 
 // Values for debugging purposes:
-let requiredMaxInchPound;// = 4621;
-let linearInchWeight = 0.0549;
-let slatVerticalContribution = 2.75;
-const endplateSize = 14;
-const barrelDiameter = 7.75; // ring
-const slatC_value = 0.5455;
-const slatOverlapWithWallIntMount=5.25;
-const slatOverlapWithWallExtMount=7.25;
-const interiorMounting=true;
 
 // ################################
 // THE ON_PAGE_LOAD SCRIPT
@@ -352,7 +462,7 @@ window.onload = function () {
 
   initializeBtnsStyles();
 
-  if (activeObj.objNo === 7) {
+  if (activeObj.objNo === 8) {
   // Note: 7 is the result page.  Calc button is same capture button that takes on a "calc identity" on the result page. That's why a new button skin is required.
     styleCaptureBtnAsCalcBtn();
   }
@@ -403,7 +513,7 @@ function switchToPrevComponent () {
     /*
 Going back from the first component page must load the start page.
 */
-    if (activeObj.objNo === 6 || activeObj.objNo === 7) {
+    if (activeObj.objNo === 6 || activeObj.objNo === 8) {
       window.location = 'index.html';
     } else {
       window.location = 'mainTemplate.html';
@@ -657,13 +767,12 @@ saveACompDataToActiveObj();
 // §###############################
 
 // mousedown calc spring btn animation
-// Grab buttons
+// Grab buttons:
 function styleCaptureBtnAsCalcBtn () {
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
-
 document.querySelector('#calc-results').style.color = ('darkblue');
 }
-
+// Do on mousedown actuation:
 function mousedownCalcBtnAnimation () {
 // Do on button actuation
 document.querySelector ('#calc-results').style.backgroundColor = ('black');
@@ -672,107 +781,159 @@ document.querySelector ('#calc-results').style.color = ('white');
 document.querySelector ('#calc-results').addEventListener('mousedown', mousedownCalcBtnAnimation);
 
 /* CURTAIN GROUNDWORK CALCULATIONS */
-
 // Weight of one slat
 function slatAssemblyWidth () {
-let slatAssemblyWidth;
-if(interiorMounting) {
- const slatAssemblyWidth=rd.wallCutout.width+slatOverlapWithWallIntMount;
+let assembledSlatWidth;
+if(rd.misc2.dataPoints.interiorMounting) {
+  assembledSlatWidth = rd.wallCutout.dataPoints.width + constDat.slatOverlapWithWallIntMount;
 }else{
-const slatAssemblyWidth=rd.wallCutout.width+slatOverlapWithWallExtMount;
+ assembledSlatWidth = rd.wallCutout.dataPoints.width + constDat.slatOverlapWithWallExtMount;
 }
-return slatAssemblyWidth;}
+console.log('assembledSlatWidth: ', {assembledSlatWidth});
+return assembledSlatWidth;}
 
 function slatWidth () {
- const slatWidth=slatAssemblyWidth()-rd.misc.dataPoints.endlockThickness;
-return slatWidth;}
+ const widthOfSlat=slatAssemblyWidth()-(2*calcDat.endlockThickness) ;
+console.log('widthOfSlat: ', {widthOfSlat});
+return widthOfSlat;}
 
 function oneSlatWeight () {
-const oneSlatPounds=linearInchWeight*slatWidth();
+const oneSlatPounds=calcDat.slatLinearInchWeight*slatWidth();
+console.log('oneSlatWeight: ', {oneSlatPounds});
 return oneSlatPounds;}
 
-function closedLinearHeight () {
+function closedHangingHeight () {
+ // Upper end of track to tube attachment
+ 
+ const a=(calcDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
+ const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + rd.barrel.dataPoints.tubeDiameter)/2); 
+ const d=(a*a) + (b*b);
+ const c=Math.sqrt(d);
+ 
 const linearHeight= 
  /*
- Math.PI()*(barrelDiameter + slatC_value/2)/2 + // Not used for closed hanging weight.
+ Math.PI()*(rd.barrel.dataPoints.tubeDiameter + slatC_value/2)/2 + // Not used for closed hanging weight.
  */
-Math.sqrt(
- (endplateSize/2)^2 + ((endplateSize/2) - 1.5)^2
- )
+ c
  +
- (rd.wallCutout.dataPoints.height + 2); //
+ (rd.wallCutout.dataPoints.height + constDat.bbBeyondWallCutoutHeight);
+ 
+console.log('closedHangingHeight: ', {linearHeight});
+
 return linearHeight;}
 
 function closedHangingSlatCount () {
 // Substract 1 that belongs to the BB
-const slatCount=Math.round((closedLinearHeight()/slatVerticalContribution))-1;
+const slatCount=(closedHangingHeight()/calcDat.slatVerticalContribution)-1;
+console.log('closedHangingSlatCount: ', {slatCount});
 return slatCount;}
 
-const bbAngleThickness = 0.125;
-const side1 = 2;
-const side2 = 2;
-const bbAnglesAmount = 2;
-const lowCarbSteelSpecificWeight=0.284;
-const astragalLinearInchWeight = 0.03;
-const oneSlideBoltWeight = 5;
-const oneEndlockWeight = 0.02;
-
-function endlocksCount () {
-let endlockCount;
+function closedEndlocksCount () {
+let endlocksCount;
+let roundedOffSlatCnt=Math.round(closedHangingSlatCount());
  // If slat count even
-if(closedHangingSlatCount() % 2===0) {
-endlockCount = closedHangingSlatCount();
+if(roundedOffSlatCnt % 2===0) {
+endlocksCount = roundedOffSlatCnt;
 }else{ // If slat count odd
-endlockCount = closedHangingSlatCount() + 1;
+endlocksCount = roundedOffSlatCnt + 1;
 }
-return endlockCount;}
+console.log('closedEndlocksCount: ', {endlocksCount});
+return endlocksCount;}
 
 function bbAnglesWeight () {
-const oneAngleVolume=(side1*bbAngleThickness+(side2-bbAngleThickness)*bbAngleThickness) *slatWidth();
-const bbAnglesWeight=oneAngleVolume*bbAnglesAmount*lowCarbSteelSpecificWeight;
+const oneAngleVolume=(rd.bottomBar.dataPoints.bbAngleVerticalSide*rd.bottomBar.dataPoints.bbAngleThickness+(rd.bottomBar.dataPoints.bbAngleHorizontalSide-rd.bottomBar.dataPoints.bbAngleThickness)*rd.bottomBar.dataPoints.bbAngleThickness) *slatWidth();
+const bbAnglesWeight=oneAngleVolume*rd.bottomBar.dataPoints.bbAnglesAmount*constDat.lowCarbSteelSpecificWeight;
+console.log('bbAnglesWeight: ', {bbAnglesWeight});
 return bbAnglesWeight;} 
 
 function astragalWeight () {
-const astragalWeight=astragalLinearInchWeight*slatWidth();
+const astragalWeight=calcDat.astragalLinearInchWeight*slatWidth();
+console.log('astragalWeight: ', {astragalWeight});
 return astragalWeight;}
 
 function slideboltsWeight () {
-const slideBoltsWeight = oneSlideBoltWeight*2;
+const slideBoltsWeight = constDat.oneSlideBoltWeight*2;
+console.log('slideBoltsWeight: ', {slideBoltsWeight});
 return slideBoltsWeight;}
 
-// Weight of bottom Bar
-function bottomBarWeight () {
+// Weight of bottom Bar assembly:
+function bbAssemblyWeight () {
 const bbWeight=bbAnglesWeight() + oneSlatWeight() + astragalWeight() + slideboltsWeight();
-}
+console.log('bbWeight: ', {bbWeight});
+return bbWeight;}
 
 // Weight of closed curtain assembly
 function closedHangingWeight () {
-const hangingWeight = closedHangingSlatCount()*oneSlatWeight() + endlocksCount()*oneEndlockWeight + bottomBarWeight();
+const hangingWeight =
+(closedHangingSlatCount()*oneSlatWeight())
++ 
+(closedEndlocksCount()*calcDat.oneEndlockWeight)
++ 
+bbAssemblyWeight();
+
+console.log('closedHangingWeight: ', {hangingWeight});
+
 return hangingWeight;}
 
-function openLinearHeight () {
+function openHangingHeight () {
+ const a=(calcDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
+ 
+console.log('nthTableRow.rO for openHangingHeight: ', nthTableRow.rO);
+ 
+ const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - nthTableRow.rO; 
+ const d=(a*a) + (b*b);
+ const linearHeight=Math.sqrt(d);
+/*
 const linearHeight=Math.sqrt(
- (endplateSize/2)^2 + ((endplateSize/2) - 1.5)^2);
+ (calcDat.endplateSize/2)^2 + ((calcDat.endplateSize/2) - 1.5)^2
+ );
+ */
+console.log('openHangingHeight: ', {linearHeight});
 return linearHeight;}
 
 function openHangingSlatCount () {
-const slatCount=Math.round(openLinearHeight()/slatVerticalContribution);
+ // Substract 1 that belongs to the BB
+const slatCount=(openHangingHeight()/(calcDat.slatVerticalContribution)) - 1;
+
+console.log('openHangingSlatCount: ', {slatCount});
+
+return slatCount;}
+
+function openEndlocksCount () {
+let endlocksCount;
+let roundedOffSlatCnt=Math.round(openHangingSlatCount());
+ // If slat count even
+if(roundedOffSlatCnt % 2===0) {
+endlocksCount = roundedOffSlatCnt;
+}else{ // If slat count odd
+endlocksCount = roundedOffSlatCnt + 1;
 }
+console.log('openEndlocksCount: ', {endlocksCount});
+return endlocksCount;}
 
 function openHangingWeight () {
-const hangingWeight = openHangingSlatCount()*oneSlatWeight() + openHangingSlatCount() *oneEndlockWeight + bottomBarWeight();
+const hangingWeight = (
+ openHangingSlatCount()*oneSlatWeight())
+ + 
+ (openEndlocksCount()*calcDat.oneEndlockWeight) 
+ + bbAssemblyWeight();
+ 
+console.log('openHangingWeight: ', {hangingWeight});
+
 return hangingWeight;}
 
 // Low moment arm rc (arm when door closed)
 function lowMomentArm () {
-const lMArm = (rd.barrel.dataPoints.tubeDiameter + rd.misc.slatC_value)/2;
+const lMArm = (rd.barrel.dataPoints.tubeDiameter + calcDat.slatC_value)/2;
+console.log('lowMomentArm: ', {lMArm});
 return lMArm;}
 
-function maxInchPound () {
-const lbInch=lowMomentArm()*closedHangingWeight();
-return lbInch;}
+function requiredInchPound () {
+const closedInchPounds=lowMomentArm()*closedHangingWeight();
 
-requiredMaxInchPound = maxInchPound();
+console.log('requiredInchPound: ', {closedInchPounds});
+
+return closedInchPounds;}
 
 // Revolutions of barrel dR
 
@@ -788,7 +949,7 @@ For the mainTemplate pages, the behavior of the capture Btn is to:
 This will change for the resultTemplate. The procedure will be to only perform 4th step, and last step (5) will be to write dataPoints values to the active page.
 */
 // Spring data; [inch-pound, wire-diameter]
-const optimalMaxLbInch=[
+const optimalMaxInchPound=[
 [52,0.125],
 [65,0.135],
 [75,0.142],
@@ -830,7 +991,7 @@ const optimalMaxLbInch=[
 [3442.7,0.5625],
 [4620,0.625]
 ];
-const inventoryMaxLbInch=[
+const inventoryMaxInchPound=[
 [52,0.125],
 [65,0.135],
 [75,0.142],
@@ -874,45 +1035,49 @@ const inventoryMaxLbInch=[
 
 // Select data set to use
 function springDataSetChoice () {
- const inventoryData=inventoryMaxLbInch;
- const optimalData=optimalMaxLbInch;
+ const inventoryData = inventoryMaxInchPound;
+ const optimalData=optimalMaxInchPound;
 const inventorizedRadioBtn=document.querySelector('#spring-on-hand');
  const optimalRadioBtn=document.querySelector('#optimal-spring');
-if(optimalRadioBtn.checked){
+ 
+  // § set to true for debugging purposes:
+if(true){
+// if(optimalRadioBtn.checked){
 return optimalData;}
 if(inventorizedRadioBtn.checked){
 return inventoryData;}
 }
 
-let calcMIP_InRange;
-function chooseSpringWireDiameter () {
+let requiredInchPoundsInRange;
+function selectSpringWireDiameter () {
 let strongEnoughWireFound = false;
-let chosenWireDiam = 0;
+let selectedWireDiam = 0;
 const springDataSetToUse=springDataSetChoice();
 for (let i = 0; i < springDataSetToUse.length; i++) {
-if (springDataSetToUse[i][0] >= requiredMaxInchPound) {
-chosenWireDiam = springDataSetToUse[i][1];
+if (springDataSetToUse[i][0] >= requiredInchPound()) {
+selectedWireDiam = springDataSetToUse[i][1];
 strongEnoughWireFound = true;
 }
 if (strongEnoughWireFound) {
-strongEnoughWireFound = 'optimalMaxLbInchFound';
+ // On match, exit for-loop. 
+// strongEnoughWireFound = 'optimalMaxInchPoundFound';
 break;
 }
 }
-// Verify outcome
+// Check if exit for-loop was due to match or was exhausted due to match not found.
 if (strongEnoughWireFound === false) {
 // Error. Excessive load for existing wire diametere
-calcMIP_InRange=false;
-console.log (`requiredMaxInchPound (${requiredMaxInchPound}lb-ft) is too large for available wire diameters.`);
+requiredInchPoundsInRange=false;
+console.log (`Sorry. The ${requiredInchPound()} InchPound value required is too large for existing wire diameters.`);
 
 } else {
-console.log('chosenWireDiam: ', {
-chosenWireDiam
-});
-// Save result as (result page) datum value:
-activeObj.datumValues[0] = chosenWireDiam; // `${chosenWireDiam}`
+// Save selectedWireDiam to result object as a datum value:
+activeObj.datumValues[0] = selectedWireDiam;
+
+console.log('selectedWireDiam: ', {selectedWireDiam});
 }
-}
+return selectedWireDiam;}
+ // § continue verification from this point on
 
 /*
 function saveSpringInnerDia () {
@@ -920,12 +1085,12 @@ function saveSpringInnerDia () {
 activeObj.datumValues[1] = '3.0000';
 }
 
-function calcSpringTurns () {
+function springTurns () {
 // Save result as datum value:
 activeObj.datumValues[3] = '92.0000';
 }
 
-function calcSpringLength () {
+function springLength () {
 // Save result as datum value:
 activeObj.datumValues[2] = '36.0000';
 }
@@ -938,11 +1103,11 @@ activeObj.datumValues[4] = '32.6754';
 
 // Post to DOM (results Template doc)
 function postWireDiaToResultsPage () {
-  if(calcMIP_InRange){//in range:
+  if(requiredInchPoundsInRange){//in range:
 document.querySelector('#wire-diameter').textContent = activeObj.dataPoints.wireDiameter;
 } else{ // out of range:
 document.querySelector('#wire-diameter').style.color='magenta';
-document.querySelector('#wire-diameter').innerText=`${Math.ceil(requiredMaxInchPound)}`;
+document.querySelector('#wire-diameter').innerText=`${Math.ceil(requiredInchPound())}`;
 } 
   
 document.querySelector('#internal-diameter').textContent = activeObj. dataPoints.internalDiameter;
@@ -954,16 +1119,15 @@ document.querySelector('#no-of-turns').textContent = activeObj.dataPoints.amount
 document.querySelector('#weight').textContent = activeObj.dataPoints.weight;
 }
 
-/* Start CALCULATING SPRING LENGTH */
+/* Start of CALCULATING SPRING LENGTH */
 // Test Data;
-const tubeDiam=7.5;
-const hGoal=120.75;
 
 // Initial values: 
-let r0=tubeDiam/2;
-const c=0.5455;
-const a=c/(2*Math.PI);
-const thetaInit=((2*r0 + c)*Math.PI)/c;
+let barrelRadius=rd.barrel.dataPoints.tubeDiameter/2;
+// const c=0.5455;
+
+const a=calcDat.slatC_value/(2*Math.PI);
+const thetaInit=((2*barrelRadius + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
 const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
 const arcInit=(a*((thetaInit*sigmaInit)
 + Math.log(thetaInit+sigmaInit)))/2;
@@ -1043,31 +1207,84 @@ break;
 }else{
 // Run row generator to produce an nth table row
 buildNthRowOfLukUpTable();
+const hGoal=rd.wallCutout.dataPoints.height + constDat.bbBeyondWallCutoutHeight;
 
 if(nthTableRow.h>=hGoal) {
  // Write out result
-console.log('💪 Success!');
+console.log('💪 Success! For hGoal = ', Math.round(10000*hGoal)/10000);
 console.log ('nthTableRow after iteration: ', {nthTableRow});
-
  break;
 }
 }
 }
 }
 
-function calcSpringLength () {
+function springLength () {
 // Build required values into nthTableRow object
 calcRoDrForHgoal(); 
-
 // Now use values to determine spring length
- const ippt=(rO*closedHangingWeight()-nthTableRow.rO * openHangingWeight())/nthTableRow.dR;
+
+const lowMomentArm = barrelRadius + (calcDat.slatC_value/2);
+
+ const ippt=(
+  (lowMomentArm * closedHangingWeight()) 
+  -
+  (nthTableRow.rO * openHangingWeight()) 
+  
+  )/nthTableRow.dR;
+ console.log('ippt: ', {ippt});
  
- const springLength=3208909*(rd.result.datumValues[0]^5)/(ippt*(rd.spring.intDia+rd.result.datumValues[0]));
+console.log('Spring wire diameter: ', rd.result.dataPoints.wireDiameter);
+console.log('Spring internal diameter: ', rd.spring.dataPoints.intDia);
+
+const fifthPowerOfWireDiam=rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter;
+const springLength=(3208909*(fifthPowerOfWireDiam))/(ippt*(rd.spring.dataPoints.intDia+rd.result.dataPoints.wireDiameter));
+ 
+console.log('Spring length: ', {springLength});
+
+return springLength;}
+
+function springTurns () {
+const n=springLength()/rd.result.dataPoints.wireDiameter;
+console.log ('wireDiameter', rd.result.dataPoints.wireDiameter);
+console.log ('springTurns', {n});
+
+return n;}
+
+function springWeight () {
+ 
+const crossSectionArea=Math.PI* (selectSpringWireDiameter()/2)^2;
+
+console.log('crossSectionArea', crossSectionArea);
+
+const springMeanDiam=rd.spring.dataPoints.intDia+selectSpringWireDiameter();
+
+console.log('springMeanDiam', springMeanDiam);
+
+const oneCoilVolume=2*Math.PI *springMeanDiam*crossSectionArea;
+
+console.log ('oneCoilVolume', {oneCoilVolume});
+
+const weight=oneCoilVolume*springTurns()*constDat.lowCarbSteelSpecificWeight;
+
+console.log ('springWeight', {weight});
+
+return weight;}
+
+document.querySelector('#test').addEventListener('click', springWeight); // §
+
+function spoolSpringSpecs () {
+calcDat.mySpring.wireDiameter=selectSpringWireDiameter();
+calcDat.mySpring.internalDiameter=rd.spring.dataPoints.intDia;
+calcDat.mySpring.size=springLength();
+calcDat.mySpring.amountOfTurns=springTurns();
+calcDat.mySpring.weight=springWeight();
 }
+
 /* end CALCULATING SPRING LENGTH */
 
 function updateCalcBtnStyle () {
-if(calcMIP_InRange){
+if(requiredInchPoundsInRange){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
@@ -1076,17 +1293,17 @@ document.querySelector('#calc-results').style.backgroundColor = ('darkred');
 document.querySelector('#calc-results').style.color = ('yellow');
 document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
 
-calcMIP_InRange=true;
+requiredInchPoundsInRange=true;
 return;}
 
 function resultProcessing () {
 // Save following results to activeObj.datumValues array.
-chooseSpringWireDiameter();
-calcSpringLength();
+selectSpringWireDiameter();
+springLength(); // §
 /*
 saveSpringInnerDia();
-calcSpringTurns();
-calcSpringLength();
+springTurns();
+springLength();
 calcSpringWeight();
 */
 // After saving as datum values then:
