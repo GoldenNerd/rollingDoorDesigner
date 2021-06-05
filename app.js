@@ -5,7 +5,8 @@
 /* 
 The RD measurements template properties object.
 */
-const rd = {
+let rd = {
+  namesOfPagesThatContainData: ['wallCutout', 'barrel', 'slats', 'bottomBar', 'bottomBar', 'spring', 'misc', 'misc2'],
   startPage: {
     objNo: 0,
     pageHeader: '🤓 Welcome to RD Designer! 🤓',
@@ -17,7 +18,7 @@ const rd = {
     dataPoints: {},
     prevObjName: 'startPage',
     activeObjName: 'startPage',
-    nextObjName: 'misc'
+    nextObjName: 'wallCutout'
   },
 
   wallCutout: {
@@ -25,6 +26,9 @@ const rd = {
     pageHeader: 'Wall Cutout:',
     sketchFileName: 'url(wallCutout.jpg)',
     noOfDataPoints: 5,
+    ftPresets: [12, 10, 3, 2, 1],
+    inchesPresets: [0, 0, 1, 2, 3],
+    ftView: ['inline-block' , 'inline-block' , 'inline-block', 'inline-block', 'inline-block'],
     labels: ['Width',
       'Height',
       'Top Clearance',
@@ -53,6 +57,9 @@ const rd = {
     pageHeader: 'Barrel:',
     sketchFileName: 'url(barrel.jpg)',
     noOfDataPoints: 3,
+    ftPresets: [0,0,0],
+    inchesPresets: [4.625, 1, 7.75],
+    ftView: ['none' , 'none' , 'none'],
     labels: ['Tube Diameter',
       'Ring Style',
       'Rings Diameter'],
@@ -74,6 +81,9 @@ const rd = {
     pageHeader: 'Slats:',
     sketchFileName: 'url(slats.jpg)',
     noOfDataPoints: 1,
+    ftPresets: [0],
+    inchesPresets: [20],
+    ftView: ['none'],
     labels: ['Gauge'],
     datumKeys: ['thickness'],
     datumValues: [],
@@ -88,6 +98,9 @@ const rd = {
     pageHeader: 'Bottom Bar:',
     sketchFileName: 'url(bottomBar.jpg)',
     noOfDataPoints: 4,
+    ftPresets: [0, 0, 0, 0],
+    inchesPresets: [2, 2, 0.125, 2],
+    ftView: ['none' , 'none' , 'none', 'none'],
     labels: ['Angle Width',
       'Angle Height',
       'Angle Thickness',
@@ -113,6 +126,9 @@ const rd = {
     pageHeader: 'Torsion Spring:',
     sketchFileName: 'url(spring.jpg)',
     noOfDataPoints: 1,
+    ftPresets: [0],
+    inchesPresets: [3.0625],
+    ftView: ['none'],
     labels: ['Internal Diameter'],
     datumKeys: ['intDia'],
     datumValues: [],
@@ -127,11 +143,14 @@ const rd = {
 
   misc: {
     objNo: 6,
-    pageHeader: 'Other Data (Page 1 of 2):',
+    pageHeader: 'Other Items:',
     sketchFileName: 'url(misc.jpg)',
     noOfDataPoints: 5,
-    labels: ['Slats',
-      'Endlocks',
+    ftPresets: [0, 0, 0, 0, 0],
+    inchesPresets: [1, 1, 0, 1, 1],
+    ftView: ['none', 'none' , 'none', 'none', 'none'],
+    labels: ['Slats Style',
+      'Endlocks Style',
       'Windlocks',
       'Slide Bolts',
       'Astragal'],
@@ -142,41 +161,30 @@ const rd = {
       'useAstragal'],
     datumValues: ['curvedSlat', 'metalEndlocks', false, true, true],
     dataPoints: {
-     slatStyle: 'curvedSlat',
-     endlockStyle: 'metalEndlocks', 
-     useWindlocks: false,
-     useSlideBolts: true,
-     useAstragal: true
-     
-     
+     slatStyle: 1,
+     endlockStyle: 1, 
+     useWindlocks: 0,
+     useSlideBolts: 1,
+     useAstragal: 1
     },
-    prevObjName: 'startPage',
+    prevObjName: 'spring',
     activeObjName: 'misc',
-    nextObjName: 'result'
+    nextObjName: 'misc2'
   },
 
   misc2: {
     objNo: 7,
-    pageHeader: 'Other Data (Page 2 of 2):',
+    pageHeader: 'Mounting Location:',
     sketchFileName: 'url(misc2.jpg)',
-    noOfDataPoints: 5,
-    labels: ['Int. Mount',
-      'tbd',
-      'tbd',
-      'tbd',
-      'tbd'],
-    datumKeys: ['interiorMounting',
-      'tbd',
-      'tbd',
-      'tbd',
-      'tbd'],
-    datumValues: [true, 'tbd', 'tbd', 'tbd', 'tbd'],
+    noOfDataPoints: 1,
+    ftPresets: [0],
+    inchesPresets: [1],
+    ftView: ['none'],
+    labels: ['Location'],
+    datumKeys: ['mounting'],
+    datumValues: [true],
     dataPoints: {
-     interiorMounting: true
-     
-     
-     
-     
+     mounting: 1
     },
     prevObjName: 'misc',
     activeObjName: 'misc2',
@@ -185,9 +193,12 @@ const rd = {
 
   result: {
     objNo: 8,
-    pageHeader: 'Final Result:',
+    pageHeader: 'Spring Parameters:',
     sketchFileName: 'url(result.jpg)',
     noOfDataPoints: 5,
+    ftPresets: [0, 0, 0, 0, 0],
+    inchesPresets: ['0', 3.0625, '0', '0', '0'],
+    ftView: ['none' , 'none' , 'none', 'none', 'none'],
     labels: ['Wire Diameter',
       'Internal Diameter',
       'Length',
@@ -212,71 +223,6 @@ const rd = {
   }
 };
 
-/* Lookup Object for RD Invariant Data*/
-const constDat={
-slatOverlapWithWallIntMount: 5.25,
-slatOverlapWithWallExtMount: 7.25,
-lowCarbSteelSpecificWeight: 0.284, 
-oneSlideBoltWeight: 2.5,
-endplateWallEdgeToTrackMiddle: 2, 
-bbBeyondWallCutoutHeight: 0.5, 
-vinylAstragalLinearInchWeight: 0.02083,
-rubberAstragalLinearInchWeight:0.02083,
-curvedNylonEndlockThickness: 0.02500,
-curvedStampedEndlockThickness: 0.02500,
-curvedCastironEndlockThickness: 0.02500,
-flatNylonEndlockThickness: 0.02500,
-flatStampedEndlockThickness: 0.02500,
-flatCastironEndlockThickness: 0.02500,
-curvedStampedwindlockThickness: 0.02500,
-curvedCastironWindlockThickness: 0.02500,
-flatStampedWindlocklockThickness: 0.02500,
-flatCastironWindlockThickness: 0.02500,
-bbStopFlagStyleVerticalToll: 0.0000,
-bbStopFlatBarStyleVerticalToll: 1.5000,
-slatC_valueRimCurvedSlat: 0.5455, 
-slatC_value6inchTubeCurvedSlat: 0.5455,
-slatC_value8inchTubeCurvedSlat: 0.5455,
-slatC_valueYoyoCurvedSlat: 0.5455, 
-slatC_valueRimFlatSlat: 0.5455, 
-slatC_value6inchTubeFlatSlat: 0.5455, 
-slatC_value8inchTubeFlatSlat: 0.5455, 
-slatC_valueYoyoFlatSlat: 0.5455,
-endPlateSizes: {
-endPlate12: 12,
-endPlate14: 14,
-endPlate15: 15.5,
-endPlate16: 16,
-endPlate18: 18
-},
-curvedSlat24G: 0.0026,
-curvedSlat22G: 0.0028,
-curvedSlat20G: 0.0032,
-curvedSlat18G: 0.0050,
-flatSlat24G:  0.0026,
-flatSlat22G: 0.0028,
-flatSlat20G: 0.0032,
-flatSlat18G: 0.0050,
-};
-
-/* Lookup Object for RD derived Data*/
-const calcDat={
-slatLinearInchWeight: 0.04833, 
-endplateSize: 14, 
-slatVerticalContribution: 2.90, 
-oneEndlockWeight: 0.0160, 
-slatC_value: 0.5455, 
-endlockThickness: 0.25, 
-bbStopDistanceBelowEndPlate:1.5, 
-astragalLinearInchWeight: 0.02083, 
- mySpring: {
- wireDiameter: 0.4062,
- internalDiameter: 0,
- size: 0,
- amountOfTurns: 0,
- weight: 0
-}
-};
 
 //  Global variables
 let activeObj; // global due to numerous times used
@@ -304,7 +250,6 @@ function returnTemplateId () {
 Save the activeObjName of the home page to localStorage. This is necessarily for consistency. Because then I can use the same navigation rules, etc. for all pages.
 */
 function homePageNameToLocSto () {
-  window.localStorage.clear();
   const homePageName = 'startPage';
   window.localStorage.setItem('nxtCompNamePassedOnByPrevCompPage', JSON.stringify(homePageName));
 }
@@ -351,15 +296,15 @@ function displayPageName () {
   const pageName = document.querySelector('#name-of-component-obj');
   pageName.innerHTML = `pageName is: ${returnTheActivePageName()}`;
 }
-
+// function not used:
 function ulShowHideCtrl () {
-  if (activeObj.objNo === 6) {
-  // Note: 6 is the misc page. the std ul must be hidden in favor of the misc ul. 
-document.querySelector('#std-ul'). style.position='absolute';
-document.querySelector('#std-ul').style.bottom='500%';
+  if (activeObj.objNo === 8) {
+  // Note: 8 is the result page. For result page, the std ul must be hidden in favor of the span ul. 
+document.querySelector('#std-ul'). style.display='none';
+document.querySelector('#span-ul').style.display='inline-block';
   }else{
-document.querySelector('#misc-ul'). style.position='absolute';
-document.querySelector('#misc-ul').style.bottom='500%';
+document.querySelector('#std-ul').style.display='inline-block';
+document.querySelector('#span-ul'). style.display='none';
   }
 }
 
@@ -395,6 +340,31 @@ function populateDatumLabels () {
   for (let i = 0; i < datumLabelsPlaceholders.length; i++) {
     datumLabelsPlaceholders[i].innerHTML = datumLabels[i];
   }
+}
+
+function ldFtDfaults () {
+const ftValueFields=document.getElementsByClassName('feet-value');
+const amountOfDataPoints = activeObj.noOfDataPoints;
+for (var i = 0; i < amountOfDataPoints; i++) {
+ftValueFields[i].value=activeObj.ftPresets[i];
+}
+}
+
+function ldInchesDfaults () {
+const inchesValueFields=document.getElementsByClassName('inches-value');
+const amountOfDataPoints = activeObj.noOfDataPoints;
+for (var i = 0; i < amountOfDataPoints; i++) {
+inchesValueFields[i].value=activeObj.inchesPresets[i];
+}
+}
+
+function setFtValsVisibility () {
+const ftValueFields=document.getElementsByClassName('feet-value');
+const amountOfDataPoints = activeObj.noOfDataPoints;
+for (var i = 0; i < amountOfDataPoints; i++) {
+const pointerToSketchName = activeObj.ftView[i];
+ftValueFields[i].style.setProperty('--feet-view-style', `${pointerToSketchName}`);
+}
 }
 
 function hideEmptyDatums () {
@@ -453,21 +423,30 @@ window.onload = function () {
   //Display component sketch:
   PopulateCompSketchFrame();
 
+  ulShowHideCtrl();
+
   updatePrevBtnLabel();
 
   // datum-labels
   populateDatumLabels();
+
+  ldFtDfaults();
+
+  ldInchesDfaults();
+
+  setFtValsVisibility();
 
   hideEmptyDatums();
 
   initializeBtnsStyles();
 
   if (activeObj.objNo === 8) {
-  // Note: 7 is the result page.  Calc button is same capture button that takes on a "calc identity" on the result page. That's why a new button skin is required.
+  /*
+  Note: 8 is the result page.  Calc button is same capture button that takes on a "calc identity" on the result page. That's why a new button skin is required.
+  */
     styleCaptureBtnAsCalcBtn();
+    
   }
-  
-   // ulShowHideCtrl();
   
 };
 
@@ -513,9 +492,13 @@ function switchToPrevComponent () {
     /*
 Going back from the first component page must load the start page.
 */
-    if (activeObj.objNo === 6 || activeObj.objNo === 8) {
+    if (activeObj.objNo === 1 || activeObj.objNo === 8) {
       window.location = 'index.html';
-    } else {
+     /*
+    } else if(activeObj.objNo === 7) {
+      window.location = 'radioTemplate.html';
+    */  
+    }else{
       window.location = 'mainTemplate.html';
     }
   },
@@ -545,7 +528,12 @@ function switchToNxtComponent () {
     /*
 Going forward from the last component page must load the result page.
 */
-    if (activeObj.objNo === 6) {
+/*
+    if (activeObj.objNo === 5 ||activeObj.objNo === 6 ) {
+     window.location = 'radioTemplate.html';
+     
+    }else      */
+    if (activeObj.objNo === 7) {
       window.location = 'resultTemplate.html';
     } else {
       window.location = 'mainTemplate.html';
@@ -579,6 +567,11 @@ function mousedownCaptureBtnAnimation () {
 }
 const animateCaptureBtnColors = document.querySelector ('#load-measurements');
 animateCaptureBtnColors.addEventListener('mousedown', mousedownCaptureBtnAnimation); 
+
+// Function not used
+function rdObjFromLocSto () {
+let rd=JSON.parse(window.localStorage.getItem('rd'));
+}
 
 function readDataFormValues () {
   // Collect inches data
@@ -626,13 +619,12 @@ function buildDataPointObjIntoActiveObj () {
   for (var i = 0; i < amountOfDataPoints; i++) {
     activeObj.dataPoints[activeObj.datumKeys[i]] = activeObj.datumValues[i];
   }
-  console.log ('Captured Data: ', activeObj.dataPoints);
+  console.log (`${activeObj.activeObjName} dataPoints`, activeObj.dataPoints);
   // Note:  Once data is captured, update capture button appearance, and next button appearance
 }
 
-function updateBtnsStyles () {
-  // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
-  setTimeout(()=>afterDataCapturedBtnStyles(), 175);
+function vaultDataPointsToLocSto () {
+ window.localStorage.setItem(`${activeObj.activeObjName}`, JSON.stringify(activeObj.dataPoints));
 }
 
 function afterDataCapturedBtnStyles () {
@@ -647,13 +639,26 @@ function afterDataCapturedBtnStyles () {
   nextPageBtn.style.backgroundColor = ('lightgray');
   nextPageBtn.style.color = ('darkgreen');
 }
+function updateBtnsStyles () {
+  // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
+  setTimeout(()=>afterDataCapturedBtnStyles(), 175);
+}
+// Function not used:
+function retrieveALocStoObj (objName) {
+const retrievedObj=JSON.parse(window.localStorage.getItem(objName));
+console.log(`Pulled ${objName}: `, retrievedObj);
+}
+
 
 function saveACompDataToActiveObj () {
+  // rdObjFromLocSto();
   readDataFormValues();
   normalizeDataPointValuesToInches();
   saveDataPointInchesToActiveObj();
   buildDataPointObjIntoActiveObj();
+  vaultDataPointsToLocSto();
   updateBtnsStyles();
+  // retrieveALocStoObj(`${activeObj.activeObjName}`);
 }
 
 const miscPartsObj={
@@ -674,7 +679,7 @@ noAstragal: {useAstragal: false},
 yesAstragal: {useAstragal: true},
 };
 
-function saveDataPointValuesToActiveObj () {
+function saveRadioDataToDatumValues () {
 // Slat style data capture:
 const curvedSlatRadioBtn=document.querySelector('#curved-slat');
 const flatSlatRadioBtn=document.querySelector('#flat-slat');
@@ -740,9 +745,9 @@ activeObj.datumValues[4]=miscPartsObj.noAstragal.useAstragal;
 console.log (activeObj.datumValues);
 
 }
-
-function saveMiscDataToActiveObj () {
-  saveDataPointValuesToActiveObj();
+// function no longer used:
+function saveMisc1DataToActiveObj () {
+  saveRadioDataToDatumValues();
 buildDataPointObjIntoActiveObj();
 /*
   normalizeDataPointValuesToInches();
@@ -751,15 +756,24 @@ buildDataPointObjIntoActiveObj();
   */
   updateBtnsStyles();
 }
-
+// function no longer used:
+function saveMisc2DataToActiveObj () {
+// tbd
+updateBtnsStyles();
+}
 const captureDataBtn = document.querySelector('#load-measurements');
 captureDataBtn.addEventListener('mouseup', function () {
   // The Misc Data Form format requires a handler taylored to its specific format (radio buttons.)
+  /*
 if (activeObj.objNo === 6) {
-saveMiscDataToActiveObj();
-}else{
-saveACompDataToActiveObj();
+saveMisc1DataToActiveObj();
+}else if (activeObj.objNo === 7) {
+saveMisc2DataToActiveObj();
 }
+else{
+ */
+saveACompDataToActiveObj();
+//}
 });
 
 // ################################
@@ -780,20 +794,292 @@ document.querySelector ('#calc-results').style.color = ('white');
 }
 document.querySelector ('#calc-results').addEventListener('mousedown', mousedownCalcBtnAnimation);
 
-/* CURTAIN GROUNDWORK CALCULATIONS */
-// Weight of one slat
-function slatAssemblyWidth () {
-let assembledSlatWidth;
-if(rd.misc2.dataPoints.interiorMounting) {
-  assembledSlatWidth = rd.wallCutout.dataPoints.width + constDat.slatOverlapWithWallIntMount;
-}else{
- assembledSlatWidth = rd.wallCutout.dataPoints.width + constDat.slatOverlapWithWallExtMount;
+// Update rd object dataPoints with all captured data vaulted to localStorage:
+function updRdWithVaultedDataPoints () {
+ rd.wallCutout.dataPoints=JSON.parse(window.localStorage.getItem('wallCutout'));
+
+rd.barrel.dataPoints=JSON.parse(window.localStorage.getItem('barrel'));
+
+rd.slats.dataPoints=JSON.parse(window.localStorage.getItem('slats'));
+
+rd.bottomBar.dataPoints=JSON.parse(window.localStorage.getItem('bottomBar'));
+
+rd.spring.dataPoints=JSON.parse(window.localStorage.getItem('spring'));
+
+rd.misc.dataPoints=JSON.parse(window.localStorage.getItem('misc'));
+
+rd.misc2.dataPoints=JSON.parse(window.localStorage.getItem('misc2'));
+console.log('@@@@ Updated RD Obj: @@@@', {rd});
+
+/*
+const dataPagesKeys=rd.namesOfPagesThatContainData;
+for (var i = 0; i < dataPagesKeys.length; i++) {
+const source=dataPagesKeys[i];
+let destination=eval("`${rd.".concat(source)  + ".dataPoints}`")
+destination=JSON.parse(window.localStorage.getItem(`${source}`));
 }
+*/
+
+}
+
+/* Lookup Object for RD Invariant Data*/
+const constDat={
+slatOverlapWithWallBetweenJamb: -5.25, 
+slatOverlapWithWallIntMount: 5.25,
+slatOverlapWithWallExtMount: 7.25,
+
+curvedWindlockThickness: 0.5000,
+
+intertrackGap: 0.7500,
+
+curvedStampedwindlockThickness: 0.02500,
+curvedCastironWindlockThickness: 0.02500,
+
+flatStampedWindlocklockThickness: 0.02500,
+flatCastironWindlockThickness: 0.02500,
+
+noEndlockThickness: 0,
+curvedNylonEndlockThickness: 0.02500,
+curvedStampedEndlockThickness: 0.02500,
+curvedCastironEndlockThickness: 0.02500,
+
+flatNylonEndlockThickness: 0.02500,
+flatStampedEndlockThickness: 0.02500,
+flatCastironEndlockThickness: 0.02500,
+/*
+curvedSlatThickness24G: 0.0028,
+curvedSlatThickness22G: 0.0032,
+curvedSlatThickness20G: 0.0036,
+curvedSlatThickness18G: 0.0050,
+flatSlatThickness24G:  0.0028,
+flatSlatThickness22G: 0.0032,
+flatSlatThickness20G: 0.0036,
+flatSlatThickness18G: 0.0050,
+*/
+slatLinearInchWeight24G: 0.04430, 
+slatLinearInchWeight22G: 0.04833, 
+slatLinearInchWeight20G: 0.05316, 
+slatLinearInchWeight18G: 0.05907, 
+
+bbStopDistanceBelowEndPlate:1.5, 
+
+endplateWallEdgeToTrackMiddle: 2, 
+
+barrelTube4inchDia: 4.5,
+barrelTube6inchDia: 6.5,
+barrelTube8inchDia: 8.5,
+barrelBigYoyo: 8.2,
+barrelSmallYoyo: 4.3,
+barrelSpiralRing: 7.75,
+
+slatC_value4inchTubeCurvedSlat: 0.5455,
+slatC_value6inchTubeCurvedSlat: 0.5455,
+slatC_value8inchTubeCurvedSlat: 0.5455,
+slatC_valueBigYoyoCurvedSlat: 0.5455, 
+slatC_valueSmallYoyoCurvedSlat: 0.5455,
+slatC_valueRimCurvedSlat: 0.5455, 
+
+slatC_value4inchTubeFlatSlat: 0.5455,
+slatC_value6inchTubeFlatSlat: 0.5455, 
+slatC_value8inchTubeFlatSlat: 0.5455, 
+slatC_valueBigYoyoFlatSlat: 0.5455,
+slatC_valueSmallYoyoFlatSlat: 0.5455,
+slatC_valueRimFlatSlat: 0.5455, 
+
+lowCarbSteelSpecificWeight: 0.2836, 
+highCarbSteelSpecificWeight: 0.284, 
+oneSlideBoltWeight: 2.5,
+
+bbBeyondWallCutoutHeight: 0.5, 
+vinylAstragalLinearInchWeight: 0.02083,
+rubberAstragalLinearInchWeight:0.02083,
+
+bbStopFlagStyleVerticalToll: 0.0000,
+bbStopFlatBarStyleVerticalToll: 1.5000,
+
+endPlateSizes: {
+endPlate12: 12,
+endPlate14: 14,
+endPlate15: 15.5,
+endPlate16: 16,
+endPlate18: 18
+},
+
+};
+
+/* Lookup Object for RD derived Data*/
+const calcDat={
+slatOverlapWithWall: 0,
+
+slatTerminationThickness: 0,
+
+slatLinearInchWeight: 0, 
+
+endplateSize: 14,
+
+barrelDiameter: 7.75,
+
+slatC_value: 0.5455,
+
+
+
+slatVerticalContribution: 2.90, 
+oneEndlockWeight: 0.0160, 
+
+
+astragalLinearInchWeight: 0.02083, 
+ mySpring: {
+ wireDiameter: 0.4062,
+ internalDiameter: 0,
+ size: 0,
+ amountOfTurns: 0,
+ weight: 0
+}
+};
+
+// Post data entry error message:
+ function dataEntryError (errMssg='USER ENTERED ERRONEOUS DATA ON AN INPUT FORM!!') {
+ // Display an error message
+ console.log(`${errMssg}`);
+ }
+ 
+ // Use updated rd obj to generate calcDat obj:
+ function buildCalcDat () {
+// SLAT OVERLAP WITH WALL 
+ if(rd.misc2.dataPoints.mounting===0) {
+  calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallBetweenJamb;
+}else if(rd.misc2.dataPoints.mounting===1) {
+ calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallIntMount;
+}else if(rd.misc2.dataPoints.mounting===2){
+calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallExtMount;
+ }else{
+ dataEntryError();
+ }
+// SLAT TERMINATION THICKNESS
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.slatStyle===1) {
+// Using curved slat
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.useWindlocks===1) {
+// Using windlock
+calcDat.slatTerminationThickness=constDat.curvedCastironWindlockThickness;
+}else if (rd.misc.dataPoints.useWindlocks===0) {
+// Not using windlock
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.endlockStyle===0) {
+ // Don't use endlocks
+ calcDat.slatTerminationThickness=constDat.noEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===1) {
+ // Use nylon endlocks
+calcDat.slatTerminationThickness=constDat.curvedNylonEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===2) {
+ // Use stamped endlocks
+calcDat.slatTerminationThickness=constDat.curvedStampedEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===3) {
+ // Use iron endlocks
+calcDat.slatTerminationThickness=constDat.curvedCastironEndlockThickness;
+}else{
+// Invalid endock style entry
+dataEntryError('Invalid endock style entry'); 
+}
+
+} else {
+// Invalid windlock style entry
+dataEntryError('Invalid windlock style entry'); 
+}
+
+} else if (rd.misc.dataPoints.slatStyle===2) {
+// Using flat slat
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.useWindlocks===1) {
+// Using windlock
+calcDat.slatTerminationThickness=constDat.flatCastironWindlockThickness;
+}else if (rd.misc.dataPoints.useWindlocks===0) {
+// Not using windlock
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.endlockStyle===0) {
+ // Don't use endlocks
+ calcDat.slatTerminationThickness=constDat.noEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===1) {
+ // Use nylon endlocks
+calcDat.slatTerminationThickness=constDat.flatNylonEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===2) {
+ // Use stamped endlocks
+calcDat.slatTerminationThickness=constDat.flatStampedEndlockThickness;
+}else if (rd.misc.dataPoints.endlockStyle===3) {
+ // Use iron endlocks
+calcDat.slatTerminationThickness=constDat.flatCastironEndlockThickness;
+}else{
+// Invalid endock style entry
+dataEntryError('Invalid endock style entry'); 
+}
+
+} else {
+// Invalid windlock style entry
+dataEntryError('Invalid windlock style entry'); 
+}
+
+}else{
+// Invalid slat style entry
+dataEntryError('Invalid slat style entry'); 
+}
+ // §
+// SLAT LINEAR INCH WEIGHT
+if (rd.slats.dataPoints.thickness===24) {
+calcDat.slatLinearInchWeight=constDat.slatLinearInchWeight24G;
+}else if (rd.slats.dataPoints.thickness===22) {
+calcDat.slatLinearInchWeight=constDat.slatLinearInchWeight22G;
+}else if (rd.slats.dataPoints.thickness===20) {
+calcDat.slatLinearInchWeight=constDat.slatLinearInchWeight20G;
+}else if (rd.slats.dataPoints.thickness===18) {
+calcDat.slatLinearInchWeight18G;
+} else {
+// Invalid slat gauge entry
+dataEntryError('Invalid slat gauge entry');
+}
+// SLAT "C" VALUE
+if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}else if (true) {
+ 
+}
+
+
+
+slatC_valueRimCurvedSlat: 0.5455, 
+slatC_value6inchTubeCurvedSlat: 0.5455,
+slatC_value8inchTubeCurvedSlat: 0.5455,
+slatC_valueYoyoCurvedSlat: 0.5455, 
+slatC_valueRimFlatSlat: 0.5455, 
+slatC_value6inchTubeFlatSlat: 0.5455, 
+slatC_value8inchTubeFlatSlat: 0.5455, 
+slatC_valueYoyoFlatSlat
+
+}
+
+/* CURTAIN ASSEMBLY CALCULATIONS */
+// Slat width
+function slatAssemblyWidth () {
+const assembledSlatWidth=rd.wallCutout.dataPoints.width+calcDat.slatOverlapWithWall;
 console.log('assembledSlatWidth: ', {assembledSlatWidth});
 return assembledSlatWidth;}
 
 function slatWidth () {
- const widthOfSlat=slatAssemblyWidth()-(2*calcDat.endlockThickness) ;
+ const widthOfSlat=slatAssemblyWidth()-(2*calcDat.slatTerminationThickness) ;
 console.log('widthOfSlat: ', {widthOfSlat});
 return widthOfSlat;}
 
@@ -804,8 +1090,7 @@ return oneSlatPounds;}
 
 function closedHangingHeight () {
  // Upper end of track to tube attachment
- 
- const a=(calcDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
+ const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
  const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + rd.barrel.dataPoints.tubeDiameter)/2); 
  const d=(a*a) + (b*b);
  const c=Math.sqrt(d);
@@ -1041,8 +1326,8 @@ const inventorizedRadioBtn=document.querySelector('#spring-on-hand');
  const optimalRadioBtn=document.querySelector('#optimal-spring');
  
   // § set to true for debugging purposes:
-if(true){
-// if(optimalRadioBtn.checked){
+//if(true){
+if(optimalRadioBtn.checked){
 return optimalData;}
 if(inventorizedRadioBtn.checked){
 return inventoryData;}
@@ -1252,33 +1537,48 @@ console.log ('springTurns', {n});
 return n;}
 
 function springWeight () {
- 
-const crossSectionArea=Math.PI* (selectSpringWireDiameter()/2)^2;
+ const wireRadius=0.5 * selectSpringWireDiameter();
+console.log('wire Radius: ', {wireRadius});
 
-console.log('crossSectionArea', crossSectionArea);
+const wireCrossSectionArea=Math.PI*wireRadius*wireRadius;
+console.log('wire Cross Section Area: ', {wireCrossSectionArea});
 
-const springMeanDiam=rd.spring.dataPoints.intDia+selectSpringWireDiameter();
+const springMeanDiam=rd.spring.dataPoints.intDia+ rd.result.dataPoints.wireDiameter;
+console.log('spring Mean Diam: ', {springMeanDiam});
 
-console.log('springMeanDiam', springMeanDiam);
+const oneCoilVolume=Math.PI *springMeanDiam*wireCrossSectionArea;
+console.log ('one Coil Volume: ', {oneCoilVolume});
 
-const oneCoilVolume=2*Math.PI *springMeanDiam*crossSectionArea;
+const springCoilsCount=springTurns();
+console.log ('spring Coils Count: ', {springCoilsCount});
 
-console.log ('oneCoilVolume', {oneCoilVolume});
+const allCoilsVolume=oneCoilVolume*springCoilsCount;
+console.log ('all Coils Volume', {allCoilsVolume});
 
-const weight=oneCoilVolume*springTurns()*constDat.lowCarbSteelSpecificWeight;
+const springWeight=allCoilsVolume*(constDat.highCarbSteelSpecificWeight);
+console.log ('spring Weight: ', {springWeight});
 
-console.log ('springWeight', {weight});
+return springWeight;}
 
-return weight;}
-
-document.querySelector('#test').addEventListener('click', springWeight); // §
-
+/*
+document.querySelector('#test').addEventListener('click', spoolSpringSpecs);
+*/
 function spoolSpringSpecs () {
 calcDat.mySpring.wireDiameter=selectSpringWireDiameter();
+document.querySelector('#inches-a').value=calcDat.mySpring.wireDiameter;
+
 calcDat.mySpring.internalDiameter=rd.spring.dataPoints.intDia;
+
 calcDat.mySpring.size=springLength();
+document.querySelector('#inches-c').value=calcDat.mySpring.size;
+
 calcDat.mySpring.amountOfTurns=springTurns();
+document.querySelector('#inches-d').value=calcDat.mySpring.amountOfTurns;
+
 calcDat.mySpring.weight=springWeight();
+document.querySelector('#inches-e').value=calcDat.mySpring.weight;
+
+console.log('my spring specs: ', calcDat.mySpring);
 }
 
 /* end CALCULATING SPRING LENGTH */
@@ -1295,11 +1595,11 @@ document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
 
 requiredInchPoundsInRange=true;
 return;}
-
-function resultProcessing () {
+// Function no longer used:
+function oldResultProcessing () {
 // Save following results to activeObj.datumValues array.
 selectSpringWireDiameter();
-springLength(); // §
+springLength();
 /*
 saveSpringInnerDia();
 springTurns();
@@ -1313,11 +1613,17 @@ postWireDiaToResultsPage();
 updateCalcBtnStyle();
 }
 
+function newResultProcessing () {
+updRdWithVaultedDataPoints();
+//spoolSpringSpecs();
+updateCalcBtnStyle();
+}
+
 // load-measurements is supplanted by calc-results on the resultTemplate
 const calcResultsBtn = document.querySelector('#calc-results');
 // Timeout for button animation
 calcResultsBtn.addEventListener('mouseup', ()=> {
 setTimeout(function () {
-resultProcessing();
+newResultProcessing();
 }, 250);
 });
