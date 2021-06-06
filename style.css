@@ -4,6 +4,7 @@ font-size: 62.5%;
 
 :root {
 --component-sketch: url(placeholder.jpg);
+--feet-view-style: none;
 }
 
 /* STYLES FOR HOME TEMPLATE ONLY */
@@ -29,7 +30,7 @@ background-image : linear-gradient(to top, #737373 , #5b5a5a);
 background-repeat: no-repeat ;
 }
 
-.start-rolling-btn:active {
+.start-rolling-btn:active:hover {
 background-image: linear-gradient(to bottom , rgb(115,115,115) , black ) ;
 }
 
@@ -84,6 +85,7 @@ width: fit-content ;
 
 /* STYLES FOR MAIN TEMPLATE ONLY */
 #data-form-frame {
+outline :1px solid red ;
 /**/
 width: 100vw ;
 height :100vh;
@@ -106,17 +108,43 @@ background-repeat: no-repeat ;
 margin-bottom: 0.75rem ;
 }
 
+.feet-value {
+ display:  var(--feet-view-style);
+}
+
 #data-capture {
+outline :1px solid magenta ;
 position:relative ;
 }
 
-ul {
+#std-ul, #xpan-ul{
+outline :1px solid lightgreen ;
+
 text-decoration: none ;
 padding :0;
 margin-bottom: 12rem;
 }
 
-li {outline :1px solid transparent ;
+/*
+#std-ul, #misc-ul{
+outline :1px solid lightgreen ;
+
+text-decoration: none ;
+padding :0;
+margin-bottom: 12rem;
+}
+*/
+/*
+#xpan-ul {
+  display :block ;
+}
+
+#std-ul {
+display :none ;
+}
+*/
+
+li {outline :1px solid yellow ;
 /* outline :1px solid lightgreen ; */
 width: fit-content ;
 display: flex ;
@@ -126,7 +154,6 @@ justify-content :flex-start ;
 align-items :center ;
 position:absolute;
       top:-400%;
-
 }
 
 input[type="number"] {
@@ -134,7 +161,26 @@ width :4rem;
 margin: 0.5rem ;
 }
 
-#load-measurements {
+input[type="radio"] {
+  font-size :1.5rem ;
+width :1.5rem;
+margin: 0.25rem ;
+}
+#isolated {
+  margin-left :2.5rem;
+}
+/*
+.radio-pair {
+width: 75vw;
+}
+*/
+
+#curved-slat, #yes-windlock, #yes-slidebolt, #yes-astragal{
+width: 1rem;
+}
+
+
+#load-measurements, #calc-results{
   /*
   background-color and color controlled by JavaScript
 */
@@ -147,14 +193,15 @@ bottom : 7.5rem ;
 font-weight: bold ;
 }
 
-
-#load-measurements:mousedown{
+/*
+#load-measurements:active:hover, #calc-results:active:hover {
 outline :1px solid white ;
 background-color: black ;
 color: white ;
 font-weight :bold ;
 }
-  
+*/
+
 #pages-flow-ctrl {
   outline :1px solid transparent ;
   width: 99.5%;
@@ -186,7 +233,7 @@ background-color: black ;
 color: white ;
 font-weight :bold ;
 } 
-  */
+
   
   /*
   background-color and color controlled by JavaScript
@@ -215,3 +262,48 @@ color: white ;
 font-weight :bold ;
 }
 */
+
+/* STYLES FOR RESULT TEMPLATE ONLY */
+.result-span {
+  display:inline-block;
+width:8rem;
+}
+
+.radio-btns {
+  width: 100%;
+  height :fit-content ;
+display: flex;
+flex-direction:row;
+flex-wrap :nowrap ;
+justify-content: space-around ;
+align-items:center ;
+margin-top: 0.5rem ;
+}
+
+#optimal-spring-div, #spring-on-hand-div {
+display: block  ;
+margin: 0 auto ;
+}
+
+h4 {
+text-align :center ;
+margin-top: 0.5rem ;
+}
+
+/*  TEST BUTTON */
+#test {
+outline :1px solid black ;
+border: 1px solid transparent ;
+border-radius: 0.4rem;
+background-color: lightgray ;
+font-size: 2rem;
+color: darkblue ;
+font-weight :bold ;
+margin-top: 4rem;
+}
+
+#test:active:hover {
+outline :1px solid white ;
+background-color: darkblue ;
+color: yellow ;
+}
