@@ -26,7 +26,7 @@ let rd = {
     pageHeader: 'Wall Cutout:',
     sketchFileName: 'url(wallCutout.jpg)',
     noOfDataPoints: 5,
-    ftPresets: [12, 10, 3, 2, 1],
+    ftPresets: [11, 9, 3, 2, 1],
     inchesPresets: [0, 0, 1, 2, 3],
     ftView: ['inline-block' , 'inline-block' , 'inline-block', 'inline-block', 'inline-block'],
     labels: ['Width',
@@ -56,20 +56,17 @@ let rd = {
     objNo: 2,
     pageHeader: 'Barrel:',
     sketchFileName: 'url(barrel.jpg)',
-    noOfDataPoints: 3,
-    ftPresets: [0,0,0],
-    inchesPresets: [4.625, 1, 7.75],
-    ftView: ['none' , 'none' , 'none'],
-    labels: ['Tube Diameter',
-      'Ring Style',
-      'Rings Diameter'],
-    datumKeys: ['tubeDiameter',
-      'ringStyle',
-      'ringsDiameter'],
+    noOfDataPoints: 1,
+    ftPresets: [0],
+    inchesPresets: [2],
+    ftView: ['none'],
+    labels: ['Barrel Style'],
+    datumKeys: ['barrelStyle'],
     datumValues: [],
     dataPoints: {
-     tubeDiameter: 7.75
-     
+     /*
+     barrelStyle: 4
+     */
     },
     prevObjName: 'wallCutout',
     activeObjName: 'barrel',
@@ -80,12 +77,12 @@ let rd = {
     objNo: 3,
     pageHeader: 'Slats:',
     sketchFileName: 'url(slats.jpg)',
-    noOfDataPoints: 1,
-    ftPresets: [0],
-    inchesPresets: [20],
-    ftView: ['none'],
-    labels: ['Gauge'],
-    datumKeys: ['thickness'],
+    noOfDataPoints: 2,
+    ftPresets: [0, 0],
+    inchesPresets: [1, 22],
+    ftView: ['none', 'none'],
+    labels: ['Slats Style', 'Gauge'],
+    datumKeys: ['slatStyle', 'thickness'],
     datumValues: [],
     dataPoints: {},
     prevObjName: 'barrel',
@@ -111,10 +108,10 @@ let rd = {
       'bbAnglesAmount'],
     datumValues: [],
     dataPoints: {
-     bbAngleHorizontalSide:2,
-     bbAngleVerticalSide:2,
-     bbAngleThickness:0.1250,
-     bbAnglesAmount: 2
+     bbAngleHorizontalSide: 0,
+     bbAngleVerticalSide: 0,
+     bbAngleThickness: 0,
+     bbAnglesAmount: 0
     },
     prevObjName: 'slats',
     activeObjName: 'bottomBar',
@@ -127,14 +124,15 @@ let rd = {
     sketchFileName: 'url(spring.jpg)',
     noOfDataPoints: 1,
     ftPresets: [0],
-    inchesPresets: [3.0625],
+    inchesPresets: [3.0000],
     ftView: ['none'],
     labels: ['Internal Diameter'],
     datumKeys: ['intDia'],
     datumValues: [],
     dataPoints: {
+     /*
      intDia: 3.0635
-     
+     */
     },
     prevObjName: 'bottomBar',
     activeObjName: 'spring',
@@ -145,27 +143,28 @@ let rd = {
     objNo: 6,
     pageHeader: 'Other Items:',
     sketchFileName: 'url(misc.jpg)',
-    noOfDataPoints: 5,
-    ftPresets: [0, 0, 0, 0, 0],
-    inchesPresets: [1, 1, 0, 1, 1],
-    ftView: ['none', 'none' , 'none', 'none', 'none'],
-    labels: ['Slats Style',
+    noOfDataPoints: 4,
+    ftPresets: [0, 0, 0, 0],
+    inchesPresets: [3, 0, 1, 1],
+    ftView: ['none' , 'none', 'none', 'none'],
+    labels: [
       'Endlocks Style',
       'Windlocks',
-      'Slide Bolts',
-      'Astragal'],
-    datumKeys: ['slatStyle',
+      'Slidebolts',
+      'Astragal Style'],
+    datumKeys: [
       'endlockStyle',
       'useWindlocks',
-      'useSlideBolts',
-      'useAstragal'],
-    datumValues: ['curvedSlat', 'metalEndlocks', false, true, true],
+      'slideBoltsStyle',
+      'astragalStyle'],
+    datumValues: [],
     dataPoints: {
-     slatStyle: 1,
-     endlockStyle: 1, 
+     /*
+     endlockStyle: 0, 
      useWindlocks: 0,
-     useSlideBolts: 1,
-     useAstragal: 1
+     slideBoltsStyle: 0,
+     astragalStyle: 0
+     */
     },
     prevObjName: 'spring',
     activeObjName: 'misc',
@@ -204,14 +203,14 @@ let rd = {
       'Length',
       'Amount of Turns',
       'Weight'],
-    datumKeys: ['wireDiameter',
+    datumKeys: ['selectedWireDiam',
       'internalDiameter',
       'width',
       'amountOfTurns',
       'weight'],
     datumValues: [],
     dataPoints: {
-     wireDiameter: 0.4062,
+     selectedWireDiam: 0,
       internalDiameter: 0,
       width: 0,
       amountOfTurns: 0,
@@ -222,7 +221,6 @@ let rd = {
     nextObjName: 'result'
   }
 };
-
 
 //  Global variables
 let activeObj; // global due to numerous times used
@@ -296,17 +294,8 @@ function displayPageName () {
   const pageName = document.querySelector('#name-of-component-obj');
   pageName.innerHTML = `pageName is: ${returnTheActivePageName()}`;
 }
-// function not used:
-function ulShowHideCtrl () {
-  if (activeObj.objNo === 8) {
-  // Note: 8 is the result page. For result page, the std ul must be hidden in favor of the span ul. 
-document.querySelector('#std-ul'). style.display='none';
-document.querySelector('#span-ul').style.display='inline-block';
-  }else{
-document.querySelector('#std-ul').style.display='inline-block';
-document.querySelector('#span-ul'). style.display='none';
-  }
-}
+
+// ulShowHideCtrl() no longer used:
 
 /*
 Populate the page's top heather:
@@ -404,6 +393,8 @@ window.onload = function () {
   const templateId = returnTemplateId();
   // Chk if home template
   if (templateId === 'home') {
+   // Clear localStorage
+   window.localStorage.clear();
     // Initialize LocSt w/ home's Page Name:
     homePageNameToLocSto();
     allowSwitchingToNextPage = true;
@@ -423,7 +414,7 @@ window.onload = function () {
   //Display component sketch:
   PopulateCompSketchFrame();
 
-  ulShowHideCtrl();
+  //ulShowHideCtrl();
 
   updatePrevBtnLabel();
 
@@ -568,10 +559,7 @@ function mousedownCaptureBtnAnimation () {
 const animateCaptureBtnColors = document.querySelector ('#load-measurements');
 animateCaptureBtnColors.addEventListener('mousedown', mousedownCaptureBtnAnimation); 
 
-// Function not used
-function rdObjFromLocSto () {
-let rd=JSON.parse(window.localStorage.getItem('rd'));
-}
+// rdObjFromLocSto() no longer used:
 
 function readDataFormValues () {
   // Collect inches data
@@ -643,12 +631,8 @@ function updateBtnsStyles () {
   // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
   setTimeout(()=>afterDataCapturedBtnStyles(), 175);
 }
-// Function not used:
-function retrieveALocStoObj (objName) {
-const retrievedObj=JSON.parse(window.localStorage.getItem(objName));
-console.log(`Pulled ${objName}: `, retrievedObj);
-}
 
+// retrieveALocStoObj() no longer used:
 
 function saveACompDataToActiveObj () {
   // rdObjFromLocSto();
@@ -661,106 +645,14 @@ function saveACompDataToActiveObj () {
   // retrieveALocStoObj(`${activeObj.activeObjName}`);
 }
 
-const miscPartsObj={
-  curvedSlat: {curveC_Value: 0.505}, 
-  flatSlat: {flatC_Value: 0.405},
-  
-  metalEndlock: {metalEndlockThickness: 0.25},
-  plasticEndlock: {plasticEndlockThickness: 0.25},
-  noneEndlock: {noneEndlockThickness: 0},
-  
-noWindlock: {useWindlocks: false}, 
-yesWindlock: {useWindlocks: true},
+//miscPartsObj no longer used
 
-noSlidebolt: {useSlidebolts: false}, 
-yesSlidebolt: {useSlidebolts: true},
+// saveRadioDataToDatumValues() no longer used
 
-noAstragal: {useAstragal: false}, 
-yesAstragal: {useAstragal: true},
-};
+// saveMisc1DataToActiveObj() no longer used
 
-function saveRadioDataToDatumValues () {
-// Slat style data capture:
-const curvedSlatRadioBtn=document.querySelector('#curved-slat');
-const flatSlatRadioBtn=document.querySelector('#flat-slat');
+// saveMisc2DataToActiveObj() no longer used
 
-if (curvedSlatRadioBtn.checked) {
-activeObj.datumValues[0]=miscPartsObj.curvedSlat.curveC_Value;
-}else if (flatSlatRadioBtn.checked) {
-activeObj.datumValues[0]=miscPartsObj.flatSlat.flatC_Value;
-}else{
-// NOP
-}
-
-// Endlock style data capture:
-const metalEndlockRadioBtn=document.querySelector('#metal-endlock');
-const plasticEndlockRadioBtn=document.querySelector('#plastic-endlock');
-const noneEndlockRadioBtn=document.querySelector('#none-endlock');
-
-if (metalEndlockRadioBtn.checked) {
-activeObj.datumValues[1]=miscPartsObj.metalEndlock.metalEndlockThickness;
-} else if (plasticEndlockRadioBtn.checked) {
-activeObj.datumValues[1]=miscPartsObj.plasticEndlock.plasticEndlockThickness;
-}else if (noneEndlockRadioBtn.checked) {
-activeObj.datumValues[1]=miscPartsObj.noneEndlock.noneEndlockThickness;
-}else{
-// NOP
-}
-
-// Windlock style data capture:
-const yesWindlockRadioBtn=document.querySelector('#yes-windlock');
-const noWindlockRadioBtn=document.querySelector('#no-windlock');
-
-if (yesWindlockRadioBtn.checked) {
-activeObj.datumValues[2]=miscPartsObj.yesWindlock.useWindlocks;
-}else if (noWindlockRadioBtn.checked) {
-activeObj.datumValues[2]=miscPartsObj.noWindlock.useWindlocks;
-}else{
-// NOP
-}
-
-// Slidebolt style data capture:
-const yesSlideboltRadioBtn=document.querySelector('#yes-slidebolt');
-const noSlideboltRadioBtn=document.querySelector('#no-slidebolt');
-
-if (yesSlideboltRadioBtn.checked) {
-activeObj.datumValues[3]=miscPartsObj.yesSlidebolt.useSlidebolts;
-}else if (noSlideboltRadioBtn.checked) {
-activeObj.datumValues[3]=miscPartsObj.noSlidebolt.useSlidebolts;
-}else{
-// NOP
-}
-
-// Astragal style data capture:
-const yesAstragalRadioBtn=document.querySelector('#yes-astragal');
-const noAstragalRadioBtn=document.querySelector('#no-astragal');
-
-if (yesAstragalRadioBtn.checked) {
-activeObj.datumValues[4]=miscPartsObj.yesAstragal.useAstragal;
-}else if (noAstragalRadioBtn.checked) {
-activeObj.datumValues[4]=miscPartsObj.noAstragal.useAstragal;
-}else{
-// NOP
-}
-console.log (activeObj.datumValues);
-
-}
-// function no longer used:
-function saveMisc1DataToActiveObj () {
-  saveRadioDataToDatumValues();
-buildDataPointObjIntoActiveObj();
-/*
-  normalizeDataPointValuesToInches();
-  saveMiscPointValuesToActiveObj();
-  buildDataPointObjIntoActiveObj();
-  */
-  updateBtnsStyles();
-}
-// function no longer used:
-function saveMisc2DataToActiveObj () {
-// tbd
-updateBtnsStyles();
-}
 const captureDataBtn = document.querySelector('#load-measurements');
 captureDataBtn.addEventListener('mouseup', function () {
   // The Misc Data Form format requires a handler taylored to its specific format (radio buttons.)
@@ -809,6 +701,7 @@ rd.spring.dataPoints=JSON.parse(window.localStorage.getItem('spring'));
 rd.misc.dataPoints=JSON.parse(window.localStorage.getItem('misc'));
 
 rd.misc2.dataPoints=JSON.parse(window.localStorage.getItem('misc2'));
+
 console.log('@@@@ Updated RD Obj: @@@@', {rd});
 
 /*
@@ -824,86 +717,96 @@ destination=JSON.parse(window.localStorage.getItem(`${source}`));
 
 /* Lookup Object for RD Invariant Data*/
 const constDat={
-slatOverlapWithWallBetweenJamb: -5.25, 
+slatOverlapWithWallBetweenJamb: -8.75, 
 slatOverlapWithWallIntMount: 5.25,
 slatOverlapWithWallExtMount: 7.25,
 
-curvedWindlockThickness: 0.5000,
+curvedCastironWindlockThickness: 0.2500,
+flatCastironWindlockThickness: 0.5000,
 
+noEndlockThickness: 0.0000,
+curvedNylonEndlockThickness: 0.3125,
+curvedStampedEndlockThickness: 0.46875,
+curvedCastironEndlockThickness: 0.2500,
+
+flatNylonEndlockThickness: 0.3125,
+flatStampedEndlockThickness: 0.5000,
+flatCastironEndlockThickness: 0.5000,
+
+noEndlockUnitWeight: 0.0000,
+curvedNylonEndlockUnitWeight: 0.0400,
+curvedStampedEndlockUnitWeight: 0.1800,
+curvedCastironEndlockUnitWeight: 0.1600,
+flatNylonEndlockUnitWeight: 0.3125,
+flatStampedEndlockUnitWeight: 0.1406,
+flatCastironEndlockUnitWeight: 0.2130,
 intertrackGap: 0.7500,
 
-curvedStampedwindlockThickness: 0.02500,
-curvedCastironWindlockThickness: 0.02500,
-
-flatStampedWindlocklockThickness: 0.02500,
-flatCastironWindlockThickness: 0.02500,
-
-noEndlockThickness: 0,
-curvedNylonEndlockThickness: 0.02500,
-curvedStampedEndlockThickness: 0.02500,
-curvedCastironEndlockThickness: 0.02500,
-
-flatNylonEndlockThickness: 0.02500,
-flatStampedEndlockThickness: 0.02500,
-flatCastironEndlockThickness: 0.02500,
+// Slat material thicknesses:
 /*
 curvedSlatThickness24G: 0.0028,
 curvedSlatThickness22G: 0.0032,
-curvedSlatThickness20G: 0.0036,
+curvedSlatThickness20G: 0.0038,
 curvedSlatThickness18G: 0.0050,
 flatSlatThickness24G:  0.0028,
 flatSlatThickness22G: 0.0032,
 flatSlatThickness20G: 0.0036,
 flatSlatThickness18G: 0.0050,
 */
-slatLinearInchWeight24G: 0.04430, 
-slatLinearInchWeight22G: 0.04833, 
-slatLinearInchWeight20G: 0.05316, 
-slatLinearInchWeight18G: 0.05907, 
+slatLinearInchWeight24G: 0.042285, 
+slatLinearInchWeight22G: 0.048325, 
+slatLinearInchWeight20G: 0.057386, 
+slatLinearInchWeight18G: 0.075508, 
 
 bbStopDistanceBelowEndPlate:1.5, 
 
 endplateWallEdgeToTrackMiddle: 2, 
+ /* Tube Diameter size order:
+ Smaller is 1. Larger is 6. */
+barrelTube4inchDia: 4.5000,
+barrelTube6inchDia: 6.5000,
+barrelSmallYoyo: 6.7000,
+barrelSpiralRing: 7.7500,
+barrelBigYoyo: 8.1875,
+barrelTube8inchDia: 8.6250,
 
-barrelTube4inchDia: 4.5,
-barrelTube6inchDia: 6.5,
-barrelTube8inchDia: 8.5,
-barrelBigYoyo: 8.2,
-barrelSmallYoyo: 4.3,
-barrelSpiralRing: 7.75,
-
-slatC_value4inchTubeCurvedSlat: 0.5455,
+slatC_value4inchTubeCurvedSlat: 0.5357,
 slatC_value6inchTubeCurvedSlat: 0.5455,
-slatC_value8inchTubeCurvedSlat: 0.5455,
-slatC_valueBigYoyoCurvedSlat: 0.5455, 
 slatC_valueSmallYoyoCurvedSlat: 0.5455,
 slatC_valueRimCurvedSlat: 0.5455, 
+slatC_valueBigYoyoCurvedSlat: 0.5417,
+slatC_value8inchTubeCurvedSlat: 0.5455,
 
-slatC_value4inchTubeFlatSlat: 0.5455,
-slatC_value6inchTubeFlatSlat: 0.5455, 
-slatC_value8inchTubeFlatSlat: 0.5455, 
+slatC_value4inchTubeFlatSlat: 0.5714,
+slatC_value6inchTubeFlatSlat: 0.7500, 
+slatC_valueSmallYoyoFlatSlat: 0.7500,
+slatC_valueRimFlatSlat: 0.7000, 
 slatC_valueBigYoyoFlatSlat: 0.5455,
-slatC_valueSmallYoyoFlatSlat: 0.5455,
-slatC_valueRimFlatSlat: 0.5455, 
+slatC_value8inchTubeFlatSlat: 0.5455,
+
+curvedSlatVerticalContribution: 2.9000,
+flatSlatVerticalContribution: 2.6000,
+
+noAstragalInchLinearWeight: 0,
+vinylAstragalLinearInchWeight: 0.02083,
+rubberAstragalLinearInchWeight:0.02310,
+
+doNotUseSlidebolts: 0,
+useSlidebolts: 2.5000,//1 slidebolt lb
 
 lowCarbSteelSpecificWeight: 0.2836, 
 highCarbSteelSpecificWeight: 0.284, 
-oneSlideBoltWeight: 2.5,
 
 bbBeyondWallCutoutHeight: 0.5, 
-vinylAstragalLinearInchWeight: 0.02083,
-rubberAstragalLinearInchWeight:0.02083,
 
 bbStopFlagStyleVerticalToll: 0.0000,
 bbStopFlatBarStyleVerticalToll: 1.5000,
 
-endPlateSizes: {
 endPlate12: 12,
 endPlate14: 14,
 endPlate15: 15.5,
 endPlate16: 16,
 endPlate18: 18
-},
 
 };
 
@@ -917,29 +820,58 @@ slatLinearInchWeight: 0,
 
 endplateSize: 14,
 
-barrelDiameter: 7.75,
+barrelDiameter: 0,
 
-slatC_value: 0.5455,
+slatC_value: 0,
 
+slatVerticalContribution: 0,
 
+oneEndlockWeight: 0, 
 
-slatVerticalContribution: 2.90, 
-oneEndlockWeight: 0.0160, 
+oneSlideBoltWeight: 0,
 
+astragalLinearInchWeight: 0,
 
-astragalLinearInchWeight: 0.02083, 
- mySpring: {
- wireDiameter: 0.4062,
- internalDiameter: 0,
- size: 0,
- amountOfTurns: 0,
- weight: 0
-}
+// Evaluation of functions:
+slatAssemblyWidth: 0,
+slatWidth: 0,
+oneSlatWeight: 0,
+closedHangingHeight: 0,
+closedHangingSlatCount: 0,
+closedEndlocksCount: 0,
+bbAnglesWeight: 0,
+astragalWeight: 0,
+slideboltsWeight: 0,
+bbAssemblyWeight: 0,
+closedHangingWeight: 0,
+lowMomentArm: 0,
+requiredInchPound: 0,
+
+hGoal: 0, 
+/* Hardcoded value for debugging. RD curved slats, iron endlocks, no windlocks, 11x9, 6" tube, with slidebolts and astragal.
+*/
+rO: 5.5833, 
+dR: 4.0278,
+openHangingHeight: 0,
+openHangingSlatCount: 0,
+openEndlocksCount: 0,
+openHangingWeight: 0,
+
+ippt: 0,
+
+springLength: 0,
+selectedWireDiam: 0,
+amountOfTurns: 0,
+internalDiameter: 0,
+springWeight: 0
+
 };
 
 // Post data entry error message:
- function dataEntryError (errMssg='USER ENTERED ERRONEOUS DATA ON AN INPUT FORM!!') {
+ function dataEntryError (errMssg='ERROR! WRONG DATA ENTERED ON AN INPUT FORM!!') {
  // Display an error message
+ document.querySelector('#bullet-text').textContent=errMssg;
+ 
  console.log(`${errMssg}`);
  }
  
@@ -947,21 +879,26 @@ astragalLinearInchWeight: 0.02083,
  function buildCalcDat () {
 // SLAT OVERLAP WITH WALL 
  if(rd.misc2.dataPoints.mounting===0) {
+// BJ mount
   calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallBetweenJamb;
 }else if(rd.misc2.dataPoints.mounting===1) {
+ // Interior mount
  calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallIntMount;
 }else if(rd.misc2.dataPoints.mounting===2){
+ // Exterior mount
 calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallExtMount;
  }else{
- dataEntryError();
+// Invalid slat mounting entry
+dataEntryError('Invalid mounting style entry'); 
  }
+ 
 // SLAT TERMINATION THICKNESS
 // @@@@@@@@@@@@@@@@@@@@@@@@
-if (rd.misc.dataPoints.slatStyle===1) {
+if (rd.slats.dataPoints.slatStyle===1) {
 // Using curved slat
 // @@@@@@@@@@@@@@@@@@@@@@@@
 if (rd.misc.dataPoints.useWindlocks===1) {
-// Using windlock
+// Using windlock1
 calcDat.slatTerminationThickness=constDat.curvedCastironWindlockThickness;
 }else if (rd.misc.dataPoints.useWindlocks===0) {
 // Not using windlock
@@ -970,10 +907,10 @@ if (rd.misc.dataPoints.endlockStyle===0) {
  // Don't use endlocks
  calcDat.slatTerminationThickness=constDat.noEndlockThickness;
 }else if (rd.misc.dataPoints.endlockStyle===1) {
- // Use nylon endlocks
+ // Use nylon endlocks1
 calcDat.slatTerminationThickness=constDat.curvedNylonEndlockThickness;
 }else if (rd.misc.dataPoints.endlockStyle===2) {
- // Use stamped endlocks
+ // Use stamped endlocks1
 calcDat.slatTerminationThickness=constDat.curvedStampedEndlockThickness;
 }else if (rd.misc.dataPoints.endlockStyle===3) {
  // Use iron endlocks
@@ -987,8 +924,8 @@ dataEntryError('Invalid endock style entry');
 // Invalid windlock style entry
 dataEntryError('Invalid windlock style entry'); 
 }
-
-} else if (rd.misc.dataPoints.slatStyle===2) {
+// @@@@@@@@@@@@@@@@@@@@@@@@
+} else if (rd.slats.dataPoints.slatStyle===2) {
 // Using flat slat
 // @@@@@@@@@@@@@@@@@@@@@@@@
 if (rd.misc.dataPoints.useWindlocks===1) {
@@ -1023,7 +960,59 @@ dataEntryError('Invalid windlock style entry');
 // Invalid slat style entry
 dataEntryError('Invalid slat style entry'); 
 }
- // §
+
+// ONE ENDLOCK WEIGHT
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.slats.dataPoints.slatStyle===1) {
+// Using curved slat
+// @@@@@@@@@@@@@@@@@@@@@@@@
+// Not using windlock
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.endlockStyle===0) {
+ // Don't use endlocks
+ calcDat.oneEndlockWeight=constDat.noEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===1) {
+ // Use nylon endlocks1
+calcDat.oneEndlockWeight=constDat.curvedNylonEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===2) {
+ // Use stamped endlocks1
+calcDat.oneEndlockWeight=constDat.curvedStampedEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===3) {
+ // Use iron endlocks
+calcDat.oneEndlockWeight=constDat.curvedCastironEndlockUnitWeight;
+}else{
+// Invalid endock style entry
+dataEntryError('Invalid endock style entry'); 
+}
+
+// @@@@@@@@@@@@@@@@@@@@@@@@
+} else if (rd.slats.dataPoints.slatStyle===2) {
+// Using flat slat
+// @@@@@@@@@@@@@@@@@@@@@@@@
+// Not using windlock
+// @@@@@@@@@@@@@@@@@@@@@@@@
+if (rd.misc.dataPoints.endlockStyle===0) {
+ // Don't use endlocks
+ calcDat.oneEndlockWeight=constDat.noEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===1) {
+ // Use nylon endlocks
+calcDat.oneEndlockWeight=constDat.flatNylonEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===2) {
+ // Use stamped endlocks
+calcDat.oneEndlockWeight=constDat.flatStampedEndlockUnitWeight;
+}else if (rd.misc.dataPoints.endlockStyle===3) {
+ // Use iron endlocks
+calcDat.oneEndlockWeight=constDat.flatCastironEndlockUnitWeight;
+}else{
+// Invalid endock style entry
+dataEntryError('Invalid endock style entry'); 
+}
+
+}else{
+// Invalid slat style entry
+dataEntryError('Invalid slat style entry'); 
+}
+
 // SLAT LINEAR INCH WEIGHT
 if (rd.slats.dataPoints.thickness===24) {
 calcDat.slatLinearInchWeight=constDat.slatLinearInchWeight24G;
@@ -1037,186 +1026,243 @@ calcDat.slatLinearInchWeight18G;
 // Invalid slat gauge entry
 dataEntryError('Invalid slat gauge entry');
 }
+
+// BARREL DIAMETER
+ // Tube Diameter size order: Smaller is 1. Larger is 6.
+if (rd.barrel.dataPoints.barrelStyle===1) {
+ // 4 inch tube diameter choice
+calcDat.barrelDiameter=constDat.barrelTube4inchDia;
+
+}else if (rd.barrel.dataPoints.barrelStyle===2) {
+ // 6 inch tube diameter choice
+ calcDat.barrelDiameter=constDat.barrelTube6inchDia;
+ 
+}else if (rd.barrel.dataPoints.barrelStyle===3) {
+ // Small yoyo tube diameter choice
+ calcDat.barrelDiameter=constDat.barrelSmallYoyo;
+ 
+}else if (rd.barrel.dataPoints.barrelStyle===4) {
+ // Spiral ring choice
+ calcDat.barrelDiameter=constDat.barrelSpiralRing;
+ 
+}else if (rd.barrel.dataPoints.barrelStyle===5) {
+ // Big yoyo tube diameter choice
+ calcDat.barrelDiameter=constDat.barrelBigYoyo;
+ 
+}else if (rd.barrel.dataPoints.barrelStyle===6) {
+ // 8 inch tube diameter choice
+ calcDat.barrelDiameter=constDat.barrelTube8inchDia;
+}else{
+// Invalid barrel style
+dataEntryError('Invalid barrel style');
+}
+
 // SLAT "C" VALUE
-if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
-}else if (true) {
- 
+if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===1) {
+calcDat.slatC_value=constDat.slatC_value4inchTubeCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===2) {
+calcDat.slatC_value=constDat.slatC_value6inchTubeCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===3) {
+calcDat.slatC_value=constDat.slatC_valueSmallYoyoCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===4) {
+calcDat.slatC_value=constDat.slatC_valueRimCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===5) {
+calcDat.slatC_value=constDat.slatC_valueBigYoyoCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===1 && rd.barrel.dataPoints.barrelStyle===6) {
+calcDat.slatC_value=constDat.slatC_value8inchTubeCurvedSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===1) {
+calcDat.slatC_value=constDat.slatC_value4inchTubeFlatSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===2) {
+calcDat.slatC_value=constDat.slatC_value6inchTubeFlatSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===3) {
+calcDat.slatC_value=constDat.slatC_valueSmallYoyoFlatSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===4) {
+calcDat.slatC_value=constDat.slatC_valueRimFlatSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===5) {
+calcDat.slatC_value=constDat.slatC_valueBigYoyoFlatSlat;
+
+}else if (rd.slats.dataPoints.slatStyle===2 && rd.barrel.dataPoints.barrelStyle===6) {
+calcDat.slatC_value=constDat.slatC_value8inchTubeFlatSlat;
+
+}else{
+// Invalid slat, or barrel style
+dataEntryError('Either, invalid slat or barrel style');
 }
 
-
-
-slatC_valueRimCurvedSlat: 0.5455, 
-slatC_value6inchTubeCurvedSlat: 0.5455,
-slatC_value8inchTubeCurvedSlat: 0.5455,
-slatC_valueYoyoCurvedSlat: 0.5455, 
-slatC_valueRimFlatSlat: 0.5455, 
-slatC_value6inchTubeFlatSlat: 0.5455, 
-slatC_value8inchTubeFlatSlat: 0.5455, 
-slatC_valueYoyoFlatSlat
-
+// SLAT VERTICAL CONTRIBUTION
+if (rd.slats.dataPoints.slatStyle===1) {
+calcDat.slatVerticalContribution=constDat.curvedSlatVerticalContribution;
+} else if (rd.slats.dataPoints.slatStyle===2) {
+ calcDat.slatVerticalContribution=constDat.flatSlatVerticalContribution;
+}else{
+// Invalid slat style
+dataEntryError('Invalid slat style');
 }
 
-/* CURTAIN ASSEMBLY CALCULATIONS */
+// ASTRAGAL LINEAR INCH WEIGHT 
+if (rd.misc.dataPoints.astragalStyle===0) {
+calcDat.astragalLinearInchWeight=constDat.noAstragalInchLinearWeight;
+}else if (rd.misc.dataPoints.astragalStyle===1) {
+calcDat.astragalLinearInchWeight=constDat.vinylAstragalLinearInchWeight;
+}else if (rd.misc.dataPoints.astragalStyle===2) {
+calcDat.astragalLinearInchWeight=constDat.rubberAstragalLinearInchWeight;
+}else{
+// Invalid astragal style
+dataEntryError('Invalid astragal style');
+}
+
+// ONE SLIDEBOLT WEIGHT
+if (rd.misc.dataPoints.slideBoltsStyle===0) {
+ calcDat.oneSlideBoltWeight=constDat.doNotUseSlidebolts;
+}else if (rd.misc.dataPoints.slideBoltsStyle===1) {
+calcDat.oneSlideBoltWeight=constDat.useSlidebolts;
+} else {
+// Invalid slidebolts style
+dataEntryError('Invalid slidebolts style');
+}
+
+// BOTTOM BAR VERTICAL TRAVEL (hGoal)
+calcDat.hGoal=rd.wallCutout.dataPoints.height + constDat.bbBeyondWallCutoutHeight;
+
+// SPRING INTERNAL DIAMETER 
+calcDat.internalDiameter=rd.spring.dataPoints.intDia;
+
+console.log('buildCalcDat(): ', {calcDat});
+}
+
+/* CLOSED ASSEMBLY CALCULATIONS */
 // Slat width
 function slatAssemblyWidth () {
 const assembledSlatWidth=rd.wallCutout.dataPoints.width+calcDat.slatOverlapWithWall;
-console.log('assembledSlatWidth: ', {assembledSlatWidth});
+calcDat.slatAssemblyWidth=assembledSlatWidth;
+console.log('slatAssemblyWidth(): ', {assembledSlatWidth});
 return assembledSlatWidth;}
 
 function slatWidth () {
- const widthOfSlat=slatAssemblyWidth()-(2*calcDat.slatTerminationThickness) ;
-console.log('widthOfSlat: ', {widthOfSlat});
+ const widthOfSlat=calcDat.slatAssemblyWidth-(2*calcDat.slatTerminationThickness);
+calcDat.slatWidth=widthOfSlat;
+console.log('slatWidth(): ', {widthOfSlat});
 return widthOfSlat;}
 
 function oneSlatWeight () {
-const oneSlatPounds=calcDat.slatLinearInchWeight*slatWidth();
-console.log('oneSlatWeight: ', {oneSlatPounds});
+const oneSlatPounds=calcDat.slatLinearInchWeight*calcDat.slatWidth;
+calcDat.oneSlatWeight=oneSlatPounds;
+console.log('oneSlatWeight(): ', {oneSlatPounds});
 return oneSlatPounds;}
 
 function closedHangingHeight () {
  // Upper end of track to tube attachment
  const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
- const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + rd.barrel.dataPoints.tubeDiameter)/2); 
+ const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + calcDat.barrelDiameter)/2); 
  const d=(a*a) + (b*b);
  const c=Math.sqrt(d);
  
 const linearHeight= 
  /*
- Math.PI()*(rd.barrel.dataPoints.tubeDiameter + slatC_value/2)/2 + // Not used for closed hanging weight.
+ Math.PI()*(calcDat.barrelDiameter + slatC_value/2)/2 + // Not used for closed hanging weight.
  */
  c
  +
  (rd.wallCutout.dataPoints.height + constDat.bbBeyondWallCutoutHeight);
  
-console.log('closedHangingHeight: ', {linearHeight});
+ calcDat.closedHangingHeight=linearHeight;
+console.log('closedHangingHeight(): ', {linearHeight});
 
 return linearHeight;}
 
 function closedHangingSlatCount () {
 // Substract 1 that belongs to the BB
-const slatCount=(closedHangingHeight()/calcDat.slatVerticalContribution)-1;
-console.log('closedHangingSlatCount: ', {slatCount});
+const slatCount=(calcDat.closedHangingHeight/calcDat.slatVerticalContribution)-1;
+
+calcDat.closedHangingSlatCount=slatCount;
+console.log('closedHangingSlatCount(): ', {slatCount});
 return slatCount;}
 
 function closedEndlocksCount () {
 let endlocksCount;
-let roundedOffSlatCnt=Math.round(closedHangingSlatCount());
+let roundedOffSlatCnt=Math.round(calcDat.closedHangingSlatCount);
  // If slat count even
 if(roundedOffSlatCnt % 2===0) {
 endlocksCount = roundedOffSlatCnt;
 }else{ // If slat count odd
 endlocksCount = roundedOffSlatCnt + 1;
 }
-console.log('closedEndlocksCount: ', {endlocksCount});
+
+calcDat.closedEndlocksCount=endlocksCount;
+console.log('closedEndlocksCount(): ', {endlocksCount});
 return endlocksCount;}
 
 function bbAnglesWeight () {
-const oneAngleVolume=(rd.bottomBar.dataPoints.bbAngleVerticalSide*rd.bottomBar.dataPoints.bbAngleThickness+(rd.bottomBar.dataPoints.bbAngleHorizontalSide-rd.bottomBar.dataPoints.bbAngleThickness)*rd.bottomBar.dataPoints.bbAngleThickness) *slatWidth();
+ /*
+ console.log('bbAngleVerticalSide', `${rd.bottomBar.dataPoints.bbAngleVerticalSide}`,'bbAngleHorizontalSide', `${rd.bottomBar.dataPoints.bbAngleHorizontalSide}`,'bbAngleThickness', `${rd.bottomBar.dataPoints.bbAngleThickness}`,'bbAnglesAmount', `${rd.bottomBar.dataPoints.bbAnglesAmount}`,'slatWidth', `${calcDat.slatWidth}`);
+ */
+const oneAngleVolume=(rd.bottomBar.dataPoints.bbAngleVerticalSide*rd.bottomBar.dataPoints.bbAngleThickness+(rd.bottomBar.dataPoints.bbAngleHorizontalSide-rd.bottomBar.dataPoints.bbAngleThickness)*rd.bottomBar.dataPoints.bbAngleThickness)*(calcDat.slatWidth);
 const bbAnglesWeight=oneAngleVolume*rd.bottomBar.dataPoints.bbAnglesAmount*constDat.lowCarbSteelSpecificWeight;
-console.log('bbAnglesWeight: ', {bbAnglesWeight});
+
+calcDat.bbAnglesWeight=bbAnglesWeight;
+console.log('bbAnglesWeight(): ', {bbAnglesWeight});
 return bbAnglesWeight;} 
 
 function astragalWeight () {
-const astragalWeight=calcDat.astragalLinearInchWeight*slatWidth();
-console.log('astragalWeight: ', {astragalWeight});
+const astragalWeight=calcDat.astragalLinearInchWeight*calcDat.slatWidth;
+
+calcDat.astragalWeight=astragalWeight;
+console.log('astragalWeight(): ', {astragalWeight});
 return astragalWeight;}
 
 function slideboltsWeight () {
-const slideBoltsWeight = constDat.oneSlideBoltWeight*2;
-console.log('slideBoltsWeight: ', {slideBoltsWeight});
-return slideBoltsWeight;}
+const slideboltsWeight = calcDat.oneSlideBoltWeight*2;
+
+calcDat.slideboltsWeight=slideboltsWeight;
+console.log('slideBoltsWeight(): ', {slideboltsWeight});
+return slideboltsWeight;}
 
 // Weight of bottom Bar assembly:
 function bbAssemblyWeight () {
-const bbWeight=bbAnglesWeight() + oneSlatWeight() + astragalWeight() + slideboltsWeight();
-console.log('bbWeight: ', {bbWeight});
+const bbWeight=calcDat.bbAnglesWeight + calcDat.oneSlatWeight + calcDat.astragalWeight + calcDat.slideboltsWeight;
+
+calcDat.bbAssemblyWeight=bbWeight;
+console.log('bbAssemblyWeight(): ', {bbWeight});
 return bbWeight;}
 
 // Weight of closed curtain assembly
 function closedHangingWeight () {
 const hangingWeight =
-(closedHangingSlatCount()*oneSlatWeight())
+(calcDat.closedHangingSlatCount*calcDat.oneSlatWeight)
 + 
-(closedEndlocksCount()*calcDat.oneEndlockWeight)
+(calcDat.closedEndlocksCount*calcDat.oneEndlockWeight)
 + 
-bbAssemblyWeight();
+calcDat.bbAssemblyWeight;
 
-console.log('closedHangingWeight: ', {hangingWeight});
-
-return hangingWeight;}
-
-function openHangingHeight () {
- const a=(calcDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
- 
-console.log('nthTableRow.rO for openHangingHeight: ', nthTableRow.rO);
- 
- const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - nthTableRow.rO; 
- const d=(a*a) + (b*b);
- const linearHeight=Math.sqrt(d);
-/*
-const linearHeight=Math.sqrt(
- (calcDat.endplateSize/2)^2 + ((calcDat.endplateSize/2) - 1.5)^2
- );
- */
-console.log('openHangingHeight: ', {linearHeight});
-return linearHeight;}
-
-function openHangingSlatCount () {
- // Substract 1 that belongs to the BB
-const slatCount=(openHangingHeight()/(calcDat.slatVerticalContribution)) - 1;
-
-console.log('openHangingSlatCount: ', {slatCount});
-
-return slatCount;}
-
-function openEndlocksCount () {
-let endlocksCount;
-let roundedOffSlatCnt=Math.round(openHangingSlatCount());
- // If slat count even
-if(roundedOffSlatCnt % 2===0) {
-endlocksCount = roundedOffSlatCnt;
-}else{ // If slat count odd
-endlocksCount = roundedOffSlatCnt + 1;
-}
-console.log('openEndlocksCount: ', {endlocksCount});
-return endlocksCount;}
-
-function openHangingWeight () {
-const hangingWeight = (
- openHangingSlatCount()*oneSlatWeight())
- + 
- (openEndlocksCount()*calcDat.oneEndlockWeight) 
- + bbAssemblyWeight();
- 
-console.log('openHangingWeight: ', {hangingWeight});
+calcDat.closedHangingWeight=hangingWeight;
+console.log('closedHangingWeight(): ', {hangingWeight});
 
 return hangingWeight;}
 
 // Low moment arm rc (arm when door closed)
 function lowMomentArm () {
-const lMArm = (rd.barrel.dataPoints.tubeDiameter + calcDat.slatC_value)/2;
-console.log('lowMomentArm: ', {lMArm});
+const lMArm = (calcDat.barrelDiameter + calcDat.slatC_value)/2;
+
+calcDat.lowMomentArm=lMArm;
+console.log('lowMomentArm(): ', {lMArm});
 return lMArm;}
 
 function requiredInchPound () {
-const closedInchPounds=lowMomentArm()*closedHangingWeight();
 
-console.log('requiredInchPound: ', {closedInchPounds});
+const closedInchPounds=calcDat.lowMomentArm*calcDat.closedHangingWeight;
+
+calcDat.requiredInchPound=closedInchPounds;
+console.log('requiredInchPound(): ', {closedInchPounds});
 
 return closedInchPounds;}
 
@@ -1325,8 +1371,6 @@ function springDataSetChoice () {
 const inventorizedRadioBtn=document.querySelector('#spring-on-hand');
  const optimalRadioBtn=document.querySelector('#optimal-spring');
  
-  // § set to true for debugging purposes:
-//if(true){
 if(optimalRadioBtn.checked){
 return optimalData;}
 if(inventorizedRadioBtn.checked){
@@ -1335,11 +1379,12 @@ return inventoryData;}
 
 let requiredInchPoundsInRange;
 function selectSpringWireDiameter () {
+
 let strongEnoughWireFound = false;
 let selectedWireDiam = 0;
 const springDataSetToUse=springDataSetChoice();
 for (let i = 0; i < springDataSetToUse.length; i++) {
-if (springDataSetToUse[i][0] >= requiredInchPound()) {
+if (springDataSetToUse[i][0] >= calcDat.requiredInchPound) {
 selectedWireDiam = springDataSetToUse[i][1];
 strongEnoughWireFound = true;
 }
@@ -1353,66 +1398,24 @@ break;
 if (strongEnoughWireFound === false) {
 // Error. Excessive load for existing wire diametere
 requiredInchPoundsInRange=false;
-console.log (`Sorry. The ${requiredInchPound()} InchPound value required is too large for existing wire diameters.`);
+console.log (`Sorry. The ${calcDat.requiredInchPound} InchPound value required is too large for existing wire diameters.`);
 
 } else {
 // Save selectedWireDiam to result object as a datum value:
-activeObj.datumValues[0] = selectedWireDiam;
 
-console.log('selectedWireDiam: ', {selectedWireDiam});
+calcDat.selectedWireDiam=selectedWireDiam;
+console.log('selectSpringWireDiameter(): ', {selectedWireDiam});
 }
 return selectedWireDiam;}
- // § continue verification from this point on
 
-/*
-function saveSpringInnerDia () {
-// Save result as datum value:
-activeObj.datumValues[1] = '3.0000';
-}
-
-function springTurns () {
-// Save result as datum value:
-activeObj.datumValues[3] = '92.0000';
-}
-
-function springLength () {
-// Save result as datum value:
-activeObj.datumValues[2] = '36.0000';
-}
-
-function calcSpringWeight () {
-// Save result as datum value:
-activeObj.datumValues[4] = '32.6754';
-}
-*/
-
-// Post to DOM (results Template doc)
-function postWireDiaToResultsPage () {
-  if(requiredInchPoundsInRange){//in range:
-document.querySelector('#wire-diameter').textContent = activeObj.dataPoints.wireDiameter;
-} else{ // out of range:
-document.querySelector('#wire-diameter').style.color='magenta';
-document.querySelector('#wire-diameter').innerText=`${Math.ceil(requiredInchPound())}`;
-} 
-  
-document.querySelector('#internal-diameter').textContent = activeObj. dataPoints.internalDiameter;
-
-document.querySelector('#width').textContent = activeObj.dataPoints.width;
-
-document.querySelector('#no-of-turns').textContent = activeObj.dataPoints.amountOfTurns;
-
-document.querySelector('#weight').textContent = activeObj.dataPoints.weight;
-}
+// postWireDiaToResultsPage() no longer used:
 
 /* Start of CALCULATING SPRING LENGTH */
-// Test Data;
-
 // Initial values: 
-let barrelRadius=rd.barrel.dataPoints.tubeDiameter/2;
-// const c=0.5455;
+let r0=calcDat.barrelDiameter/2;
 
 const a=calcDat.slatC_value/(2*Math.PI);
-const thetaInit=((2*barrelRadius + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
+const thetaInit=((2*r0 + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
 const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
 const arcInit=(a*((thetaInit*sigmaInit)
 + Math.log(thetaInit+sigmaInit)))/2;
@@ -1444,7 +1447,7 @@ function iteration () {
  if (nthTableRow.iterationNo===0) {
 nthTableRow.iterationNo=1;
  }else{
-nthTableRow.iterationNo++;
+nthTableRow.iterationNo=1 + nthTableRow.iterationNo;
  }
 } 
 
@@ -1492,58 +1495,108 @@ break;
 }else{
 // Run row generator to produce an nth table row
 buildNthRowOfLukUpTable();
-const hGoal=rd.wallCutout.dataPoints.height + constDat.bbBeyondWallCutoutHeight;
 
-if(nthTableRow.h>=hGoal) {
+if(nthTableRow.h>=calcDat.hGoal) {
  // Write out result
-console.log('💪 Success! For hGoal = ', Math.round(10000*hGoal)/10000);
-console.log ('nthTableRow after iteration: ', {nthTableRow});
+console.log('💪 Success! For hGoal = ', Math.round(10000*calcDat.hGoal)/10000);
+
+calcDat.rO=nthTableRow.rO;
+calcDat.dR=nthTableRow.dR;
+console.log ('calcRoDrForHgoal(): ', {nthTableRow});
  break;
 }
 }
 }
 }
 
+// start of CALCS FOR OPEN CURTAIN:
+function openHangingHeight () {
+ const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
+console.log(`For hGoal ${calcDat.hGoal}, rO is ${calcDat.rO} and dR is ${calcDat.dR}`);
+ 
+ const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - calcDat.rO;
+ const d=(a*a) + (b*b);
+ const linearHeight=Math.sqrt(d);
+/*
+const linearHeight=Math.sqrt(
+ (calcDat.endplateSize/2)^2 + ((calcDat.endplateSize/2) - 1.5)^2
+ );
+ */
+calcDat.openHangingHeight=linearHeight;
+console.log('openHangingHeight(): ', {linearHeight});
+return linearHeight;}
+
+function openHangingSlatCount () {
+
+ // Substract 1 that belongs to the BB
+const slatCount=(calcDat.openHangingHeight/(calcDat.slatVerticalContribution)) - 1;
+
+calcDat.openHangingSlatCount=slatCount;
+console.log('openHangingSlatCount(): ', {slatCount});
+
+return slatCount;}
+
+function openEndlocksCount () {
+let endlocksCount;
+
+let roundedOffSlatCnt=Math.round(calcDat.openHangingSlatCount);
+ // If slat count even
+if(roundedOffSlatCnt % 2===0) {
+endlocksCount = roundedOffSlatCnt;
+}else{ // If slat count odd
+endlocksCount = roundedOffSlatCnt + 1;
+}
+
+calcDat.openEndlocksCount=endlocksCount;
+console.log('openEndlocksCount(): ', {endlocksCount});
+return endlocksCount;}
+
+function openHangingWeight () {
+
+const hangingWeight = (
+ calcDat.openHangingSlatCount*calcDat.oneSlatWeight)
+ + 
+ (calcDat.openEndlocksCount*calcDat.oneEndlockWeight) 
+ + calcDat.bbAssemblyWeight;
+ 
+ calcDat.openHangingWeight=hangingWeight;
+console.log('openHangingWeight(): ', {hangingWeight});
+
+return hangingWeight;}
+// end of CALCS FOR OPEN CURTAIN:
+
 function springLength () {
-// Build required values into nthTableRow object
-calcRoDrForHgoal(); 
-// Now use values to determine spring length
-
-const lowMomentArm = barrelRadius + (calcDat.slatC_value/2);
-
  const ippt=(
-  (lowMomentArm * closedHangingWeight()) 
-  -
-  (nthTableRow.rO * openHangingWeight()) 
+  (calcDat.lowMomentArm * calcDat.closedHangingWeight) 
+  - (calcDat.rO * calcDat.openHangingWeight))/calcDat.dR;
   
-  )/nthTableRow.dR;
+  calcDat.ippt=ippt;
  console.log('ippt: ', {ippt});
- 
-console.log('Spring wire diameter: ', rd.result.dataPoints.wireDiameter);
-console.log('Spring internal diameter: ', rd.spring.dataPoints.intDia);
 
-const fifthPowerOfWireDiam=rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter*rd.result.dataPoints.wireDiameter;
-const springLength=(3208909*(fifthPowerOfWireDiam))/(ippt*(rd.spring.dataPoints.intDia+rd.result.dataPoints.wireDiameter));
- 
-console.log('Spring length: ', {springLength});
+const fifthPowerOfWireDiam=calcDat.selectedWireDiam*calcDat.selectedWireDiam*calcDat.selectedWireDiam*calcDat.selectedWireDiam*calcDat.selectedWireDiam;
+const springLength=(3208909*(fifthPowerOfWireDiam))/(calcDat.ippt*(rd.spring.dataPoints.intDia+calcDat.selectedWireDiam));
+
+ calcDat.springLength=springLength;
+console.log('springLength(): ', {springLength});
 
 return springLength;}
 
 function springTurns () {
-const n=springLength()/rd.result.dataPoints.wireDiameter;
-console.log ('wireDiameter', rd.result.dataPoints.wireDiameter);
+const n=calcDat.springLength/calcDat.selectedWireDiam;
+ 
+calcDat.amountOfTurns=n;
 console.log ('springTurns', {n});
 
 return n;}
 
 function springWeight () {
- const wireRadius=0.5 * selectSpringWireDiameter();
+ const wireRadius=0.5 * calcDat.selectedWireDiam;
 console.log('wire Radius: ', {wireRadius});
 
 const wireCrossSectionArea=Math.PI*wireRadius*wireRadius;
 console.log('wire Cross Section Area: ', {wireCrossSectionArea});
 
-const springMeanDiam=rd.spring.dataPoints.intDia+ rd.result.dataPoints.wireDiameter;
+const springMeanDiam=rd.spring.dataPoints.intDia+ calcDat.selectedWireDiam;
 console.log('spring Mean Diam: ', {springMeanDiam});
 
 const oneCoilVolume=Math.PI *springMeanDiam*wireCrossSectionArea;
@@ -1556,31 +1609,26 @@ const allCoilsVolume=oneCoilVolume*springCoilsCount;
 console.log ('all Coils Volume', {allCoilsVolume});
 
 const springWeight=allCoilsVolume*(constDat.highCarbSteelSpecificWeight);
-console.log ('spring Weight: ', {springWeight});
+
+calcDat.springWeight=springWeight;
+console.log ('spring Weight(): ', {springWeight});
 
 return springWeight;}
 
-/*
-document.querySelector('#test').addEventListener('click', spoolSpringSpecs);
-*/
 function spoolSpringSpecs () {
-calcDat.mySpring.wireDiameter=selectSpringWireDiameter();
-document.querySelector('#inches-a').value=calcDat.mySpring.wireDiameter;
+ 
+document.querySelector('#inches-a').value=calcDat.selectedWireDiam;
 
-calcDat.mySpring.internalDiameter=rd.spring.dataPoints.intDia;
+document.querySelector('#inches-b').value=calcDat.internalDiameter;
 
-calcDat.mySpring.size=springLength();
-document.querySelector('#inches-c').value=calcDat.mySpring.size;
+document.querySelector('#inches-c').value=calcDat.springLength;
 
-calcDat.mySpring.amountOfTurns=springTurns();
-document.querySelector('#inches-d').value=calcDat.mySpring.amountOfTurns;
+document.querySelector('#inches-d').value=calcDat.amountOfTurns;
 
-calcDat.mySpring.weight=springWeight();
-document.querySelector('#inches-e').value=calcDat.mySpring.weight;
+document.querySelector('#inches-e').value=calcDat.springWeight;
 
-console.log('my spring specs: ', calcDat.mySpring);
+console.log("MY WHOLE APP CALC'd SPECS: ", {calcDat});
 }
-
 /* end CALCULATING SPRING LENGTH */
 
 function updateCalcBtnStyle () {
@@ -1588,35 +1636,44 @@ if(requiredInchPoundsInRange){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
-return;}
+}else{
 document.querySelector('#calc-results').style.backgroundColor = ('darkred');
 document.querySelector('#calc-results').style.color = ('yellow');
-document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
-
+document.querySelector('#calc-results').value = 'HUSTON WE HAVE A PROBLEM!';
 requiredInchPoundsInRange=true;
-return;}
-// Function no longer used:
-function oldResultProcessing () {
-// Save following results to activeObj.datumValues array.
-selectSpringWireDiameter();
-springLength();
-/*
-saveSpringInnerDia();
-springTurns();
-springLength();
-calcSpringWeight();
-*/
-// After saving as datum values then:
-buildDataPointObjIntoActiveObj();
-// And finally:
-postWireDiaToResultsPage();
-updateCalcBtnStyle();
 }
+return;}
 
-function newResultProcessing () {
+// oldResultProcessing() no longer used
+
+function determineAllSpringSpecs () {
 updRdWithVaultedDataPoints();
-//spoolSpringSpecs();
-updateCalcBtnStyle();
+buildCalcDat();
+slatAssemblyWidth();
+slatWidth();
+oneSlatWeight();
+closedHangingHeight();
+closedHangingSlatCount();
+closedEndlocksCount();
+bbAnglesWeight();
+astragalWeight();
+slideboltsWeight();
+bbAssemblyWeight();
+closedHangingWeight();
+lowMomentArm();
+requiredInchPound();
+selectSpringWireDiameter();
+initLukUpTbl();
+calcRoDrForHgoal();
+openHangingHeight();
+openHangingSlatCount();
+openEndlocksCount();
+openHangingWeight();
+springLength();
+springTurns();
+springWeight();
+spoolSpringSpecs();
+updateAfterNumCrunching();
 }
 
 // load-measurements is supplanted by calc-results on the resultTemplate
@@ -1624,6 +1681,11 @@ const calcResultsBtn = document.querySelector('#calc-results');
 // Timeout for button animation
 calcResultsBtn.addEventListener('mouseup', ()=> {
 setTimeout(function () {
-newResultProcessing();
+determineAllSpringSpecs();
 }, 250);
 });
+
+function updateAfterNumCrunching () {
+  // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
+  setTimeout(()=>updateCalcBtnStyle(), 175);
+}
