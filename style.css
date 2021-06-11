@@ -5,6 +5,8 @@ font-size: 62.5%;
 :root {
 --component-sketch: url(placeholder.jpg);
 --feet-view-style: none;
+
+--blink-color: transparent;
 }
 
 /* STYLES FOR HOME TEMPLATE ONLY */
@@ -84,6 +86,9 @@ width: fit-content ;
 }
 
 #bulletin-board {
+ width: 99%;
+ height: fit-content ;
+ margin: 0;
 display: flex;
 flex-direction: column ;
 flex-wrap: nowrap ;
@@ -97,8 +102,19 @@ text-align: center ;
 
  display: block ;
  
-color: tomato;
+color: darkred;
 }
+
+.blinking {
+ animation:blinkingText
+ 1.5s
+ infinite;
+ }
+ @keyframes blinkingText{
+ 60% {
+  background-color: var(--blink-color);
+ }
+ }
 
 #data-form-frame {
 outline :1px solid transparent ;
@@ -112,7 +128,11 @@ justify-content :center ;
 align-items :center ;
 }
 
-#sketch-of-active-component {outline :1px solid darkgray ;
+#component-name-header {
+margin-bottom: 0.5rem;
+}
+
+#sketch-of-active-component {border-bottom :1px solid transparent ;
 /* outline :1px solid red ; */
 width: 30rem ;
 height: 22.5rem ;
@@ -121,7 +141,8 @@ background-color : black ;
 background-image: var(--component-sketch);
 background-size: cover;
 background-repeat: no-repeat ;
-margin-bottom: 0.75rem ;
+margin-top: 0;
+margin-bottom: 0.5rem ;
 }
 
 .feet-value {
@@ -138,7 +159,16 @@ outline :1px solid transparent ;
 
 text-decoration: none ;
 padding :0;
-margin-bottom: 12rem;
+margin-bottom: 11rem;
+}
+
+.span-slot{/*
+ outline :1px solid yellow ;*/
+ display: inline-block ;
+ border-bottom: 1px solid #282828;
+color :black ;
+width: 5rem;
+text-align: left;
 }
 
 /*
@@ -163,6 +193,7 @@ display :none ;
 li {outline :1px solid transparent ;
 /* outline :1px solid lightgreen ; */
 width: fit-content ;
+margin: 0.3rem 0;
 display: flex ;
 flex-direction: row ;
 flex-wrap :nowrap ;
@@ -203,18 +234,16 @@ width: 1rem;
   margin: 0 auto ;
 */
 display: block ;
-width: 105%;
+width: 108%;
 outline :1px solid transparent ;
 
 position: absolute ;
 bottom : 7.5rem ;
-left: -2.5%;
+left: -4%;
 
 font-weight: bold ;
 }
-#calc-results{
- bottom : 2rem ;
-}
+
 /*
 #load-measurements:active:hover, #calc-results:active:hover {
 outline :1px solid white ;
