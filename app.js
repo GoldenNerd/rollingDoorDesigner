@@ -9,8 +9,8 @@ let rd = {
   namesOfPagesThatContainData: ['wallCutout', 'barrel', 'slats', 'bottomBar', 'bottomBar', 'spring', 'misc', 'misc2'],
   startPage: {
     objNo: 0,
-    pageHeader: '🤓 Welcome to RD Designer! 🤓',
-    sketchFileName: 'url(startPage.jpg)',
+    pageHeader: '🦉 Welcome to RD Designer! 🐝',
+    sketchFileName: 'url(startPage.jpg)', 
     noOfDataPoints: 0,
     labels: [],
     datumKeys: [],
@@ -98,18 +98,20 @@ let rd = {
     ftPresets: [0, 0, 0, 0],
     inchesPresets: [2, 2, 0.125, 2],
     ftView: ['none' , 'none' , 'none', 'none'],
-    labels: ['Angle Width',
-      'Angle Height',
-      'Angle Thickness',
-      'Angles Qty.'],
-    datumKeys: ['bbAngleHorizontalSide',
-      'bbAngleVerticalSide',
-      'bbAngleThickness',
-      'bbAnglesAmount'],
+    labels: [
+     'Angle Height',
+     'Angle Width',
+     'Angle Thickness',
+     'Angles Qty.'],
+    datumKeys: [
+     'bbAngleVerticalSide',
+     'bbAngleHorizontalSide',
+     'bbAngleThickness',
+     'bbAnglesAmount'],
     datumValues: [],
     dataPoints: {
-     bbAngleHorizontalSide: 0,
      bbAngleVerticalSide: 0,
+     bbAngleHorizontalSide: 0,
      bbAngleThickness: 0,
      bbAnglesAmount: 0
     },
@@ -151,7 +153,7 @@ let rd = {
       'Endlocks Style',
       'Windlocks',
       'Slidebolts',
-      'Astragal Style'],
+      'Bottom Bar Rubber'],
     datumKeys: [
       'endlockStyle',
       'useWindlocks',
@@ -198,22 +200,22 @@ let rd = {
     ftPresets: [0, 0, 0, 0, 0],
     inchesPresets: ['0', 3.0625, '0', '0', '0'],
     ftView: ['none' , 'none' , 'none', 'none', 'none'],
-    labels: ['Wire Diameter',
-      'Internal Diameter',
-      'Length',
-      'Amount of Turns',
-      'Weight'],
+    labels: [' Wire Diameter',
+      ' Internal Diameter',
+      ' Length',
+      ' Amount of Coils',
+      ' Weight'],
     datumKeys: ['selectedWireDiam',
       'internalDiameter',
       'width',
-      'amountOfTurns',
+      'amountOfCoils',
       'weight'],
     datumValues: [],
     dataPoints: {
      selectedWireDiam: 0,
       internalDiameter: 0,
       width: 0,
-      amountOfTurns: 0,
+      amountOfCoils: 0,
       weight: 0
     },
     prevObjName: 'startPage',
@@ -387,6 +389,7 @@ function initializeBtnsStyles () {
 /*
  All above functions are called by the onload function. They are used to build the page for the active component object, by populating all page labels, pictures and styles. All this upon page load.
 */
+let dataEntryErrorFlag=false;
 window.onload = function () {
   allowSwitchingToNextPage = false;
   // Read Template ID of the Page, and simultaneously populate template id label:
@@ -436,7 +439,8 @@ window.onload = function () {
   Note: 8 is the result page.  Calc button is same capture button that takes on a "calc identity" on the result page. That's why a new button skin is required.
   */
     styleCaptureBtnAsCalcBtn();
-    
+    // Reset flag before user captures any data 
+    dataEntryErrorFlag=false;
   }
   
 };
@@ -672,6 +676,162 @@ saveACompDataToActiveObj();
 // BELOW IS APP NUMBER CRUNCHING
 // §###############################
 
+// EXTRACTION LIBRARY:
+//####################################
+/* signifFigCounter v2.0.js */
+//####################################
+var xtract = {
+
+  functionNameLocked: false,
+
+  numericPart: function (aNum) {
+    this.functionNameLocked = true;
+    let userEntryAbsVal;
+    if (aNum.slice(0, 1) === '-' || aNum.slice(0, 1) === '+') {
+      userEntryAbsVal = aNum.slice(1);
+    } else {
+      userEntryAbsVal = aNum.slice(0);
+    }
+    let wholeNumStr;
+    if (this.hasAnE(aNum)) {
+      wholeNumStr = userEntryAbsVal;
+      const sliceStop = wholeNumStr.indexOf('e');
+      const numPortion = wholeNumStr.slice(0, sliceStop);
+      this.functionNameLocked = false;
+      return numPortion; // a string.
+    }
+    const numPortion = userEntryAbsVal;
+    this.functionNameLocked = false;
+    return numPortion;
+  },
+
+  integerPart: function (aNum) {
+    const numbStr = this.numericPart(aNum);
+    if (this.hasADot(aNum)) {
+      const sliceStop = numbStr.indexOf('.');
+      const integerPortion = numbStr.slice(0, sliceStop);
+      return integerPortion;
+    }
+    const integerPortion = numbStr;
+    return integerPortion;
+  },
+
+
+  hasAnE: function (aNum) {
+    this.functionNameLocked = true;
+    if (aNum.includes('e')) {
+      // yes
+      const hasExp = true;
+      this.functionNameLocked = false;
+      return hasExp;
+    }
+    //no
+    const hasExp = false;
+    this.functionNameLocked = false;
+    return hasExp;
+  },
+
+
+  hasADot: function (aNum) {
+    if (aNum.includes('.')) {
+      // yes
+      const hasDot = true;
+      return hasDot;
+    }
+    //no
+    const hasDot = false;
+    return hasDot;
+  },
+  sigFiguresCount: function (aNum) {
+    this.functionNameLocked = true;
+    const sigDigCnt = this.significantFigures(aNum).length;
+    this.functionNameLocked = false;
+    return sigDigCnt;
+  },
+  significantFigures: function (aNum) {
+    this.functionNameLocked = true;
+    const alphamericCoreStr = this.numericPart(aNum);
+    // Any number of only zeroes with a dot somewhere:
+    if (1*alphamericCoreStr === 0 && alphamericCoreStr.includes('.')) {
+      const signifFigs = '0'+this.fractionalPart(aNum); // Leftmost 0 is implied. Therefore, correct the original user entry adding a Leftmost 0.
+      this.functionNameLocked = false;
+      return signifFigs;
+    }
+    // Any number of only zeroes with no dot anywhere:
+    if (1*alphamericCoreStr === 0 && !alphamericCoreStr.includes('.')) {
+      const signifFigs = '0';
+      this.functionNameLocked = false;
+      return signifFigs;
+    }
+    // Non-zero valued numeric part that starts with a dot:
+    if (alphamericCoreStr.slice(0, 1) === '.') {
+      const signifFigs = '0'+this.fractionalPart(aNum);
+      this.functionNameLocked = false;
+      return signifFigs;
+    }
+    this.functionNameLocked = true;
+    let non0ClusterStr = this.zeroTrimmedCore(aNum);
+    this.functionNameLocked = false;
+    // Any other except previous "returns", that contain a dot somewhere:
+    if (non0ClusterStr.includes('.')) {
+      const indexOfDot = non0ClusterStr.indexOf('.');
+      const jointString = non0ClusterStr.slice(0, indexOfDot) + non0ClusterStr.slice(1+indexOfDot);
+      const signifFigs = jointString;
+      this.functionNameLocked = false;
+      return signifFigs;
+    }
+    // Any numeric part that doesn't contain a dot:
+    // +011e-2
+    const signifFigs = this.zeroTrimmedCore(aNum);
+    this.functionNameLocked = false;
+    return signifFigs;
+  },
+
+  zeroTrimmedCore: function (aNum) {
+    this.functionNameLocked = true;
+    // Zero valueds with or without dot somewhere:
+    if (1*aNum === 0 && this.hasADot()) {
+      const non0Cluster = '.';
+      this.functionNameLocked = false;
+      return non0Cluster;
+    }
+    if (1*aNum === 0 && !this.hasADot(aNum)) {
+      const non0Cluster = '';
+      this.functionNameLocked = false;
+      return non0Cluster;
+    }
+    let numbStr = this.numericPart(aNum);
+    let absNumbStr;
+    //numbers that have the form ".x"
+    if (numbStr.slice(0, 1) === '.') {
+      numbStr = (1*numbStr).toString(); // trim leading zeroes
+      const non0Cluster = numbStr.slice(0); // trim trailing 0 introduced by 1* operation
+      this.functionNameLocked = false;
+      return non0Cluster;
+    }
+    if (numbStr.slice(-1) === '.') {
+      // x. case
+      numbStr = (1*numbStr).toString(); // trim trailing zeroes
+      const non0Cluster = numbStr.concat('.'); // append '.' trimmed by 1* operation
+      this.functionNameLocked = false;
+      return non0Cluster;
+    }
+    // For all other cases not covered above:
+    const non0Cluster = (1*numbStr).toString();
+    this.functionNameLocked = false;
+    return non0Cluster;
+  },
+};
+/*
+  Note:
+  Input data must be a string.
+  Example how to use:
+  const data='-012.3000e-5';
+  let outcome;
+  outcome=xtract.numericPart(data);
+  console.log(outcome); // '012.3000'
+  */
+
 // mousedown calc spring btn animation
 // Grab buttons:
 function styleCaptureBtnAsCalcBtn () {
@@ -684,7 +844,12 @@ function mousedownCalcBtnAnimation () {
 document.querySelector ('#calc-results').style.backgroundColor = ('black');
 document.querySelector ('#calc-results').style.color = ('white');
 }
-document.querySelector ('#calc-results').addEventListener('mousedown', mousedownCalcBtnAnimation);
+document.querySelector ('#calc-results').addEventListener('mousedown',()=>{ 
+ if (blockMultipleCalcResults) {
+ return;
+ }
+ mousedownCalcBtnAnimation();
+});
 
 // Update rd object dataPoints with all captured data vaulted to localStorage:
 function updRdWithVaultedDataPoints () {
@@ -850,8 +1015,8 @@ requiredInchPound: 0,
 hGoal: 0, 
 /* Hardcoded value for debugging. RD curved slats, iron endlocks, no windlocks, 11x9, 6" tube, with slidebolts and astragal.
 */
-rO: 5.5833, 
-dR: 4.0278,
+rO: 0, // 5.5833
+dR: 0, // 4.0278
 openHangingHeight: 0,
 openHangingSlatCount: 0,
 openEndlocksCount: 0,
@@ -861,18 +1026,23 @@ ippt: 0,
 
 springLength: 0,
 selectedWireDiam: 0,
-amountOfTurns: 0,
+amountOfCoils: 0,
 internalDiameter: 0,
-springWeight: 0
+springWeight: 0, 
 
+dataEntryErrorFlag: false
 };
 
 // Post data entry error message:
+ let errorStack=[];
  function dataEntryError (errMssg='ERROR! WRONG DATA ENTERED ON AN INPUT FORM!!') {
+  
+  errorStack.push(errMssg);
  // Display an error message
- document.querySelector('#bullet-text').textContent=errMssg;
+ document.querySelector('#bullet-text').textContent=errorStack[0];
+ console.log(`${errMssg}`, 'errorStack: ', {errorStack});
  
- console.log(`${errMssg}`);
+ dataEntryErrorFlag=true;
  }
  
  // Use updated rd obj to generate calcDat obj:
@@ -1365,7 +1535,7 @@ const inventoryMaxInchPound=[
 ];
 
 // Select data set to use
-function springDataSetChoice () {
+function setSpringsBasquetToChooseFrom () {
  const inventoryData = inventoryMaxInchPound;
  const optimalData=optimalMaxInchPound;
 const inventorizedRadioBtn=document.querySelector('#spring-on-hand');
@@ -1379,10 +1549,9 @@ return inventoryData;}
 
 let requiredInchPoundsInRange;
 function selectSpringWireDiameter () {
-
 let strongEnoughWireFound = false;
 let selectedWireDiam = 0;
-const springDataSetToUse=springDataSetChoice();
+const springDataSetToUse=setSpringsBasquetToChooseFrom();
 for (let i = 0; i < springDataSetToUse.length; i++) {
 if (springDataSetToUse[i][0] >= calcDat.requiredInchPound) {
 selectedWireDiam = springDataSetToUse[i][1];
@@ -1396,14 +1565,21 @@ break;
 }
 // Check if exit for-loop was due to match or was exhausted due to match not found.
 if (strongEnoughWireFound === false) {
-// Error. Excessive load for existing wire diametere
+// Error. Excessive load for existing wire diameter
+dataEntryError(`The ${Math.round(calcDat.requiredInchPound)} InchPound required is too large for existing wire diameters.`);
+/*
+`Sorry. The ${Math.round(calcDat.requiredInchPound)} InchPound required is too large for existing wire diameters.`
+*/
 requiredInchPoundsInRange=false;
-console.log (`Sorry. The ${calcDat.requiredInchPound} InchPound value required is too large for existing wire diameters.`);
+
+console.log (`Sorry. The ${Math.round(calcDat.requiredInchPound)} InchPound value required is too large for existing wire diameters.`);
 
 } else {
 // Save selectedWireDiam to result object as a datum value:
-
 calcDat.selectedWireDiam=selectedWireDiam;
+
+requiredInchPoundsInRange=true;
+
 console.log('selectSpringWireDiameter(): ', {selectedWireDiam});
 }
 return selectedWireDiam;}
@@ -1411,15 +1587,6 @@ return selectedWireDiam;}
 // postWireDiaToResultsPage() no longer used:
 
 /* Start of CALCULATING SPRING LENGTH */
-// Initial values: 
-let r0=calcDat.barrelDiameter/2;
-
-const a=calcDat.slatC_value/(2*Math.PI);
-const thetaInit=((2*r0 + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
-const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
-const arcInit=(a*((thetaInit*sigmaInit)
-+ Math.log(thetaInit+sigmaInit)))/2;
-
 // Implementation of nth row of lookup table:
 const nthTableRow={
  iterationNo:0,
@@ -1447,12 +1614,22 @@ function iteration () {
  if (nthTableRow.iterationNo===0) {
 nthTableRow.iterationNo=1;
  }else{
-nthTableRow.iterationNo=1 + nthTableRow.iterationNo;
+nthTableRow.iterationNo++;
  }
 } 
 
 function buildNthRowOfLukUpTable () {
 iteration();
+
+// Initial values: 
+let r0=calcDat.barrelDiameter/2;
+
+const a=calcDat.slatC_value/(2*Math.PI);
+const thetaInit=((2*r0 + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
+const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
+const arcInit=(a*((thetaInit*sigmaInit)
++ Math.log(thetaInit+sigmaInit)))/2;
+
 
 theta=thetaInit + ((5*Math.PI*(nthTableRow.iterationNo-1))/180);
 nthTableRow.theta=theta;
@@ -1498,10 +1675,11 @@ buildNthRowOfLukUpTable();
 
 if(nthTableRow.h>=calcDat.hGoal) {
  // Write out result
-console.log('💪 Success! For hGoal = ', Math.round(10000*calcDat.hGoal)/10000);
-
 calcDat.rO=nthTableRow.rO;
 calcDat.dR=nthTableRow.dR;
+
+console.log(`💪 Success! Found rO ${Math.round(10000*nthTableRow.rO)/10000}  For hGoal ${Math.round(10000*calcDat.hGoal)/10000}`);
+
 console.log ('calcRoDrForHgoal(): ', {nthTableRow});
  break;
 }
@@ -1584,7 +1762,7 @@ return springLength;}
 function springTurns () {
 const n=calcDat.springLength/calcDat.selectedWireDiam;
  
-calcDat.amountOfTurns=n;
+calcDat.amountOfCoils=n;
 console.log ('springTurns', {n});
 
 return n;}
@@ -1615,36 +1793,97 @@ console.log ('spring Weight(): ', {springWeight});
 
 return springWeight;}
 
+
+// This function adjusts 'number' to a desired 'length'
+function numMolder (number, lengthSpec=5) {
+// Convert number to string
+const numStr=number.toString();
+
+//Extract integer part
+const integerSlice= xtract.integerPart(`${numStr}`);
+
+// Significant figures count of integer part
+const integerSliceDigitsCount=xtract.sigFiguresCount(integerSlice) ;
+
+// Compute necessary number of decimal places to make the number string a desired number length 
+const necessaryDecimalPlaces= lengthSpec - integerSliceDigitsCount;
+
+const adjustedLengthNum=number.toFixed(necessaryDecimalPlaces);
+
+//const adjustedLengthNum=Math.round(number*decimalShifter)/decimalShifter;
+return adjustedLengthNum;}
+
 function spoolSpringSpecs () {
  
-document.querySelector('#inches-a').value=calcDat.selectedWireDiam;
+document.querySelector('#inches-a').textContent=numMolder(calcDat.selectedWireDiam, 5)
+;
+document.querySelector('#inches-a').style.color='white';
 
-document.querySelector('#inches-b').value=calcDat.internalDiameter;
+document.querySelector('#inches-b').textContent=numMolder(calcDat.internalDiameter, 4);
+document.querySelector('#inches-b').style.color='white';
 
-document.querySelector('#inches-c').value=calcDat.springLength;
+document.querySelector('#inches-c').textContent=numMolder(calcDat.springLength, 4);
+document.querySelector('#inches-c').style.color='white';
 
-document.querySelector('#inches-d').value=calcDat.amountOfTurns;
+document.querySelector('#inches-d').textContent=numMolder(calcDat.amountOfCoils, 4);
+document.querySelector('#inches-d').style.color='white';
 
-document.querySelector('#inches-e').value=calcDat.springWeight;
+document.querySelector('#inches-e').textContent=numMolder(calcDat.springWeight, 4);
+document.querySelector('#inches-e').style.color='white';
 
 console.log("MY WHOLE APP CALC'd SPECS: ", {calcDat});
 }
 /* end CALCULATING SPRING LENGTH */
+function unspoolSpringSpecs () {
+ 
+document.querySelector('#inches-a').textContent='******';
+document.querySelector('#inches-a').style.color='black';
+
+document.querySelector('#inches-b').textContent='******';
+document.querySelector('#inches-b').style.color='black';
+
+document.querySelector('#inches-c').textContent='******';
+document.querySelector('#inches-c').style.color='black';
+
+document.querySelector('#inches-d').textContent='******';
+document.querySelector('#inches-d').style.color='black';
+
+document.querySelector('#inches-e').textContent='******';
+document.querySelector('#inches-e').style.color='black';
+
+document.querySelector('#inches-a').style.backgroundColor ='darkred';
+
+document.querySelector('#inches-b').style.backgroundColor ='darkred';
+
+document.querySelector('#inches-c').style.backgroundColor ='darkred';
+
+document.querySelector('#inches-d').style.backgroundColor ='darkred';
+
+document.querySelector('#inches-e').style.backgroundColor ='darkred';
+}
+
+// oldResultProcessing() no longer used
 
 function updateCalcBtnStyle () {
-if(requiredInchPoundsInRange){
+if(requiredInchPoundsInRange===true && dataEntryErrorFlag===false){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
 }else{
-document.querySelector('#calc-results').style.backgroundColor = ('darkred');
-document.querySelector('#calc-results').style.color = ('yellow');
-document.querySelector('#calc-results').value = 'HUSTON WE HAVE A PROBLEM!';
+document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
+document.querySelector('#calc-results').style.color = ('darkred');
+document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
+document.querySelector(':root').style.setProperty('--blink-color', '#0c0c48'); // #151530 #291609 
+
+unspoolSpringSpecs();
 requiredInchPoundsInRange=true;
 }
 return;}
 
-// oldResultProcessing() no longer used
+function updateAfterNumCrunching () {
+  // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
+  setTimeout(()=>updateCalcBtnStyle(), 175);
+}
 
 function determineAllSpringSpecs () {
 updRdWithVaultedDataPoints();
@@ -1663,7 +1902,6 @@ closedHangingWeight();
 lowMomentArm();
 requiredInchPound();
 selectSpringWireDiameter();
-initLukUpTbl();
 calcRoDrForHgoal();
 openHangingHeight();
 openHangingSlatCount();
@@ -1679,13 +1917,13 @@ updateAfterNumCrunching();
 // load-measurements is supplanted by calc-results on the resultTemplate
 const calcResultsBtn = document.querySelector('#calc-results');
 // Timeout for button animation
+let blockMultipleCalcResults;
 calcResultsBtn.addEventListener('mouseup', ()=> {
+ if (blockMultipleCalcResults) {
+  return;
+ }
 setTimeout(function () {
 determineAllSpringSpecs();
+blockMultipleCalcResults=true;
 }, 250);
 });
-
-function updateAfterNumCrunching () {
-  // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
-  setTimeout(()=>updateCalcBtnStyle(), 175);
-}
