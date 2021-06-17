@@ -7,6 +7,8 @@ font-size: 62.5%;
 --feet-view-style: none;
 
 --blink-color: transparent;
+
+--spring-color-code: white;
 }
 
 /* STYLES FOR HOME TEMPLATE ONLY */
@@ -48,17 +50,6 @@ font-size :1.5rem;
 font-weight :bold;
 background-color: #000 ; /* #26246e */
 }
-
-/*
-Note: for debugging only. Do not display.
-#template-id, #name-of-component-obj {
-  display:block; 
-  text-align:center; 
-  margin-top : 1rem;
-  position: absolute;
-  top:-6rem;
-}
-*/
 
 #visible-content-frame{
 width: 100%;
@@ -163,32 +154,26 @@ margin-bottom: 11rem;
 }
 
 .span-slot{/*
- outline :1px solid yellow ;*/
+ outline :1px solid yellow ;
+ var(--spring-color-code) 
+ */
  display: inline-block ;
  border-bottom: 1px solid #282828;
-color :black ;
+ 
+color : white ;
 width: 5rem;
 text-align: left;
 }
 
-/*
-#std-ul, #misc-ul{
-outline :1px solid lightgreen ;
-
-text-decoration: none ;
-padding :0;
-margin-bottom: 12rem;
-}
-*/
-/*
-#span-ul {
-  display :block ;
+#datum-a{
+/* var(--spring-color-code) */
+color: white;
+text-transform: capitalize;
 }
 
-#std-ul {
-display :none ;
-}
-*/
+#datum-a, #inches-a{
+ font-size :1.75rem;
+} 
 
 li {outline :1px solid transparent ;
 /* outline :1px solid lightgreen ; */
@@ -216,11 +201,6 @@ margin: 0.25rem ;
 #isolated {
   margin-left :2.5rem;
 }
-/*
-.radio-pair {
-width: 75vw;
-}
-*/
 
 #curved-slat, #yes-windlock, #yes-slidebolt, #yes-astragal{
 width: 1rem;
@@ -230,8 +210,6 @@ width: 1rem;
 #load-measurements, #calc-results{
   /*
   background-color and color controlled by JavaScript
-  
-  margin: 0 auto ;
 */
 display: block ;
 width: 108%;
@@ -243,15 +221,6 @@ left: -4%;
 
 font-weight: bold ;
 }
-
-/*
-#load-measurements:active:hover, #calc-results:active:hover {
-outline :1px solid white ;
-background-color: black ;
-color: white ;
-font-weight :bold ;
-}
-*/
 
 #pages-flow-ctrl {
   outline :1px solid transparent ;
@@ -274,45 +243,9 @@ bottom: 8% ;
 font-weight :bold ;
 }
 
-  /*
-  background-color and color controlled by JavaScript
-  color: darkgreen  ;
-  background-color:  lightgray ;
-#previous-page:active {
-outline :1px solid white ;
-background-color: black ;
-color: white ;
-font-weight :bold ;
-} 
-
-  
-  /*
-  background-color and color controlled by JavaScript
-#previous-page:active {
-outline :1px solid white ;
-background-color: black ;
-color: white ;
-font-weight :bold ;
-} 
-*/
-
 #next-page {
-  /*
-  background-color and color controlled by JavaScript
-  color: darkred ;
-background-color:  lightgray ;
-  */
-
 font-weight :bold ;
 }
-/*
-#next-page:active {
-outline :1px solid white ;
-background-color: black ;
-color: white ;
-font-weight :bold ;
-}
-*/
 
 /* STYLES FOR RESULT TEMPLATE ONLY */
 .result-span {
