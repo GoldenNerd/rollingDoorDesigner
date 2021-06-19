@@ -12,6 +12,7 @@ let rd = {
     pageHeader: '🦉 Welcome to RD Designer! 🐝',
     sketchFileName: 'url(startPage.jpg)', 
     noOfDataPoints: 0,
+    domInchesPlaceholders: [],
     labels: [],
     datumKeys: [],
     datumValues: [],
@@ -27,8 +28,9 @@ let rd = {
     sketchFileName: 'url(rdOutline.jpg)',
     noOfDataPoints: 2,
     ftPresets: [10, 11],
-    inchesPresets: [6.5, 5],
     ftView: ['inline-block' , 'inline-block'],
+    inchesPresets: [6.25, 5],
+    domInchesPlaceholders: ['inches','inches' ],
     labels: ['Width',
       'Height'],
     datumKeys: ['width',
@@ -54,6 +56,7 @@ let rd = {
     ftPresets: [10, 10, 2, 1, 1],
     inchesPresets: [0, 0, 0, 0, 0],
     ftView: ['inline-block' , 'inline-block' , 'inline-block', 'inline-block', 'inline-block'],
+    domInchesPlaceholders: [],
     labels: ['Width',
       'Height',
       'Top',
@@ -87,6 +90,7 @@ let rd = {
     ftPresets: [0],
     inchesPresets: [4],
     ftView: ['none'],
+    domInchesPlaceholders: ['style'],
     labels: ['Barrel Style'],
     datumKeys: ['barrelStyle'],
     datumValues: [],
@@ -105,6 +109,7 @@ let rd = {
     ftPresets: [0, 0],
     inchesPresets: [1, 2],
     ftView: ['none', 'none'],
+    domInchesPlaceholders: ['style', 'gauge'],
     labels: ['Slats Style', 'Slat Gauge'],
     datumKeys: ['slatStyle', 'thickness'],
     datumValues: [],
@@ -122,6 +127,7 @@ let rd = {
     ftPresets: [0, 0, 0, 0],
     inchesPresets: [2, 2, 0.125, 2],
     ftView: ['none' , 'none' , 'none', 'none'],
+    domInchesPlaceholders: ['inches', 'inches', 'inches', 'Qty'],
     labels: [
      'Angle Height',
      'Angle Width',
@@ -152,6 +158,7 @@ let rd = {
     ftPresets: [0],
     inchesPresets: [3.0000],
     ftView: ['none'],
+    domInchesPlaceholders: ['inches'],
     labels: ['Inches Inside'],
     datumKeys: ['intDia'],
     datumValues: [],
@@ -170,6 +177,7 @@ let rd = {
     ftPresets: [0, 0, 0, 0],
     inchesPresets: [1, 0, 0, 2],
     ftView: ['none' , 'none', 'none', 'none'],
+    domInchesPlaceholders: ['style', 'style', 'use?', 'style'],
     labels: [
       'Endlocks Style',
       'Windlock Style',
@@ -198,6 +206,7 @@ let rd = {
     ftPresets: [0],
     inchesPresets: [1],
     ftView: ['none'],
+    domInchesPlaceholders: [],
     labels: ['Location'],
     datumKeys: ['mounting'],
     datumValues: [1],
@@ -215,8 +224,9 @@ let rd = {
     sketchFileName: 'url(result.jpg)',
     noOfDataPoints: 5,
     ftPresets: [0, 0, 0, 0, 0],
-    inchesPresets: ['0', 3.0625, '0', '0', '0'],
+    inchesPresets: ['0', '0', '0', '0', '0'],
     ftView: ['none' , 'none' , 'none', 'none', 'none'],
+    domInchesPlaceholders: ['0 inches', '0 inches', '0 inches', '0 ea', '0 lb'],
     labels: [' Wire Diameter',
       ' Internal Diameter',
       ' Length',
@@ -366,6 +376,15 @@ inchesValueFields[i].value=activeObj.inchesPresets[i];
 }
 }
 
+function setInchesPlaceholders () {
+const inchesValueFields=document.getElementsByClassName('inches-value');
+const desiredPlaceholders=activeObj.domInchesPlaceholders;
+const amountOfDataPoints = activeObj.noOfDataPoints;
+for (var i = 0; i < amountOfDataPoints; i++) {
+inchesValueFields[i].placeholder=desiredPlaceholders[i];
+}
+}
+
 function setFtValsVisibility () {
 const ftValueFields=document.getElementsByClassName('feet-value');
 const amountOfDataPoints = activeObj.noOfDataPoints;
@@ -406,7 +425,7 @@ function initializeBtnsStyles () {
 /*
  All above functions are called by the onload function. They are used to build the page for the active component object, by populating all page labels, pictures and styles. All this upon page load.
 */
-let dataEntryErrorFlag=false;
+let numCruncherErrorFlag=false;
 window.onload = function () {
   allowSwitchingToNextPage = false;
   // Read Template ID of the Page, and simultaneously populate template id label:
@@ -444,7 +463,9 @@ window.onload = function () {
   ldFtDfaults();
 
   ldInchesDfaults();
-
+  
+  setInchesPlaceholders();
+  
   setFtValsVisibility();
 
   hideEmptyDatums();
@@ -457,7 +478,7 @@ window.onload = function () {
   */
     styleCaptureBtnAsCalcBtn();
     // Reset flag before user captures any data 
-    dataEntryErrorFlag=false;
+    numCruncherErrorFlag=false;
   }
   
 };
@@ -666,27 +687,9 @@ function saveACompDataToActiveObj () {
   // retrieveALocStoObj(`${activeObj.activeObjName}`);
 }
 
-//miscPartsObj no longer used
-
-// saveRadioDataToDatumValues() no longer used
-
-// saveMisc1DataToActiveObj() no longer used
-
-// saveMisc2DataToActiveObj() no longer used
-
 const captureDataBtn = document.querySelector('#load-measurements');
 captureDataBtn.addEventListener('mouseup', function () {
-  // The Misc Data Form format requires a handler taylored to its specific format (radio buttons.)
-  /*
-if (activeObj.objNo === 6) {
-saveMisc1DataToActiveObj();
-}else if (activeObj.objNo === 7) {
-saveMisc2DataToActiveObj();
-}
-else{
- */
 saveACompDataToActiveObj();
-//}
 });
 
 // ################################
@@ -901,7 +904,7 @@ destination=JSON.parse(window.localStorage.getItem(`${source}`));
 
 /* Lookup Object for RD Invariant Data*/
 const constDat={
-intertrackGap: 0.75,
+intertrackGap: 0.625,
 anglesA_Thickness: 0.3750, // 2 angles
 
 slatOverlapWithWallBetweenJamb: -8.75, 
@@ -930,7 +933,7 @@ curvedCastironEndlockUnitWeight: 0.1600,
 flatNylonEndlockUnitWeight: 0.0500,
 flatStampedEndlockUnitWeight: 0.1406,
 flatCastironEndlockUnitWeight: 0.2130,
-//  // § por aquí 
+
 slatsBetweenWindlocks: 5,
 
 noWindlockUnitWeight: 0,
@@ -1000,11 +1003,9 @@ bbBeyondWallCutoutHeight: 0.5,
 bbStopFlagStyleVerticalToll: 0.0000,
 bbStopFlatBarStyleVerticalToll: 1.5000,
 
-endPlate12: 12,
-endPlate14: 14,
-endPlate15: 15.5,
-endPlate16: 16,
-endPlate18: 18
+minimumInternalRollToHoodClearance: 0.7500,
+
+endPlatePossibleSizes: [12, 14, 15.5, 16, 18],
 
 };
 
@@ -1020,7 +1021,7 @@ slatTerminationThickness: 0,
 
 slatLinearInchWeight: 0, 
 
-endplateSize: 15,
+approximateEndplateSize: 15,
 
 barrelDiameter: 0,
 
@@ -1029,7 +1030,7 @@ slatC_value: 0,
 slatVerticalContribution: 0,
 
 oneEndlockWeight: 0, 
- // § por aquí 
+ 
 oneWindlockWeight: 0,
 
 oneSlideBoltWeight: 0,
@@ -1052,15 +1053,16 @@ closedHangingWeight: 0,
 lowMomentArm: 0,
 requiredInchPound: 0,
 
-hGoal: 0, 
-/* Hardcoded value for debugging. RD curved slats, iron endlocks, no windlocks, 11x9, 6" tube, with slidebolts and astragal.
-*/
-rO: 0, // 5.5833
-dR: 0, // 4.0278
+approximateHGoal: 0, 
+
+exactHGoal: 0,
+
+rO: 0, 
+dR: 0,
 
 springDataSetToUse: null, 
 selectedWireDiam: 0,
-selectedWireColor: 'red',
+selectedWireColor: '',
 
 openHangingHeight: 0,
 openHangingSlatCount: 0,
@@ -1074,19 +1076,19 @@ amountOfCoils: 0,
 internalDiameter: 0,
 springWeight: 0, 
 
-dataEntryErrorFlag: false
+numCruncherErrorFlag: false
 };
 
 // Post data entry error message:
  let errorStack=[];
- function dataEntryError (errMssg='ERROR! WRONG DATA ENTERED ON AN INPUT FORM!!') {
+ function numCruncherError (errMssg='ERROR! WRONG DATA ENTERED ON AN INPUT FORM!!') {
   
   errorStack.push(errMssg);
- // Display an error message
+ // Display the 1st error message or redisplay 1st error message if subsequent errors occur. 
  document.querySelector('#bullet-text').textContent=errorStack[0];
  console.log(`${errMssg}`, 'errorStack: ', {errorStack});
  
- dataEntryErrorFlag=true;
+ numCruncherErrorFlag=true;
  }
  
  // Use updated rd obj to generate calcDat obj:
@@ -1097,6 +1099,7 @@ dataEntryErrorFlag: false
   calcDat.slatOverlapWithWall= -constDat.intertrackGap - constDat.anglesA_Thickness;
   
 /*
+// original calcDat builder code snippet:
 if(rd.misc2.dataPoints.mounting===0) {
 // BJ mount
   calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallBetweenJamb;
@@ -1108,11 +1111,9 @@ if(rd.misc2.dataPoints.mounting===0) {
 calcDat.slatOverlapWithWall=constDat.slatOverlapWithWallExtMount;
  }else{
 // Invalid slat mounting entry
-dataEntryError('Invalid mounting style entry'); 
+numCruncherError('Invalid mounting style entry'); 
  }
  */
- 
- // § @@@
 
 // ENDLOCK THICKNESS IN USE
 if (rd.misc.dataPoints.endlockStyle===0) {
@@ -1139,7 +1140,7 @@ calcDat.endlockThicknessInUse=constDat.curvedCastironEndlockThickness;
 
 }else{
 // Invalid endlock style entry
-dataEntryError('Invalid endlock style entry'); 
+numCruncherError('Invalid endlock style entry'); 
 }
 
 }else if (rd.slats.dataPoints.slatStyle===2) {
@@ -1160,12 +1161,12 @@ calcDat.endlockThicknessInUse=constDat.flatCastironEndlockThickness;
 
 }else{
 // Invalid endlock style entry
-dataEntryError('Invalid endlock style entry'); 
+numCruncherError('Invalid endlock style entry'); 
 }
 
 }else{
 // Invalid slat style entry
-dataEntryError('Invalid slat style entry'); 
+numCruncherError('Invalid slat style entry'); 
 }
 
 }
@@ -1191,7 +1192,7 @@ calcDat.windlockThicknessInUse=constDat.curvedCastironWindlockThickness;
 
 }else{
 // Invalid windlock style entry
-dataEntryError('Invalid windlock style entry'); 
+numCruncherError('Invalid windlock style entry'); 
 }
 
 }else if (rd.slats.dataPoints.slatStyle===2) {
@@ -1208,12 +1209,12 @@ calcDat.windlockThicknessInUse=constDat.flatCastironWindlockThickness;
 
 }else{
 // Invalid windlock style entry
-dataEntryError('Invalid windlock style entry'); 
+numCruncherError('Invalid windlock style entry'); 
 }
 
 }else{
 // Invalid slat style entry
-dataEntryError('Invalid slat style entry'); 
+numCruncherError('Invalid slat style entry'); 
 }
 
 }
@@ -1247,7 +1248,7 @@ calcDat.oneEndlockWeight=constDat.curvedStampedEndlockUnitWeight;
 calcDat.oneEndlockWeight=constDat.curvedCastironEndlockUnitWeight;
 }else{
 // Invalid endock style entry
-dataEntryError('Invalid endock style entry'); 
+numCruncherError('Invalid endock style entry'); 
 }
 
 // @@@@@@@@@@@@@@@@@@@@@@@@
@@ -1270,12 +1271,12 @@ calcDat.oneEndlockWeight=constDat.flatStampedEndlockUnitWeight;
 calcDat.oneEndlockWeight=constDat.flatCastironEndlockUnitWeight;
 }else{
 // Invalid endock style entry
-dataEntryError('Invalid endock style entry'); 
+numCruncherError('Invalid endock style entry'); 
 }
 
 }else{
 // Invalid slat style entry
-dataEntryError('Invalid slat style entry'); 
+numCruncherError('Invalid slat style entry'); 
 }
 
 // ONE WINDLOCK WEIGHT
@@ -1297,7 +1298,7 @@ calcDat.oneWindlockWeight=constDat.noWindlockUnitWeight;
 
 } else {
 // Invalid slat style entry
-dataEntryError('Invalid windlock style entry'); 
+numCruncherError('Invalid windlock style entry'); 
 }
 
 } else if (rd.slats.dataPoints.slatStyle===2) {
@@ -1317,12 +1318,12 @@ calcDat.oneWindlockWeight=constDat.noWindlockUnitWeight;
 
 } else {
 // Invalid slat style entry
-dataEntryError('Invalid windlock style entry'); 
+numCruncherError('Invalid windlock style entry'); 
 }
 
 }else{
 // Invalid slat style entry
-dataEntryError('Invalid slat style entry'); 
+numCruncherError('Invalid slat style entry'); 
 }
 
 // SLAT LINEAR INCH WEIGHT
@@ -1336,7 +1337,7 @@ calcDat.slatLinearInchWeight=constDat.slatLinearInchWeight20G;
 calcDat.slatLinearInchWeight18G;
 } else {
 // Invalid slat gauge entry
-dataEntryError('Invalid slat gauge entry');
+numCruncherError('Invalid slat gauge entry');
 }
 
 // BARREL DIAMETER
@@ -1366,7 +1367,7 @@ calcDat.barrelDiameter=constDat.barrelTube4inchDia;
  calcDat.barrelDiameter=constDat.barrelTube8inchDia;
 }else{
 // Invalid barrel style
-dataEntryError('Invalid barrel style');
+numCruncherError('Invalid barrel style');
 }
 
 // SLAT "C" VALUE
@@ -1408,7 +1409,7 @@ calcDat.slatC_value=constDat.slatC_value8inchTubeFlatSlat;
 
 }else{
 // Invalid slat, or barrel style
-dataEntryError('Either, invalid slat or barrel style');
+numCruncherError('Either, invalid slat or barrel style');
 }
 
 // SLAT VERTICAL CONTRIBUTION
@@ -1418,7 +1419,7 @@ calcDat.slatVerticalContribution=constDat.curvedSlatVerticalContribution;
  calcDat.slatVerticalContribution=constDat.flatSlatVerticalContribution;
 }else{
 // Invalid slat style
-dataEntryError('Invalid slat style');
+numCruncherError('Invalid slat style');
 }
 
 // ASTRAGAL LINEAR INCH WEIGHT 
@@ -1430,7 +1431,7 @@ calcDat.astragalLinearInchWeight=constDat.vinylAstragalLinearInchWeight;
 calcDat.astragalLinearInchWeight=constDat.rubberAstragalLinearInchWeight;
 }else{
 // Invalid astragal style
-dataEntryError('Invalid astragal style');
+numCruncherError('Invalid astragal style');
 }
 
 // ONE SLIDEBOLT WEIGHT
@@ -1440,16 +1441,16 @@ if (rd.misc.dataPoints.slideBoltsStyle===0) {
 calcDat.oneSlideBoltWeight=constDat.useSlidebolts;
 } else {
 // Invalid slidebolts style
-dataEntryError('Invalid slidebolts style');
+numCruncherError('Invalid slidebolts style');
 }
 
-// BOTTOM BAR VERTICAL TRAVEL (hGoal)
+// BOTTOM BAR VERTICAL TRAVEL (exactHGoal)
 // Original formula:
 /*
-calcDat.hGoal=rd.rdOutline.dataPoints.height + constDat.bbBeyondWallCutoutHeight;
+calcDat.exactHGoal=rd.rdOutline.dataPoints.height + constDat.bbBeyondWallCutoutHeight;
 */
 // Minyety version formula:
-calcDat.hGoal=rd.rdOutline.dataPoints.height - calcDat.endplateSize - constDat.bbStopDistanceBelowEndPlate;
+calcDat.approximateHGoal=rd.rdOutline.dataPoints.height - calcDat.approximateEndplateSize - constDat.bbStopDistanceBelowEndPlate;
 
 // SPRING INTERNAL DIAMETER 
 calcDat.internalDiameter=rd.spring.dataPoints.intDia;
@@ -1476,11 +1477,190 @@ const oneSlatPounds=calcDat.slatLinearInchWeight*calcDat.slatWidth;
 calcDat.oneSlatWeight=oneSlatPounds;
 console.log('oneSlatWeight(): ', {oneSlatPounds});
 return oneSlatPounds;}
+ // §
+// Implementation of nth row of lookup table:
+const nthTableRow={
+ iterationNo:0,
+  theta:0,
+  sigma:0,
+  rO:0,
+  deltaTheta:0,
+  sArc:0,
+  degr:0,
+  dR:0,
+  h:0
+ };
+ 
+// Global table row variables
+ let theta;
+ let sigma;
+ let rO;
+ let deltaTheta;
+ let sArc;
+ let degr;
+ let dR;
+ let h;
+ 
+function iteration () {
+ if (nthTableRow.iterationNo===0) {
+nthTableRow.iterationNo=1;
+ }else{
+nthTableRow.iterationNo++;
+ }
+} 
+
+function buildNthRowOfLukUpTable () {
+iteration();
+
+// Initial values: 
+let r0=calcDat.barrelDiameter/2;
+
+const a=calcDat.slatC_value/(2*Math.PI);
+const thetaInit=((2*r0 + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
+const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
+const arcInit=(a*((thetaInit*sigmaInit)
++ Math.log(thetaInit+sigmaInit)))/2;
+
+
+theta=thetaInit + ((5*Math.PI*(nthTableRow.iterationNo-1))/180);
+nthTableRow.theta=theta;
+
+sigma=Math.sqrt(1 + (nthTableRow.theta)*(nthTableRow.theta));
+nthTableRow.sigma=sigma;
+
+rO=a*(nthTableRow.theta);
+nthTableRow.rO=rO;
+
+deltaTheta=(nthTableRow.theta) - thetaInit;
+nthTableRow.deltaTheta=deltaTheta;
+
+sArc=(a*(((nthTableRow.theta)*(nthTableRow.sigma) ) + Math.log((nthTableRow.theta) + (nthTableRow.sigma))))/2;
+nthTableRow.sArc=sArc;
+
+degr=(180*(nthTableRow.deltaTheta))/Math.PI;
+nthTableRow.degr=degr;
+
+dR=(nthTableRow.deltaTheta)/(2*Math.PI);
+nthTableRow.dR=dR;
+
+h=(nthTableRow.sArc)-arcInit;
+nthTableRow.h=h;
+
+return;}
+ 
+function calcRoDrForHgoal () {
+ 
+let nthIteration;
+if (isNaN(nthIteration)) {
+nthIteration=0;
+}
+
+while(nthIteration<1051) {
+nthIteration++;
+if(nthIteration>=1050) {
+console.log('Error: Too many iterations.');
+break;
+}else{
+// Run row generator to produce an nth table row
+buildNthRowOfLukUpTable();
+
+if(nthTableRow.h>=calcDat.approximateHGoal) {
+ // Write out result
+calcDat.rO=nthTableRow.rO;
+calcDat.dR=nthTableRow.dR;
+
+console.log(`💪 Success! Found rO ${Math.round(10000*nthTableRow.rO)/10000}  For approximateHGoal ${Math.round(10000*calcDat.approximateHGoal)/10000}`);
+
+console.log ('calcRoDrForHgoal(): ', {nthTableRow});
+ break;
+}
+}
+}
+}
+
+function exactEndplateSize () {
+ 
+const minPlateSize=2 * (constDat.minimumInternalRollToHoodClearance + calcDat.rO);
+calcDat.minPlateSize=minPlateSize;
+console.log('minPlateSize: ', `${minPlateSize}`);
+
+let forLoopSuccesful=false;
+const maxIterations=constDat.endPlatePossibleSizes.length;
+let i=0;
+for (i; i < maxIterations; i++) {
+ if (constDat.endPlatePossibleSizes[i]>=minPlateSize) {
+  calcDat.exactEndplateSize=constDat.endPlatePossibleSizes[i];
+  forLoopSuccesful=true;
+  break;
+ }
+} // end of for-loop
+if (!forLoopSuccesful) {
+// Push to error stack
+numCruncherError('Curtain roll too large for available endplate sizes');
+}
+}
+
+// start of CALCS FOR OPEN CURTAIN:
+function openHangingHeight () {
+ const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.exactEndplateSize));
+console.log(`For approximateHGoal ${calcDat.approximateHGoal}, rO is ${calcDat.rO} and dR is ${calcDat.dR}`);
+ 
+ const b=(0.5 * calcDat.exactEndplateSize) - constDat.endplateWallEdgeToTrackMiddle - calcDat.rO;
+ const d=(a*a) + (b*b);
+ const linearHeight=Math.sqrt(d);
+/*
+const linearHeight=Math.sqrt(
+ (calcDat.exactEndplateSize/2)^2 + ((calcDat.exactEndplateSize/2) - 1.5)^2
+ );
+ */
+calcDat.openHangingHeight=linearHeight;
+console.log('openHangingHeight(): ', {linearHeight});
+return linearHeight;}
+
+function openHangingSlatCount () {
+
+ // Substract 1 that belongs to the BB
+const slatCount=(calcDat.openHangingHeight/(calcDat.slatVerticalContribution));
+
+calcDat.openHangingSlatCount=slatCount;
+console.log('openHangingSlatCount(): ', {slatCount});
+
+return slatCount;}
+
+function openEndlocksCount () {
+let endlocksCount;
+
+let roundedOffSlatCnt=Math.round(calcDat.openHangingSlatCount);
+ // If slat count even
+if(roundedOffSlatCnt % 2===0) {
+endlocksCount = roundedOffSlatCnt;
+}else{ // If slat count odd
+endlocksCount = roundedOffSlatCnt + 1;
+}
+
+calcDat.openEndlocksCount=endlocksCount;
+console.log('openEndlocksCount(): ', {endlocksCount});
+return endlocksCount;}
+
+function openHangingWeight () {
+
+const hangingWeight = (
+ calcDat.openHangingSlatCount*calcDat.oneSlatWeight)
+ + 
+ (calcDat.openEndlocksCount*calcDat.oneEndlockWeight)
+
+ + calcDat.bbAssemblyWeight;
+ 
+ calcDat.openHangingWeight=hangingWeight;
+console.log('openHangingWeight(): ', {hangingWeight});
+
+return hangingWeight;}
+// end of CALCS FOR OPEN CURTAIN:
 
 function closedHangingHeight () {
  // Upper end of track to tube attachment
- const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
- const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + calcDat.barrelDiameter)/2); 
+ const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.approximateEndplateSize));
+ const b=(0.5 * calcDat.approximateEndplateSize) - constDat.endplateWallEdgeToTrackMiddle - ((calcDat.slatC_value + calcDat.barrelDiameter)/2); 
  const d=(a*a) + (b*b);
  const c=Math.sqrt(d);
  
@@ -1735,7 +1915,7 @@ break;
 // Check if exit for-loop was due to match or was exhausted due to match not found.
 if (strongEnoughWireFound === false) {
 // Error. Excessive load for existing wire diameter
-dataEntryError(`The ${Math.round(calcDat.requiredInchPound)} InchPound required is too large for existing wire diameters.`);
+numCruncherError(`The ${Math.round(calcDat.requiredInchPound)} InchPound required is too large for existing wire diameters.`);
 /*
 `Sorry. The ${Math.round(calcDat.requiredInchPound)} InchPound required is too large for existing wire diameters.`
 */
@@ -1753,167 +1933,15 @@ console.log('selectSpringWireDiameter(): ', {selectedWireDiam});
 }
 return selectedWireDiam;}
 
+ 
 // postWireDiaToResultsPage() no longer used:
 
+
+ // § @@@
+
+ // § @@@
+ 
 /* Start of CALCULATING SPRING LENGTH */
-// Implementation of nth row of lookup table:
-const nthTableRow={
- iterationNo:0,
-  theta:0,
-  sigma:0,
-  rO:0,
-  deltaTheta:0,
-  sArc:0,
-  degr:0,
-  dR:0,
-  h:0
- };
- 
-// Global table row variables
- let theta;
- let sigma;
- let rO;
- let deltaTheta;
- let sArc;
- let degr;
- let dR;
- let h;
- 
-function iteration () {
- if (nthTableRow.iterationNo===0) {
-nthTableRow.iterationNo=1;
- }else{
-nthTableRow.iterationNo++;
- }
-} 
-
-function buildNthRowOfLukUpTable () {
-iteration();
-
-// Initial values: 
-let r0=calcDat.barrelDiameter/2;
-
-const a=calcDat.slatC_value/(2*Math.PI);
-const thetaInit=((2*r0 + calcDat.slatC_value)*Math.PI)/calcDat.slatC_value;
-const sigmaInit=Math.sqrt(1 + (thetaInit*thetaInit));
-const arcInit=(a*((thetaInit*sigmaInit)
-+ Math.log(thetaInit+sigmaInit)))/2;
-
-
-theta=thetaInit + ((5*Math.PI*(nthTableRow.iterationNo-1))/180);
-nthTableRow.theta=theta;
-
-sigma=Math.sqrt(1 + (nthTableRow.theta)*(nthTableRow.theta));
-nthTableRow.sigma=sigma;
-
-rO=a*(nthTableRow.theta);
-nthTableRow.rO=rO;
-
-deltaTheta=(nthTableRow.theta) - thetaInit;
-nthTableRow.deltaTheta=deltaTheta;
-
-sArc=(a*(((nthTableRow.theta)*(nthTableRow.sigma) ) + Math.log((nthTableRow.theta) + (nthTableRow.sigma))))/2;
-nthTableRow.sArc=sArc;
-
-degr=(180*(nthTableRow.deltaTheta))/Math.PI;
-nthTableRow.degr=degr;
-
-dR=(nthTableRow.deltaTheta)/(2*Math.PI);
-nthTableRow.dR=dR;
-
-h=(nthTableRow.sArc)-arcInit;
-nthTableRow.h=h;
-
-return;}
- // § 1st marker
- 
-function calcRoDrForHgoal () {
- 
-let nthIteration;
-if (isNaN(nthIteration)) {
-nthIteration=0;
-}
-
-while(nthIteration<1051) {
-nthIteration++;
-if(nthIteration>=1050) {
-console.log('Error: Too many iterations.');
-break;
-}else{
-// Run row generator to produce an nth table row
-buildNthRowOfLukUpTable();
-
-if(nthTableRow.h>=calcDat.hGoal) {
- // Write out result
-calcDat.rO=nthTableRow.rO;
-calcDat.dR=nthTableRow.dR;
-
-console.log(`💪 Success! Found rO ${Math.round(10000*nthTableRow.rO)/10000}  For hGoal ${Math.round(10000*calcDat.hGoal)/10000}`);
-
-console.log ('calcRoDrForHgoal(): ', {nthTableRow});
- break;
-}
-}
-}
-}
-
-// start of CALCS FOR OPEN CURTAIN:
-function openHangingHeight () {
- const a=(constDat.bbStopDistanceBelowEndPlate + (0.5 * calcDat.endplateSize));
-console.log(`For hGoal ${calcDat.hGoal}, rO is ${calcDat.rO} and dR is ${calcDat.dR}`);
- 
- const b=(0.5 * calcDat.endplateSize) - constDat.endplateWallEdgeToTrackMiddle - calcDat.rO;
- const d=(a*a) + (b*b);
- const linearHeight=Math.sqrt(d);
-/*
-const linearHeight=Math.sqrt(
- (calcDat.endplateSize/2)^2 + ((calcDat.endplateSize/2) - 1.5)^2
- );
- */
-calcDat.openHangingHeight=linearHeight;
-console.log('openHangingHeight(): ', {linearHeight});
-return linearHeight;}
-
-function openHangingSlatCount () {
-
- // Substract 1 that belongs to the BB
-const slatCount=(calcDat.openHangingHeight/(calcDat.slatVerticalContribution));
-
-calcDat.openHangingSlatCount=slatCount;
-console.log('openHangingSlatCount(): ', {slatCount});
-
-return slatCount;}
-
-function openEndlocksCount () {
-let endlocksCount;
-
-let roundedOffSlatCnt=Math.round(calcDat.openHangingSlatCount);
- // If slat count even
-if(roundedOffSlatCnt % 2===0) {
-endlocksCount = roundedOffSlatCnt;
-}else{ // If slat count odd
-endlocksCount = roundedOffSlatCnt + 1;
-}
-
-calcDat.openEndlocksCount=endlocksCount;
-console.log('openEndlocksCount(): ', {endlocksCount});
-return endlocksCount;}
-
-function openHangingWeight () {
-
-const hangingWeight = (
- calcDat.openHangingSlatCount*calcDat.oneSlatWeight)
- + 
- (calcDat.openEndlocksCount*calcDat.oneEndlockWeight)
-
- + calcDat.bbAssemblyWeight;
- 
- calcDat.openHangingWeight=hangingWeight;
-console.log('openHangingWeight(): ', {hangingWeight});
-
-return hangingWeight;}
-// end of CALCS FOR OPEN CURTAIN:
-
 function springLength () {
  const ippt=(
   (calcDat.lowMomentArm * calcDat.closedHangingWeight) 
@@ -2004,15 +2032,6 @@ datumA.innerHTML=calcDat.selectedWireColor.concat(' Wire');
 }
 }
 
-/*
-document.querySelector(':root').style.setProperty('--spring-color-code', 'lightblue');
-
-document.querySelector('#inches-a').style.backgroundColor='magenta';
-document.querySelector('#datum-a').style.backgroundColor='magenta';
-document.querySelector('#inches-a').style.color='var(--spring-color-code)';
-document.querySelector('#datum-a').style.color='var(--spring-color-code)';
-*/
-
 document.querySelector('#inches-b').textContent=numMolder(calcDat.internalDiameter, 4);
 document.querySelector('#inches-b').style.color='white';
 
@@ -2024,7 +2043,13 @@ document.querySelector('#inches-d').style.color='white';
 
 document.querySelector('#inches-e').textContent=numMolder(calcDat.springWeight, 4);
 document.querySelector('#inches-e').style.color='white';
-
+// Display suggested endplateSize 
+if (!calcDat.numCruncherErrorFlag) {
+ const endPlateSuggestion=document.querySelector('#bullet-text');
+ endPlateSuggestion.style.color= 'lightgreen';
+ endPlateSuggestion.innerHTML= `Suggested endplate size: ${calcDat.exactEndplateSize}     👀`;
+ 
+}
 console.log("MY WHOLE APP CALC'd SPECS: ", {calcDat});
 }
 /* end CALCULATING SPRING LENGTH */
@@ -2056,12 +2081,14 @@ document.querySelector('#inches-d').style.backgroundColor ='darkred';
 document.querySelector('#inches-e').style.backgroundColor ='darkred';
 
 document.querySelector('#datum-a').innerHTML='No Wire';
+
+
 }
 
 // oldResultProcessing() no longer used
 
 function updateCalcBtnStyle () {
-if(requiredInchPoundsInRange===true && dataEntryErrorFlag===false){
+if(requiredInchPoundsInRange===true && numCruncherErrorFlag===false){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
@@ -2089,6 +2116,7 @@ slatWidth();
 oneSlatWeight();
 
 calcRoDrForHgoal();
+exactEndplateSize();
 openHangingHeight();
 openHangingSlatCount();
 openEndlocksCount();
