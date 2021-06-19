@@ -91,7 +91,7 @@ align-items: center ;
  /* margin: 0 auto ;*/
 text-align: center ;
 
- display: block ;
+ display: inline-block ;
  
 color: darkred;
 }
@@ -170,11 +170,11 @@ text-align: left;
 color: white;
 text-transform: capitalize;
 }
-
+/*
 #datum-a, #inches-a{
- font-size :1.75rem;
+ font-size :1.5rem;
 } 
-
+*/
 li {outline :1px solid transparent ;
 /* outline :1px solid lightgreen ; */
 width: fit-content ;
