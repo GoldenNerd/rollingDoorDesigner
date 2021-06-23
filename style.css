@@ -43,8 +43,8 @@ background-image: linear-gradient(to bottom , rgb(115,115,115) , black ) ;
 body {
 margin:0;
 padding:0;
-width: 100vw;
-height: 100vh;
+width: 99vw;
+height: 99vh;
 color :white ;
 font-size :1.5rem;
 font-weight :bold;
@@ -96,6 +96,7 @@ text-align: center ;
 color: darkred;
 }
 
+/*
 .blinking {
  animation:blinkingText
  1.5s
@@ -106,6 +107,7 @@ color: darkred;
   background-color: var(--blink-color);
  }
  }
+*/
 
 #data-form-frame {
 outline :1px solid transparent ;
@@ -127,13 +129,25 @@ margin-bottom: 0.5rem;
 /* outline :1px solid red ; */
 width: 30rem ;
 height: 22.5rem ;
-
+display: flex;
+flex-direction: column;
+flex-wrap :nowrap ;
+justify-content: center ;
+align-items: center ;
 background-color : black ;
 background-image: var(--component-sketch);
 background-size: cover;
 background-repeat: no-repeat ;
 margin-top: 0;
 margin-bottom: 0.5rem ;
+animation:blinkingText
+ 1.5s
+ infinite;
+ }
+ @keyframes blinkingText{
+ 60% {
+  background-color: var(--blink-color);
+ }
 }
 
 .feet-value {
@@ -211,7 +225,7 @@ width: 1rem;
   /*
   background-color and color controlled by JavaScript
 */
-display: block ;
+display: inline ;
 width: 108%;
 outline :1px solid transparent ;
 
@@ -231,7 +245,7 @@ flex-wrap :nowrap ;
 justify-content :space-around ;
 align-items :center ;
 position: fixed;
-bottom: 8% ;
+bottom: 4% ;
 }
 
 #previous-page {

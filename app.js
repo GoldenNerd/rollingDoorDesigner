@@ -1,4 +1,9 @@
 'use strict';
+
+// Maximize browser window
+window.moveTo(0,0);
+window.resizeTo(screen.width,screen.height);
+
 // ################################
 // THE ROLLING DOOR OBJECT:
 // §###############################
@@ -9,7 +14,7 @@ let rd = {
   DataContainerNames: ['rdOutline', 'barrel', 'slats', 'bottomBar', 'bottomBar', 'spring', 'misc', 'misc2'],
   startPage: {
     objNo: 0,
-    pageHeader: '🦉 Welcome to RD Designer! 🐝',
+    pageHeader: '🐝 Welcome to RD Designer! 🐝',
     sketchFileName: 'url(startPage.jpg)', 
     noOfDataPoints: 0,
     domInchesPlaceholders: [],
@@ -29,8 +34,8 @@ let rd = {
     noOfDataPoints: 2,
     ftPresets: [10, 11],
     ftView: ['inline-block' , 'inline-block'],
-    inchesPresets: [6.25, 5],
-    domInchesPlaceholders: ['inches','inches' ],
+    inchesPresets: [6.25, 4],
+    domInchesPlaceholders: ['0 inches','0 inches' ],
     labels: ['Width',
       'Height'],
     datumKeys: ['width',
@@ -127,7 +132,7 @@ let rd = {
     ftPresets: [0, 0, 0, 0],
     inchesPresets: [2, 2, 0.125, 2],
     ftView: ['none' , 'none' , 'none', 'none'],
-    domInchesPlaceholders: ['inches', 'inches', 'inches', 'Qty'],
+    domInchesPlaceholders: ['0 inches', '0 inches', '0 inches', 'Qty 0'],
     labels: [
      'Angle Height',
      'Angle Width',
@@ -156,9 +161,9 @@ let rd = {
     sketchFileName: 'url(spring.jpg)',
     noOfDataPoints: 1,
     ftPresets: [0],
-    inchesPresets: [3.0000],
+    inchesPresets: [3.0625],
     ftView: ['none'],
-    domInchesPlaceholders: ['inches'],
+    domInchesPlaceholders: ['0 inches'],
     labels: ['Inches Inside'],
     datumKeys: ['intDia'],
     datumValues: [],
@@ -175,9 +180,9 @@ let rd = {
     sketchFileName: 'url(misc.jpg)',
     noOfDataPoints: 4,
     ftPresets: [0, 0, 0, 0],
-    inchesPresets: [1, 0, 0, 2],
+    inchesPresets: [3, 0, 1, 1],
     ftView: ['none' , 'none', 'none', 'none'],
-    domInchesPlaceholders: ['style', 'style', 'use?', 'style'],
+    domInchesPlaceholders: ['none', 'none', 'none', 'none'],
     labels: [
       'Endlocks Style',
       'Windlock Style',
@@ -226,7 +231,7 @@ let rd = {
     ftPresets: [0, 0, 0, 0, 0],
     inchesPresets: ['0', '0', '0', '0', '0'],
     ftView: ['none' , 'none' , 'none', 'none', 'none'],
-    domInchesPlaceholders: ['0 inches', '0 inches', '0 inches', '0 ea', '0 lb'],
+    domInchesPlaceholders: ['0 inches', '0 inches', '0 inches', '1 ea', '1 lb'],
     labels: [' Wire Diameter',
       ' Internal Diameter',
       ' Length',
@@ -425,18 +430,31 @@ function initializeBtnsStyles () {
 /*
  All above functions are called by the onload function. They are used to build the page for the active component object, by populating all page labels, pictures and styles. All this upon page load.
 */
-let numCruncherErrorFlag=false;
 window.onload = function () {
+ // document.documentElement.requestFullscreen();
   allowSwitchingToNextPage = false;
   // Read Template ID of the Page, and simultaneously populate template id label:
   const templateId = returnTemplateId();
   // Chk if home template
   if (templateId === 'home') {
    // Clear localStorage
-   window.localStorage.clear();
+   // window.localStorage.clear();
     // Initialize LocSt w/ home's Page Name:
     homePageNameToLocSto();
-    allowSwitchingToNextPage = true;
+    
+ // Script Usage Permit 
+// Retrieve script permit
+// §
+const clientMachineKey=JSON.parse(window.localStorage.getItem('clientMachineKey'));
+document.querySelector('#password').innerText=clientMachineKey;
+
+ console.log ('clientMachineKey: ', clientMachineKey, 'calcDat.scriptHardcodedKey: ', calcDat.scriptHardcodedKey);
+ 
+  if (clientMachineKey===calcDat.scriptHardcodedKey) {
+     allowSwitchingToNextPage = true;
+    }
+   
+//allowSwitchingToNextPage = true;
   }
   // Now handle home page as any other component page...
   // Populate template ID label (debbugging only. Not needed):
@@ -478,7 +496,7 @@ window.onload = function () {
   */
     styleCaptureBtnAsCalcBtn();
     // Reset flag before user captures any data 
-    numCruncherErrorFlag=false;
+   // calcDat.numCruncherErrorFlag=false;
   }
   
 };
@@ -904,8 +922,10 @@ destination=JSON.parse(window.localStorage.getItem(`${source}`));
 
 /* Lookup Object for RD Invariant Data*/
 const constDat={
+systemMasterKey: 'unlockScript',
 intertrackGap: 0.625,
 anglesA_Thickness: 0.3750, // 2 angles
+outlineLRThickness: 0,
 
 slatOverlapWithWallBetweenJamb: -8.75, 
 slatOverlapWithWallIntMount: 5.25,
@@ -1008,9 +1028,11 @@ minimumInternalRollToHoodClearance: 0.7500,
 endPlatePossibleSizes: [12, 14, 15.5, 16, 18],
 
 };
-
+// Establish the client's machine key
+//window.localStorage.setItem('clientMachineKey', JSON.stringify(constDat.systemMasterKey));
 /* Lookup Object for RD derived Data*/
 const calcDat={
+scriptHardcodedKey: 'unlockScript', 
 slatOverlapWithWall: 0,
 
 endlockThicknessInUse: 0,
@@ -1020,8 +1042,8 @@ windlockThicknessInUse: 0,
 slatTerminationThickness: 0,
 
 slatLinearInchWeight: 0, 
-
-approximateEndplateSize: 15,
+ // § Set to 14 for debugging
+approximateEndplateSize: 14,
 
 barrelDiameter: 0,
 
@@ -1076,19 +1098,22 @@ amountOfCoils: 0,
 internalDiameter: 0,
 springWeight: 0, 
 
-numCruncherErrorFlag: false
+// numCruncherErrorFlag: null
 };
+
+// Hardcode the client's machine key in the script
+//calcDat.scriptHardcodedKey=JSON.parse(window.localStorage.getItem('clientMachineKey'));
+
+//document.querySelector('#password').innerText=calcDat.scriptHardcodedKey;
 
 // Post data entry error message:
  let errorStack=[];
  function numCruncherError (errMssg='ERROR! WRONG DATA ENTERED ON AN INPUT FORM!!') {
   
   errorStack.push(errMssg);
- // Display the 1st error message or redisplay 1st error message if subsequent errors occur. 
- document.querySelector('#bullet-text').textContent=errorStack[0];
- console.log(`${errMssg}`, 'errorStack: ', {errorStack});
- 
- numCruncherErrorFlag=true;
+  // calcDat.numCruncherErrorFlag=true;
+ // Display error to console
+ // console.log(`${errMssg}`, 'errorStack: ', {errorStack});
  }
  
  // Use updated rd obj to generate calcDat obj:
@@ -1096,7 +1121,7 @@ numCruncherErrorFlag: false
 // SLAT OVERLAP WITH WALL 
 // This Minyety version does not use the mounting style data. 
 // Unused mounting style object
-  calcDat.slatOverlapWithWall= -constDat.intertrackGap - constDat.anglesA_Thickness;
+  calcDat.outlineLRThickness= constDat.intertrackGap + constDat.anglesA_Thickness;
   
 /*
 // original calcDat builder code snippet:
@@ -1140,7 +1165,7 @@ calcDat.endlockThicknessInUse=constDat.curvedCastironEndlockThickness;
 
 }else{
 // Invalid endlock style entry
-numCruncherError('Invalid endlock style entry'); 
+numCruncherError('Invalid endlock style entry 2'); 
 }
 
 }else if (rd.slats.dataPoints.slatStyle===2) {
@@ -1161,7 +1186,7 @@ calcDat.endlockThicknessInUse=constDat.flatCastironEndlockThickness;
 
 }else{
 // Invalid endlock style entry
-numCruncherError('Invalid endlock style entry'); 
+numCruncherError('Invalid endlock style entry 4'); 
 }
 
 }else{
@@ -1248,7 +1273,7 @@ calcDat.oneEndlockWeight=constDat.curvedStampedEndlockUnitWeight;
 calcDat.oneEndlockWeight=constDat.curvedCastironEndlockUnitWeight;
 }else{
 // Invalid endock style entry
-numCruncherError('Invalid endock style entry'); 
+numCruncherError('Invalid endock style entry 2'); 
 }
 
 // @@@@@@@@@@@@@@@@@@@@@@@@
@@ -1271,7 +1296,7 @@ calcDat.oneEndlockWeight=constDat.flatStampedEndlockUnitWeight;
 calcDat.oneEndlockWeight=constDat.flatCastironEndlockUnitWeight;
 }else{
 // Invalid endock style entry
-numCruncherError('Invalid endock style entry'); 
+numCruncherError('Invalid endock style entry 4'); 
 }
 
 }else{
@@ -1454,14 +1479,15 @@ calcDat.approximateHGoal=rd.rdOutline.dataPoints.height - calcDat.approximateEnd
 
 // SPRING INTERNAL DIAMETER 
 calcDat.internalDiameter=rd.spring.dataPoints.intDia;
-
+console.log('constDat: ', {constDat});
 console.log('buildCalcDat(): ', {calcDat});
+console.log('errorStack: ', {errorStack});
 }
 
 /* CLOSED ASSEMBLY CALCULATIONS */
 // Slat width
 function slatAssemblyWidth () {
-const assembledSlatWidth=rd.rdOutline.dataPoints.width+calcDat.slatOverlapWithWall;
+const assembledSlatWidth=rd.rdOutline.dataPoints.width-calcDat.outlineLRThickness;
 calcDat.slatAssemblyWidth=assembledSlatWidth;
 console.log('slatAssemblyWidth(): ', {assembledSlatWidth});
 return assembledSlatWidth;}
@@ -1558,7 +1584,8 @@ nthIteration=0;
 while(nthIteration<1051) {
 nthIteration++;
 if(nthIteration>=1050) {
-console.log('Error: Too many iterations.');
+ errorStack.push('☹️ Excessive algorithm iterations.');
+console.log('☹️ Excessive algorithm iterations.');
 break;
 }else{
 // Run row generator to produce an nth table row
@@ -1670,7 +1697,10 @@ const linearHeight=
  */
  c
  +
- (rd.rdOutline.dataPoints.height + constDat.bbBeyondWallCutoutHeight);
+ // Darío formula:
+ (rd.rdOutline.dataPoints.height - calcDat.approximateEndplateSize - constDat.bbStopDistanceBelowEndPlate);  // §
+ // original formula:
+ //(rd.rdOutline.dataPoints.height + constDat.bbBeyondWallCutoutHeight);
  
  calcDat.closedHangingHeight=linearHeight;
 console.log('closedHangingHeight(): ', {linearHeight});
@@ -1921,7 +1951,7 @@ numCruncherError(`The ${Math.round(calcDat.requiredInchPound)} InchPound require
 */
 requiredInchPoundsInRange=false;
 
-console.log (`Sorry. The ${Math.round(calcDat.requiredInchPound)} InchPound value required is too large for existing wire diameters.`);
+// console.log (`Sorry. The ${Math.round(calcDat.requiredInchPound)} InchPound value required is too large for existing wire diameters.`);
 
 } else {
 // Save selectedWireDiam to result object as a datum value:
@@ -1943,9 +1973,11 @@ return selectedWireDiam;}
  
 /* Start of CALCULATING SPRING LENGTH */
 function springLength () {
+ console.log(`IPPT = (${calcDat.lowMomentArm} * ${calcDat.closedHangingWeight}) - (${calcDat.rO} * ${calcDat.openHangingWeight}) / ${calcDat.dR}`);
  const ippt=(
   (calcDat.lowMomentArm * calcDat.closedHangingWeight) 
-  - (calcDat.rO * calcDat.openHangingWeight))/calcDat.dR;
+  - (calcDat.rO * calcDat.openHangingWeight)
+  )/calcDat.dR;
   
   calcDat.ippt=ippt;
  console.log('ippt: ', {ippt});
@@ -1962,33 +1994,33 @@ function springTurns () {
 const n=calcDat.springLength/calcDat.selectedWireDiam;
  
 calcDat.amountOfCoils=n;
-console.log ('springTurns', {n});
+// console.log ('springTurns', {n});
 
 return n;}
 
 function springWeight () {
  const wireRadius=0.5 * calcDat.selectedWireDiam;
-console.log('wire Radius: ', {wireRadius});
+// console.log('wire Radius: ', {wireRadius});
 
 const wireCrossSectionArea=Math.PI*wireRadius*wireRadius;
-console.log('wire Cross Section Area: ', {wireCrossSectionArea});
+// console.log('wire Cross Section Area: ', {wireCrossSectionArea});
 
 const springMeanDiam=rd.spring.dataPoints.intDia+ calcDat.selectedWireDiam;
-console.log('spring Mean Diam: ', {springMeanDiam});
+// console.log('spring Mean Diam: ', {springMeanDiam});
 
 const oneCoilVolume=Math.PI *springMeanDiam*wireCrossSectionArea;
-console.log ('one Coil Volume: ', {oneCoilVolume});
+// console.log ('one Coil Volume: ', {oneCoilVolume});
 
 const springCoilsCount=springTurns();
-console.log ('spring Coils Count: ', {springCoilsCount});
+// console.log ('spring Coils Count: ', {springCoilsCount});
 
 const allCoilsVolume=oneCoilVolume*springCoilsCount;
-console.log ('all Coils Volume', {allCoilsVolume});
+// console.log ('all Coils Volume', {allCoilsVolume});
 
 const springWeight=allCoilsVolume*(constDat.highCarbSteelSpecificWeight);
 
 calcDat.springWeight=springWeight;
-console.log ('spring Weight(): ', {springWeight});
+// console.log ('spring Weight(): ', {springWeight});
 
 return springWeight;}
 /* end CALCULATING SPRING LENGTH */
@@ -2028,7 +2060,7 @@ datumA.innerHTML='brown Wire';
  }else{
 inchesA.style.color=calcDat.selectedWireColor;
 datumA.style.color=calcDat.selectedWireColor;
-datumA.innerHTML=calcDat.selectedWireColor.concat(' Wire');
+datumA.innerHTML=calcDat.selectedWireColor.concat(' Wire Diameter');
 }
 }
 
@@ -2043,14 +2075,12 @@ document.querySelector('#inches-d').style.color='white';
 
 document.querySelector('#inches-e').textContent=numMolder(calcDat.springWeight, 4);
 document.querySelector('#inches-e').style.color='white';
-// Display suggested endplateSize 
-if (!calcDat.numCruncherErrorFlag) {
- const endPlateSuggestion=document.querySelector('#bullet-text');
+// Display suggested endplateSize
+if(errorStack.length===0){
+ const endPlateSuggestion=document.querySelector('h4');
  endPlateSuggestion.style.color= 'lightgreen';
- endPlateSuggestion.innerHTML= `Suggested endplate size: ${calcDat.exactEndplateSize}     👀`;
- 
+ endPlateSuggestion.innerHTML= `Suggested endplate size: ${calcDat.exactEndplateSize}    👀`;
 }
-console.log("MY WHOLE APP CALC'd SPECS: ", {calcDat});
 }
 /* end CALCULATING SPRING LENGTH */
 function unspoolSpringSpecs () {
@@ -2082,13 +2112,30 @@ document.querySelector('#inches-e').style.backgroundColor ='darkred';
 
 document.querySelector('#datum-a').innerHTML='No Wire';
 
+ // Display the 1st error message that occured to image area. 
+ // Erase background image 
+document.querySelector(':root').style.setProperty('--component-sketch', '');
+// reduce image height
+document.querySelector('#sketch-of-active-component').style.height='6rem';
+// Output text to bulletin span that is inside image area 
+document.querySelector('#sketch-of-active-component').textContent=`🥺 ${errorStack[0]}`;
+document.querySelector('#sketch-of-active-component').style.color='red';
+// "turn on" the colored blinker changing the transparent color to a visible color
+document.querySelector(':root').style.setProperty('--blink-color', 'rgb(25,25,190)'); // #151530 #291609 
+  }
 
+function postToResultPage () {
+if (errorStack.length===0) {
+spoolSpringSpecs();
+}else{
+unspoolSpringSpecs();
+} 
+console.log("MY WHOLE APP CALC'd SPECS: ", {calcDat});
 }
-
 // oldResultProcessing() no longer used
 
 function updateCalcBtnStyle () {
-if(requiredInchPoundsInRange===true && numCruncherErrorFlag===false){
+if(requiredInchPoundsInRange===true && errorStack.length===0){
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkgreen');
 document.querySelector('#calc-results').value = 'SUCCESS!';
@@ -2096,12 +2143,17 @@ document.querySelector('#calc-results').value = 'SUCCESS!';
 document.querySelector('#calc-results').style.backgroundColor = ('lightgray');
 document.querySelector('#calc-results').style.color = ('darkred');
 document.querySelector('#calc-results').value = 'HUSTON, WE HAVE A PROBLEM!';
-document.querySelector(':root').style.setProperty('--blink-color', '#0c0c48'); // #151530 #291609 
-
-unspoolSpringSpecs();
 requiredInchPoundsInRange=true;
 }
 return;}
+
+function virtualCutout () {
+ // this function is only for debugging purposes. Assumptions: Interior mount, std tracks size.
+const overlapWithWall=constDat.slatOverlapWithWallIntMount;
+const width=rd.rdOutline.dataPoints.width - calcDat.outlineLRThickness - overlapWithWall;
+const height=rd.rdOutline.dataPoints.height-calcDat.exactEndplateSize - constDat.bbStopDistanceBelowEndPlate - constDat.bbBeyondWallCutoutHeight;
+console.log('Virtual Cutout: ', `${width}W X ${height}H`);
+}
 
 function updateAfterNumCrunching () {
   // This delay is to extend the time of the capture data btn animation. Otherwise animation won't be perceived.
@@ -2120,16 +2172,17 @@ exactEndplateSize();
 openHangingHeight();
 openHangingSlatCount();
 openEndlocksCount();
+bbAnglesWeight();
+astragalWeight();
+slideboltsWeight();
+bbAssemblyWeight();
 openHangingWeight();
 
 closedHangingHeight();
 closedHangingSlatCount();
 closedEndlocksCount();
 closedWindlocksCount();
-bbAnglesWeight();
-astragalWeight();
-slideboltsWeight();
-bbAssemblyWeight();
+
 closedHangingWeight();
 lowMomentArm();
 requiredInchPound();
@@ -2138,7 +2191,8 @@ selectSpringWireDiameter();
 springLength();
 springTurns();
 springWeight();
-spoolSpringSpecs();
+postToResultPage();
+virtualCutout();
 updateAfterNumCrunching();
 }
 
