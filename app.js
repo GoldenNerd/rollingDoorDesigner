@@ -1028,8 +1028,9 @@ minimumInternalRollToHoodClearance: 0.7500,
 endPlatePossibleSizes: [12, 14, 15.5, 16, 18],
 
 };
+
 // Establish the client's machine key
-//window.localStorage.setItem('clientMachineKey', JSON.stringify(constDat.systemMasterKey));
+window.localStorage.setItem('clientMachineKey', JSON.stringify(constDat.systemMasterKey));
 /* Lookup Object for RD derived Data*/
 const calcDat={
 scriptHardcodedKey: 'unlockScript', 
@@ -1102,9 +1103,9 @@ springWeight: 0,
 };
 
 // Hardcode the client's machine key in the script
-//calcDat.scriptHardcodedKey=JSON.parse(window.localStorage.getItem('clientMachineKey'));
+calcDat.scriptHardcodedKey=JSON.parse(window.localStorage.getItem('clientMachineKey'));
 
-//document.querySelector('#password').innerText=calcDat.scriptHardcodedKey;
+document.querySelector('#password').innerText=calcDat.scriptHardcodedKey;
 
 // Post data entry error message:
  let errorStack=[];
