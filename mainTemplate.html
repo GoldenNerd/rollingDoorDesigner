@@ -1,96 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang=en>
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <link rel="stylesheet" href="style.css" type="text/css" media="all" />
- <title>RD Designer Main Template</title>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=X-UA-Compatible content="ie=edge">
+<link rel=stylesheet href=style.css media=all>
+<title>RD Designer Main Template</title>
 </head>
 <body>
-
- <!-- Template ID Label: -->
- <span id="template-id" class="template"></span>
- <!-- Component ID Label: -->
- <span id="name-of-component-obj" class="componentObjName-placeholder"></span>
-
- <div id="visible-content-frame">
-
-  <div id="data-form-frame">
-
-   <!-- Page Header -->
-   <h3 id="component-name-header"></h3>
-
-   <!-- Component img by JS -->
-   <div id="sketch-of-active-component"></div>
-
-   <div id="data-capture">
-
-    <!-- std data input form-->
-    <!-- § -->
-    <ul id="std-ul">
-     <li><div>
-      <span>A.  </span>
-      <input type="number" class="feet-value" id="feet-a" placeholder="0 feet" value="0" />  <label for="feet-a">
-      </label>
-      <input type="number" class="inches-value" id="inches-a" placeholder="0 inches" value="0" />  <label for="inches-a">
-      </label> <span class="datum-labels" id="datum-a">  Datum A</span>
-     </div>
-     </li>
-     <li><div>
-      <span>B.  </span>
-      <input type="number" class="feet-value" id="feet-b" placeholder="0 feet" value="0" />  <label for="feet-b">
-      </label>
-      <input type="number" class="inches-value" id="inches-b" placeholder="0 inches" value="0"> <label for="inches-b">
-      </label> <span class="datum-labels" id="datum-b">  Datum B</span>
-     </div>
-     </li>
-     <li><div>
-      <span>C.  </span>
-      <input type="number" class="feet-value" id="feet-c" placeholder="0 feet" value="0" />  <label for="feet-c">
-      </label>
-      <input type="number" class="inches-value" id="inches-c" placeholder="0 inches" value="0" />  <label for="inches-c">
-      </label> <span class="datum-labels" id="datum-c">  Datum C </span>
-     </div>
-     </li>
-     <li><div>
-      <span>D.  </span>
-      <input type="number" class="feet-value" id="feet-d" placeholder="0 feet" value="0" />  <label for="feet-d">
-      </label>
-      <input type="number" class="inches-value" id="inches-d" placeholder="0 inches" value="0" />  <label for="inches-d">
-      </label> <span class="datum-labels" id="datum-d">  Datum D</span>
-     </div>
-     </li>
-     <li><div>
-      <span>E.  </span>
-      <input type="number" class="feet-value" id="feet-e" placeholder="0 feet" value="0" />  <label for="feet-e">
-      </label>
-      <input type="number" class="inches-value" id="inches-e" placeholder="0 inches" value="0" />  <label for="inches-e">
-      </label> <span class="datum-labels" id="datum-e">  Datum E</span>
-     </div>
-     </li>
-    </ul>
-    <input type="button" id="load-measurements" value="CAPTURE DATA" />
-
-    <!-- This span supplants the calc button, which is not needed on this page. (Required by JS, but not part of this page's content): -->
-    <span id="calc-results"></span>
-
-   </div>
-
-  </div>
-
-  <div id="pages-flow-ctrl">
-
-   <!-- Prev Component Nav Button: -->
-   <input type="button" id="previous-page" value="Previous Component" />
-
-   <!-- Next Component Nav Button: -->
-   <input type="button" id="next-page" value="Next Component" />
-
-  </div>
-
- </div>
-
- <script src="app.js" type="application/javascript" charset="utf-8"></script>
+<span id=password></span>
+<span id=template-id class=template></span>
+<span id=name-of-component-obj class=componentObjName-placeholder></span>
+<div id=visible-content-frame>
+<div id=data-form-frame>
+<h3 id=component-name-header></h3>
+<div id=sketch-of-active-component></div>
+<div id=data-capture>
+<ul id=std-ul>
+<li><div>
+<span>A. </span>
+<input type=number class=feet-value id=feet-a placeholder="0 feet" value=0> <label for=feet-a>
+</label>
+<input type=number class=inches-value id=inches-a placeholder="0 inches" value=0> <label for=inches-a>
+</label> <span class=datum-labels id=datum-a> Datum A</span>
+</div>
+</li>
+<li><div>
+<span>B. </span>
+<input type=number class=feet-value id=feet-b placeholder="0 feet" value=0> <label for=feet-b>
+</label>
+<input type=number class=inches-value id=inches-b placeholder="0 inches" value=0> <label for=inches-b>
+</label> <span class=datum-labels id=datum-b> Datum B</span>
+</div>
+</li>
+<li><div>
+<span>C. </span>
+<input type=number class=feet-value id=feet-c placeholder="0 feet" value=0> <label for=feet-c>
+</label>
+<input type=number class=inches-value id=inches-c placeholder="0 inches" value=0> <label for=inches-c>
+</label> <span class=datum-labels id=datum-c> Datum C </span>
+</div>
+</li>
+<li><div>
+<span>D. </span>
+<input type=number class=feet-value id=feet-d placeholder="0 feet" value=0> <label for=feet-d>
+</label>
+<input type=number class=inches-value id=inches-d placeholder="0 inches" value=0> <label for=inches-d>
+</label> <span class=datum-labels id=datum-d> Datum D</span>
+</div>
+</li>
+<li><div>
+<span>E. </span>
+<input type=number class=feet-value id=feet-e placeholder="0 feet" value=0> <label for=feet-e>
+</label>
+<input type=number class=inches-value id=inches-e placeholder="0 inches" value=0> <label for=inches-e>
+</label> <span class=datum-labels id=datum-e> Datum E</span>
+</div>
+</li>
+</ul>
+<input type=button id=load-measurements value="CAPTURE DATA">
+<span id=calc-results></span>
+</div>
+</div>
+<div id=pages-flow-ctrl>
+<input type=button id=previous-page value="Previous Component">
+<input type=button id=next-page value="Next Component">
+</div>
+</div>
+<script src=app.js charset=utf-8></script>
 </body>
 </html>
