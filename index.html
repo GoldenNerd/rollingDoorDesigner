@@ -1,24 +1,43 @@
-<!doctype html>
-<html lang=en>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset=UTF-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=X-UA-Compatible content="ie=edge">
-<link rel=stylesheet href=style.css media=all>
-<title>RD Designer Start Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="indexStyle.css" type="text/css" media="all" />
+  <title>RD Designer Start Page</title>
 </head>
 <body>
-<span id=template-id class=home></span>
-<span id=name-of-component-obj class=componentObjName-placeholder></span>
-<span id=load-measurements></span>
-<span id=calc-results></span>
-<div id=visible-content-frame>
-<h2 id=component-name-header></h2>
-<div id=start-page-image></div>
-<span id=previous-page></span>
-<input type=button id=next-page class=start-rolling-btn value="START ROLLING">
+
+  <!-- Template ID Label: --> 
+  <span id="template-id" class="home"></span>
+  <!-- Component ID Label: -->
+  <span id="name-of-component-obj" class="componentObjName-placeholder"></span>
+  <!-- Required by JS, but not part of this page's content: --> 
+<span id="load-measurements"></span>
+<span id="calc-results"></span>
+
+
+<div id="visible-content-frame">
+  
+  <!-- Page Header -->
+  <h2 id="component-name-header"></h2>
+
+  <!-- Component img by JS -->
+  <div id="start-page-image"></div>
+
+  <!-- Prev Component Nav Button N/A: -->
+  <span id="previous-page"></span>
+
+  <!-- Next Component Nav Button: -->
+  <input type="button" id="next-page" class="start-rolling-btn" value="START ROLLING" />
+
+  <!--   <input type="button" id="test" value="TEST" /> -->
 </div>
-<span id=password></span>
-<script src=appN.js charset=utf-8></script>
+ 
+  <!-- Program Password: --> 
+ <span id="password"></span>
+
+  <script src="appN.js" type="application/javascript" charset="utf-8"></script>
 </body>
 </html>

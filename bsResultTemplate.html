@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <link rel="stylesheet" href="bsStyle.css" type="text/css" media="all" />
+ <title>RD Designer Main Template</title>
+</head>
+<body>
+ <!-- Program Password: -->
+ <span id="password"></span>
+ <!-- Template ID Label: -->
+ <span id="template-id" class="template"></span>
+ <!-- Component ID Label: -->
+ <span id="name-of-component-obj" class="componentObjName-placeholder"></span>
+
+ <div id="visible-content-frame">
+<span class="script-version">2022.08.19a</span> 
+  <div id="data-form-frame">
+
+   <!-- Page Header -->
+   <h2 id="component-name-header">Band Springs Optimizer</h2>
+
+   <!-- Component img by JS -->
+   <div id="sketch-of-active-component"></div>
+
+   <div id="data-capture">
+
+    <!-- std data input form-->
+    <!-- § -->
+    <ul id="bs-std-ul">
+     <li><div>
+
+      <input type="number" class="typed-values" id="rd-overall-height-ft" placeholder="0 ft" value="0" />
+      <label for="rd-overall-height-ft">
+       <span class="data-form-input-labels">(ft)</span>
+      </label>
+
+      <input type="number" class="typed-values" id="rd-overall-height-inch" placeholder="0 inches" value="0" />
+      <label for="rd-overall-height-inch">
+       <span class="data-form-input-labels">(in)</span>
+      </label>
+      
+   
+     </div>
+     
+     </li>
+     <li >
+          <span class="orphan" >RD Overall Height</span>
+     </li>
+     
+     <li><div>
+
+      <input type="number" class="typed-values" id="exact-endplate-size" placeholder="0 lb" value="0"> <label for="exact-endplate-size">
+       <span class="data-form-input-labels">  Endplate Size (in)</span>
+      </label>
+     </div>
+     </li>
+     
+     <li><div>
+
+      <input type="number" class="typed-values" id="closed-weight" placeholder="0 lb" value="0"> <label for="closed-weight">
+       <span class="data-form-input-labels">  RD Closed Weight (lb)</span>
+      </label>
+     </div>
+     </li>
+     <li><div>
+
+      <input type="number" class="typed-values" id="additional-force" placeholder="-20 lb" value="-20" />  <label for="additional-force">
+       <span class="data-form-input-labels">  Weight tuner (+/-lb)</span>
+      </label>
+     </div>
+     </li>
+     <li><div>
+
+      <input type="number" class="typed-values" id="overshoot-tolerance" placeholder="+100 lb" value="100" />
+      <label for="overshoot-tolerance">
+       <span class="data-form-input-labels">  Allowed excess force (+lb)</span>
+      </label>
+     </div>
+     </li>
+     <li><div>
+
+      <input type="number" class="typed-values" id="operator-type" placeholder="Push-Up" value="0" />
+      <label for="operator-type">
+       <span class="data-form-input-labels"> Push-Up (0) / Electrical (1)</span>
+      </label>
+     </div>
+     </li>
+    </ul>
+    <!--  
+        <input type="button" id="test" value="** TEST **" />
+  -->
+
+
+    <ul id="bs-span-ul">
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring0"> </span>
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring1"> </span>
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring2"> </span>
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring3"> </span>
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring4"> </span>
+
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring5"> </span>
+
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring6"> </span>
+
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring7"> </span>
+
+     </div>
+     </li>
+     <li><div>
+
+      <span class="bs-result-spans" id="resulting-band-spring7"> </span>
+
+     </div>
+     </li>
+    </ul>
+
+
+    <!-- This span supplants the calc button, which is not needed on this page. (Required by JS, but not part of this page's content): -->
+    <span id="calc-results"></span>
+    <input type="button" name="cycle" id="optimize-btn" value="FIND OPTIMIZED SET" />
+
+   </div>
+
+  </div>
+
+  <div id="pages-flow-ctrl">
+  <!-- Prev Component Nav Button: -->
+      <input type="button" id="previous-page" value="Return to Start Page" />
+  </div>
+
+ </div>
+
+ <script src="yoyo.8_19a.js" type="application/javascript" charset="utf-8"></script>
+</body>
+</html>

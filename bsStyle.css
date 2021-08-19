@@ -1,0 +1,123 @@
+html{
+font-size: 62.5%;
+}
+:root {
+ --results-txt-color: transparent;
+}
+
+body {
+margin:0;
+padding:0;
+width: 99vw;
+height: 90vh;
+color :white ;
+font-size :1.5rem;
+font-weight :bold;
+background-color: #000 ; /* #26246e */
+}
+
+h2, h3 {outline :1px solid transparent ;
+/* outline :1px solid white ; */
+margin-top: 0;
+margin-bottom: 4rem;
+}
+
+span {
+white-space: pre-wrap;
+}
+
+input[type="button"] {
+ display: block;
+background-clip: border-box;
+width: fit-content ;
+margin: 0 auto;
+font-weight :bold;
+border : 1px solid black ;
+}
+/*
+input[type="button"]:hover:active {
+ background-clip: border-box;
+ border : 1px solid white ;
+background-color: darkgreen ;
+color:white;
+}
+*/
+#data-form-frame {
+outline :1px solid transparent ;
+/**/
+width: 100vw ;
+height :90vh;
+display: flex ;
+flex-direction: column ;
+flex-wrap :nowrap ;
+justify-content :center ;
+align-items :center ;
+}
+
+#component-name-header {
+margin-bottom: 0.5rem;
+}
+
+.orphan {
+margin-left:3rem;
+margin-bottom :1rem;
+}
+
+.bs-result-spans {
+ display: block ;
+text-align: center ;
+}
+
+#data-capture {
+outline :1px solid transparent ;
+position:relative ;
+}
+
+.script-version {
+ outline:1px solid transparent ;
+ font-size:0.5rem ;
+ position:absolute; 
+ left: 80%;
+ top: 0;
+}
+
+#pages-flow-ctrl {
+  outline :1px solid transparent ;
+  width: 99.5%;
+display: flex ;
+flex-direction: row ;
+flex-wrap :nowrap ;
+justify-content :space-around ;
+align-items :center ;
+position: fixed;
+bottom: 4% ;
+}
+
+#bs-std-ul, #bs-span-ul{
+outline :1px solid transparent ;
+
+text-decoration: none ;
+padding :0;
+margin-bottom: 1rem;
+}
+
+li {outline :1px solid transparent ;
+/* outline :1px solid lightgreen ; */
+width: fit-content ;
+margin: 0.3rem 0;
+display: flex ;
+flex-direction: row ;
+flex-wrap :nowrap ;
+justify-content :flex-start ;
+align-items :center ;
+
+}
+
+input[type="number"] {
+width :6rem;
+margin: 0.5rem ;
+}
+
+.span-labels {
+ color: var(--results-txt-color) ;
+}
